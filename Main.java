@@ -7,7 +7,7 @@ public class Main{
 		//I1.getInput();
 
 		Task makeBed=new Task("Make bed");
-		System.out.println(makeBed.getCreationTime());
-		System.out.println(makeBed.getCreationDate());
+		System.out.println(makeBed.lifeTime());
+		//System.out.println(makeBed.getCreationDate());
 	}
 }

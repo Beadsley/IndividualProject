@@ -3,20 +3,20 @@ import java.util.Scanner;
 public class Interaction {
     //fields
     private ToDoList newList;
-
+    private Scanner sc;
 
     public Interaction(){
         //initialisation
         newList=new ToDoList();
+        sc= new Scanner(System.in);
     }
 
     /*
      *  Creates a scanner to read input from the terminal
      */
 
-    public void getInput(){
-           
-        Scanner sc= new Scanner(System.in);
+    public void getInput(){          
+        //calls method to print welcome messages
         printWelcome();
         boolean open=true;
         while(open && sc.hasNext()) {

@@ -55,15 +55,24 @@ public class Task{
         long pastMillis = current - timestamp;      // time passed in milliseconds
         long seconds = pastMillis/1000;
         long minutes = seconds/60;
+        long hours = minutes/60;
+        long days =hours/24;
+
         if(minutes > 0) {
             return minutes + " minutes ago";
+        }
+        else if(hours>0){
+        	return hours + " hours ago";
+        }
+        else if(days>0){
+        	return days + " days ago";
         }
         else {
             return seconds + " seconds ago";
         }
     }
 
-    //method of the amount of days gone
+
 
 }
 
