@@ -1,3 +1,4 @@
 #ignore class and text files
 *.class
 *.rtf
+Bin/

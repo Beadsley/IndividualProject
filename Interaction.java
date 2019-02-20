@@ -2,10 +2,10 @@ import java.util.Scanner;
 
 public class Interaction {
 
-
+    private ToDoList newList;
 
     public Interaction(){
-        
+        newList=new ToDoList();        
 
     }
 
@@ -14,10 +14,10 @@ public class Interaction {
         Creates a scanner to read inputs into the terminal
      */
 
-    public static void getInput(){
-       //creates new todolist
-       ToDoList newList= new ToDoList();
-       //creates scanner
+    public void getInput(){
+       //** creates new todolist
+       //ToDoList newList= new ToDoList();
+       //** creates scanner
         Scanner sc= new Scanner(System.in);
         printWelcome();
         boolean open=true;
@@ -68,16 +68,18 @@ public class Interaction {
     }
 
     /*
-        *  prints out the opening message
+        *  prints out the opening message alongside intial instructions
 
      */
-    private static void printWelcome(){
+    private void printWelcome(){
 
-        System.out.println("say 'buy' to exit the scanner");
-        System.out.println("type 'new'to create a new list");
-        System.out.println("type 'add' followed by the todo to add it to the list");
-        System.out.println("type 'print' to print the list");
-        System.out.println("type 'find' followed  by the todo to find in the list");
+    	System.out.println(">> Bonjour");
+        System.out.println(">> Type 'buy' to exit the scanner");
+        System.out.println(">> Type 'new'to create a new list");
+        System.out.println(">> Type 'add' followed by the todo to add it to the list");
+        System.out.println(">> Type 'print' to print the list");
+        System.out.println(">> Type 'find' followed  by the todo to find in the list");
+        System.out.println(">>");
         //System.out.println("to add to the todo list");
         //System.out.println("write 'todo' ':' followed by a 'description'");
         //System.out.println("e.g. Clean: clean before mum arrives");
