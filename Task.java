@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 /*
 * Class creates a task object
 *@param task the name of the task needs to be supplied
@@ -9,13 +11,15 @@ public class Task{
     private String task;
     private long timestamp;
     private ArrayList<String>notes;
-    private LocalDate datestamp;
+    private LocalDate date;
+    private LocalTime time;
 
     public Task(String task){
         this.task=task;
         timestamp = System.currentTimeMillis();
-        datestamp=LocalDate.now();        
+        date=LocalDate.now();        
         notes=new ArrayList<>();
+        time=LocalTime.now();
     }
 
     public void addNote(String text){
@@ -27,18 +31,19 @@ public class Task{
     * method returns the time of creation
     */
 
-    public long getTimeStamp()
+    public String getCreationTime()
     {
-        return timestamp;
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mma");
+        return time.format(formatter);
     }
 
     /*
     * returns the date of creation
     */
 
-    public LocalDate getDateStamp(){
-
-    	return datestamp;
+    public String getCreationDate(){
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E d/M/u");
+    	return date.format(formatter);
     }
 
 	/*
