@@ -1,23 +1,21 @@
 import java.util.Scanner;
 
 public class Interaction {
-
+    //fields
     private ToDoList newList;
 
-    public Interaction(){
-        newList=new ToDoList();        
 
+    public Interaction(){
+        //initialisation
+        newList=new ToDoList();
     }
 
-
     /*
-        Creates a scanner to read inputs into the terminal
+     *  Creates a scanner to read input from the terminal
      */
 
     public void getInput(){
-       //** creates new todolist
-       //ToDoList newList= new ToDoList();
-       //** creates scanner
+           
         Scanner sc= new Scanner(System.in);
         printWelcome();
         boolean open=true;
