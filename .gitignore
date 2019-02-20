@@ -1,4 +1,5 @@
 #ignore class and text files
 *.class
 *.rtf
+.DS_Store
 Bin/
