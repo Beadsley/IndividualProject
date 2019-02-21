@@ -40,16 +40,16 @@ public class Interaction {
             else if(s.trim().equals("add")){
             	System.out.println(">> Enter task e.g clean house");
 
-                 String task=sc.nextLine().trim();
-                 if (task.equals("")){
+                 String taskName=sc.nextLine().trim();
+                 if (taskName.equals("")){
 
                      System.out.println("***** WARNING! No task entered *****");
                      System.out.println(">> Type 'add' to try again");
                      skip=true; 
                  }
                  else {
-                      newList.addToList(task);
-                     System.out.println("----> '"+task+"' Added :)");
+                      newList.addToList(taskName);
+                     System.out.println("----> '"+taskName+"' Added :)");
                  }
 
             }
@@ -74,6 +74,10 @@ public class Interaction {
                 }           
 
             }
+            //retreive info on tasks
+            else if(s.trim().equals("info")){
+            	getTaskInfo();
+            }
             else{
             	curious=false;            	
         	}
@@ -95,13 +99,14 @@ public class Interaction {
 
      */
     private void printWelcome(){
-
+        System.out.println("--------------------------------------------------");
     	System.out.println(">> Bonjour");
         System.out.println(">> Type 'buy' to exit the scanner");
         System.out.println(">> Type 'new'to save file");
         System.out.println(">> Type 'add' followed by the todo to add it to the list");
         System.out.println(">> Type 'print' to print the list");
         System.out.println(">> Type 'find' followed  by the todo to find in the list");
+        System.out.println(">> Type 'info' to get info about the task");
         System.out.println(">>");
         //System.out.println("to add to the todo list");
         //System.out.println("write 'todo' ':' followed by a 'description'");
@@ -110,6 +115,34 @@ public class Interaction {
         //System.out.println("write 'print todos' to print a list of todos");
         //System.out.println("write 'find' followed by to do to find the description");
 
+    }
+
+    public void getTaskInfo(){
+        System.out.println("--------------------------------------------------");    	
+    	System.out.println(">> Task Information");
+    	System.out.println(">> Type '999' to exit back to the main menu");
+    	System.out.println(">> Enter task number e.g 1");
+    	System.out.println("--------------------------------------------------");
+    	System.out.println("ToDos");
+        System.out.println("--------------------------------------------------");
+        newList.printList(); //prints current list of tasks
+        System.out.println("--------------------------------------------------");
+        
+    	
+    	boolean leaveTaskInfo=false;
+    	while(!leaveTaskInfo){
+    		Integer input = sc.nextInt();
+    		if(input.equals(999)){			//add if statement to check if index is within the bounds
+    			printWelcome();
+    			leaveTaskInfo=true;
+    		}
+    		else{
+    			//retreive information about the first element
+
+    		}
+
+
+    	}
     }
 
 }

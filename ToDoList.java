@@ -28,8 +28,10 @@ public class ToDoList implements Serializable{
      */
 
     public void printList(){
-
-        toDoList.stream().forEach(System.out::println);
+    	for (int i=0; i<toDoList.size(); i++){
+    		System.out.println("<"+i+"> "+toDoList.get(i));
+    	}
+        //toDoList.stream().forEach(System.out::println);
     }
 
     /*
