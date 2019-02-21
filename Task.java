@@ -2,11 +2,19 @@ import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.io.Serializable;
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
 /*
 * Class creates a task object
 *@param task the name of the task needs to be supplied
+* notes:
+* serialistaion interfacce is implemented to:
+*	To serialize an object means to convert its state to a byte stream 
+*	so that the byte stream can be reverted back into a copy of the object
 */
-public class Task{
+
+public class Task implements Serializable { 
 	//fields
     private String task;
     private long timestamp;
@@ -51,7 +59,7 @@ public class Task{
 	 */
     public String lifeTime()
     {
-        long current = System.currentTimeMillis();
+        long current = System.currentTimeMillis();	
         long pastMillis = current - timestamp;      // time passed in milliseconds
         long seconds = pastMillis/1000;
         long minutes = seconds/60;
@@ -70,6 +78,17 @@ public class Task{
         else {
             return seconds + " seconds ago";
         }
+    }
+
+    public void outputFile() throws Exception {
+
+    	//Task cleanHouse= new Task("Clean House");	
+
+		FileOutputStream fos = new FileOutputStream("/Users/beadsley/Dropbox/IP/Bin/Test.txt");
+      	ObjectOutputStream oos = new ObjectOutputStream(fos);
+      	oos.writeObject("What UP");
+      	oos.close();
+    	
     }
 
 
