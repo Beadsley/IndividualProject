@@ -2,9 +2,6 @@ import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.FileOutputStream;
 /*
 * Class creates a task object
 *@param task the name of the task needs to be supplied
@@ -80,16 +77,7 @@ public class Task implements Serializable {
         }
     }
 
-    public void outputFile() throws Exception {
 
-    	//Task cleanHouse= new Task("Clean House");	
-
-		FileOutputStream fos = new FileOutputStream("/Users/beadsley/Dropbox/IP/Bin/Test.txt");
-      	ObjectOutputStream oos = new ObjectOutputStream(fos);
-      	oos.writeObject("What UP");
-      	oos.close();
-    	
-    }
 
 
 

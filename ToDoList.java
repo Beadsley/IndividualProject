@@ -1,6 +1,10 @@
 import java.util.LinkedList;
+import java.io.Serializable;
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
-public class ToDoList {
+public class ToDoList implements Serializable{
 
         private LinkedList<String> toDoList;
 
@@ -43,6 +47,25 @@ public class ToDoList {
         }
 
         return found;
+    }
+    /*
+     *creates an output file
+     *@param filepath of the output directory
+     */
+
+    public static void outputFile(String filepath) {
+
+    	//Task cleanHouse= new Task("Clean House");	
+    	try{
+		FileOutputStream fos = new FileOutputStream(filepath+"ToList.txt");
+      	ObjectOutputStream oos = new ObjectOutputStream(fos);
+      	oos.writeObject("What UP");
+      	oos.close();
+      	}
+      	catch(IOException e){
+      		System.out.println(e);
+      	}
+    	
     }
 
 }
