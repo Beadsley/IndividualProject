@@ -25,8 +25,8 @@ public class Interaction {
             String s = sc.nextLine();
             //exits the scanner
             if(s.trim().equals("buy")) {
-                System.out.println("Ciao for now");
-                open = false;
+                System.out.println("***** Ciao for now *****");
+                break;
             }
             
             //creates a new list *No new list created yet but needed when saving
@@ -43,13 +43,13 @@ public class Interaction {
                  String task=sc.nextLine().trim();
                  if (task.equals("")){
 
-                     System.out.println("WARNING! No task entered");
+                     System.out.println("***** WARNING! No task entered *****");
                      System.out.println(">> Type 'add' to try again");
                      skip=true; 
                  }
                  else {
                       newList.addToList(task);
-                     System.out.println(":) '"+task+"' Added");
+                     System.out.println("----> '"+task+"' Added :)");
                  }
 
             }
@@ -67,10 +67,10 @@ public class Interaction {
                 String task2Find=sc.nextLine().trim();
                 boolean found=newList.getElement(task2Find);
                 if(found){
-                	System.out.println(":) '"+task2Find+"' Exists");
+                	System.out.println("----> '"+task2Find+"' Exists :)");
                 }
                 else{
-                	System.out.println(":( '"+task2Find+"' Doesn't exist");
+                	System.out.println("----> '"+task2Find+"' Doesn't exist :(");
                 }           
 
             }
@@ -82,7 +82,7 @@ public class Interaction {
             		System.out.println(">> Anything else i can help you with Madam?");
             	}
             else if (!curious){
-            	System.out.println("WARNING! Input: '"+s+"' not recognised");
+            	System.out.println("****** WARNING! '"+s+"' not recognised *******");
             }
 
         }

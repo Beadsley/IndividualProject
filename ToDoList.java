@@ -61,8 +61,8 @@ public class ToDoList implements Serializable{
       	ObjectOutputStream oos = new ObjectOutputStream(fos);
       	oos.writeObject(toDoList);
       	oos.close();
-      	System.out.println(":) File successfully exported to the directory");
-      	System.out.println(filepath);
+      	System.out.println("----> File created :)");
+      	
       	}
       	catch(IOException e){
       		System.out.println(e);
