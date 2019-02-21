@@ -1,5 +1,7 @@
 public class Main{
 
+	private static ToDoList newList;
+
 	public static void main(String[] args) {
 
 		//Interaction.getInput(); //methods in the Interaction class have to be static in order to work
@@ -11,14 +13,20 @@ public class Main{
 		
 		//System.out.println(makeBed.getCreationDate());
 
-		createFile("/Users/beadsley/Dropbox/IP/Bin/sddsd/");
+
+		newList=new ToDoList();
+		newList.addToList("makeBed");
+		newList.addToList("takeSelfie");
+		newList.printList();
+		createFile("/Users/beadsley/Dropbox/IP/Bin/");
 
 	}
+
 
 	public static void createFile(String filePath) {
 
 
-			ToDoList.outputFile(filePath);
+			newList.outputFile(filePath);
 
 		
 

@@ -53,13 +53,13 @@ public class ToDoList implements Serializable{
      *@param filepath of the output directory
      */
 
-    public static void outputFile(String filepath) {
+    public void outputFile(String filepath) {
 
     	//Task cleanHouse= new Task("Clean House");	
     	try{
 		FileOutputStream fos = new FileOutputStream(filepath+"ToList.txt");
       	ObjectOutputStream oos = new ObjectOutputStream(fos);
-      	oos.writeObject("What UP");
+      	oos.writeObject(toDoList);
       	oos.close();
       	}
       	catch(IOException e){
