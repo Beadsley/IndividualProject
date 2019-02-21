@@ -19,6 +19,7 @@ public class Interaction {
         //calls method to print welcome messages
         printWelcome();
         boolean open=true;
+        boolean curious=true;
         while(open && sc.hasNext()) {
 
             String s = sc.nextLine();
@@ -27,12 +28,15 @@ public class Interaction {
                 System.out.println("Ciao for now");
                 open = false;
             }
+            
             //creates a new list *No new list created yet but needed when saving
             else if(s.trim().equals("new")){
 
-                System.out.println("New List created :)");
+                System.out.println("enter file path e.g. /Users/");
+                String filePath = sc.nextLine();
+                newList.outputFile(filePath);
             }
-            //add to the new list
+            //adds a task to the toDO list
             else if(s.substring(0,3).equals("add")){
 
                  String task=s.substring(3,s.length()).trim();
@@ -42,12 +46,12 @@ public class Interaction {
                  }
                  else {
                       newList.addToList(task);
-                     System.out.println(task+" added to the list");
+                     System.out.println("Task: '"+task+"' added to the list");
                  }
 
             }
 
-            //print List
+            //prints List
             else if(s.equals("print")){
 
                 newList.printList();
@@ -58,8 +62,16 @@ public class Interaction {
                 String task2Find=s.substring(4,s.length()).trim();
 
                  System.out.println(newList.getElement(task2Find));
+            
+
+             	//System.out.println("'"+s+"' not recognised");
+             	
+             
 
             }
+            else{
+            	System.out.println("Anything Else Madam?");
+        	}
         }
 
 
@@ -73,7 +85,7 @@ public class Interaction {
 
     	System.out.println(">> Bonjour");
         System.out.println(">> Type 'buy' to exit the scanner");
-        System.out.println(">> Type 'new'to create a new list");
+        System.out.println(">> Type 'new'to save file");
         System.out.println(">> Type 'add' followed by the todo to add it to the list");
         System.out.println(">> Type 'print' to print the list");
         System.out.println(">> Type 'find' followed  by the todo to find in the list");
