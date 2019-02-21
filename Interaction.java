@@ -18,10 +18,10 @@ public class Interaction {
     public void getInput(){          
         //calls method to print welcome messages
         printWelcome();
-        boolean open=true;
-        boolean curious=true;
+        boolean open=true;        
         while(open && sc.hasNext()) {
-
+        	boolean curious=true;
+        	boolean skip=false;
             String s = sc.nextLine();
             //exits the scanner
             if(s.trim().equals("buy")) {
@@ -32,46 +32,59 @@ public class Interaction {
             //creates a new list *No new list created yet but needed when saving
             else if(s.trim().equals("new")){
 
-                System.out.println("enter file path e.g. /Users/");
+                System.out.println(">> Enter file path e.g. /Users/");
                 String filePath = sc.nextLine();
                 newList.outputFile(filePath);
             }
             //adds a task to the toDO list
-            else if(s.substring(0,3).equals("add")){
+            else if(s.trim().equals("add")){
+            	System.out.println(">> Enter task e.g clean house");
 
-                 String task=s.substring(3,s.length()).trim();
+                 String task=sc.nextLine().trim();
                  if (task.equals("")){
 
-                     System.out.println("no task entered");
+                     System.out.println("WARNING! No task entered");
+                     System.out.println(">> Type 'add' to try again");
+                     skip=true; 
                  }
                  else {
                       newList.addToList(task);
-                     System.out.println("Task: '"+task+"' added to the list");
+                     System.out.println(":) '"+task+"' Added");
                  }
 
             }
 
             //prints List
-            else if(s.equals("print")){
-
+            else if(s.trim().equals("print")){
+            	System.out.println("--------------------------------------------------");
                 newList.printList();
+                System.out.println("--------------------------------------------------");
             }
 
             //finds given element in list
-            else if(s.substring(0,4).equals("find")){
-                String task2Find=s.substring(4,s.length()).trim();
-
-                 System.out.println(newList.getElement(task2Find));
-            
-
-             	//System.out.println("'"+s+"' not recognised");
-             	
-             
+            else if(s.trim().equals("find")){
+            	System.out.println(">> Enter task to find e.g clean house");            	
+                String task2Find=sc.nextLine().trim();
+                boolean found=newList.getElement(task2Find);
+                if(found){
+                	System.out.println(":) '"+task2Find+"' Exists");
+                }
+                else{
+                	System.out.println(":( '"+task2Find+"' Doesn't exist");
+                }           
 
             }
             else{
-            	System.out.println("Anything Else Madam?");
+            	curious=false;            	
         	}
+
+        	if (curious && !skip){
+            		System.out.println(">> Anything else i can help you with Madam?");
+            	}
+            else if (!curious){
+            	System.out.println("WARNING! Input: '"+s+"' not recognised");
+            }
+
         }
 
 
