@@ -2,12 +2,13 @@ import java.util.Scanner;
 import java.util.InputMismatchException;
 
 public class Interaction {
-    //fields
+
     private ToDoList newList;
     private Scanner sc;
+    private boolean skip;
+    private boolean curious;
 
     public Interaction(){
-        //initialisation
         newList=new ToDoList();
         sc= new Scanner(System.in);
     }
@@ -17,85 +18,87 @@ public class Interaction {
      */
 
     public void getInput(){          
-        //calls method to print welcome messages
         printWelcome();
         boolean open=true;        
         while(open && sc.hasNext()) {
-        	boolean curious=true;
-        	boolean skip=false;
+        	curious=true;
+        	skip=false;
+        	//sc.reset();
+        	//sc.skip("");
             String s = sc.nextLine();
-            //exits the scanner
+           	
+            
             if(s.trim().equals("buy")) {
                 System.out.println("***** Ciao for now *****");
                 break;
             }
-            
-            //creates a new list *No new list created yet but needed when saving
             else if(s.trim().equals("new")){
-
-                System.out.println(">> Enter file path e.g. /Users/");
-                String filePath = sc.nextLine();
-                newList.exportFile(filePath);
+            	newList();
             }
-            //adds a task to the toDO list
             else if(s.trim().equals("add")){
-            	System.out.println(">> Enter task e.g clean house");
-
-                 String taskName=sc.nextLine().trim();
-                 if (taskName.equals("")){
-
-                     System.out.println("***** WARNING! No task entered *****");
-                     System.out.println(">> Type 'add' to try again");
-                     skip=true; 
-                 }
-                 else {
-                      newList.addToList(taskName);
-                     System.out.println("----> '"+taskName+"' Added :)");
-                 }
-
+            	addTask();
             }
-
-            //prints List
             else if(s.trim().equals("print")){
-            	System.out.println("--------------------------------------------------");
-    			System.out.println("ToDos:");
-            	System.out.println("--------------------------------------------------");
-                newList.printList();
-                System.out.println("--------------------------------------------------");
-            }
-
-            //finds given element in list
+				newList.printList();
+			}
             else if(s.trim().equals("find")){
-            	System.out.println(">> Enter task to find e.g clean house");            	
-                String task2Find=sc.nextLine().trim();
-                boolean found=newList.taskExists(task2Find);
-                if(found){
-                	System.out.println("----> '"+task2Find+"' Exists :)");
-                }
-                else{
-                	System.out.println("----> '"+task2Find+"' Doesn't exist :(");
-                }           
-
+          		findTask();
             }
-            //retreive info on tasks
             else if(s.trim().equals("info")){
             	getTaskInfo();
             }
             else{
-            	curious=false;            	
+            	curious=false;
+            	//sc.reset();            	
         	}
-
-        	if (curious && !skip){
-            		System.out.println(">> Anything else i can help you with Madam?");
+        	if(curious && !skip){
+            	System.out.println(">> Anything else i can help you with Madam?");
             	}
-            else if (!curious){
+            else if (!curious && !skip){
             	System.out.println("****** WARNING! '"+s+"' not recognised *******");
             }
-
+            
         }
-
-
     }
+    
+    /*
+    * method creates a new list and saves it to a file
+    */
+    private void newList(){
+    	System.out.println(">> Enter file path e.g. /Users/");
+        String filePath = sc.nextLine();
+        newList.exportFile(filePath);
+    }
+    /*
+     * method adds a new task
+    */
+    private void addTask(){
+		System.out.println(">> Enter task e.g clean house");
+		String taskName=sc.nextLine().trim();
+        	if(taskName.equals("")){
+				System.out.println("***** WARNING! No task entered *****");
+                System.out.println(">> Type 'add' to try again");
+                skip=true; 
+                }
+			else{
+            	newList.addToList(taskName);
+				System.out.println("----> '"+taskName+"' Added :)");
+                }
+    }
+    /*
+    * Method sees if the task exists in the todo list
+    */
+    private void findTask(){
+		System.out.println(">> Enter task to find e.g clean house");            	
+		String task2Find=sc.nextLine().trim();
+        boolean found=newList.taskExists(task2Find);
+        	if(found){
+            	System.out.println("----> '"+task2Find+"' Exists :)");
+            }
+            else{
+               	System.out.println("----> '"+task2Find+"' Doesn't exist :(");
+            }
+	}
 
     /*
         *  prints out the opening message alongside intial instructions
@@ -122,27 +125,20 @@ public class Interaction {
     	System.out.println(">> Type '999' to exit back to the main menu");
     	System.out.println(">> Enter task number e.g 1");
     	System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
-    	System.out.println("ToDos:");
-        System.out.println("--------------------------------------------------");
-        if(newList.getListSize()>0){ 
-        	newList.printList(); //prints current list of tasks
-        	System.out.println("--------------------------------------------------");
-    	}
-    	else{
-    		System.out.println("***** List Empty *****");
-    	}
+    	newList.printList();
         
     	
     	boolean leaveTaskInfo=false;
     	while(!leaveTaskInfo){
     		if (!sc.hasNextInt() && sc.next()!=""){	//perhaps a seperate method that checks scanner input
-    			System.out.println("not an integer");
+    			System.out.println("****** Enter a number ******");
     			sc.nextLine();    			
     		}
     		else{
     			Integer input = sc.nextInt();
      			if(input.equals(999)){			//add if statement to check if index is within the bounds
     				leaveTaskInfo=true;
+    				sc.reset();
     				printWelcome();
     			} 
     			else if (input>=newList.getListSize()){
