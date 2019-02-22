@@ -11,24 +11,31 @@ import java.time.format.DateTimeFormatter;
 *	so that the byte stream can be reverted back into a copy of the object
 */
 
-public class Task implements Serializable { 
+public class Task  { 
 	//fields
-    private String task;
+    private String taskName;
     private long timestamp;
     private ArrayList<String>notes;
     private LocalDate date;
     private LocalTime time;
 
-    public Task(String task){
-        this.task=task;
+    public Task(String taskName){
+        this.taskName=taskName;
         timestamp = System.currentTimeMillis();
         date=LocalDate.now();        
         notes=new ArrayList<>();
         time=LocalTime.now();
     }
-
+    /*
+    * returns the name of the task
+	*/
+    public String getTaskName(){
+    	return taskName;
+    }
+    /*
+    * adds notes about the task
+    */
     public void addNote(String text){
-
         notes.add(text);
     }
 
@@ -39,7 +46,7 @@ public class Task implements Serializable {
     public String getCreationTime()
     {
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mma");
-        return time.format(formatter);
+        	return time.format(formatter);
     }
 
     /*
@@ -48,7 +55,7 @@ public class Task implements Serializable {
 
     public String getCreationDate(){
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E d/M/u");
-    	return date.format(formatter);
+    		return date.format(formatter);
     }
 
 	/*

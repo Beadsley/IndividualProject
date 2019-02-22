@@ -34,7 +34,7 @@ public class Interaction {
 
                 System.out.println(">> Enter file path e.g. /Users/");
                 String filePath = sc.nextLine();
-                newList.outputFile(filePath);
+                newList.exportFile(filePath);
             }
             //adds a task to the toDO list
             else if(s.trim().equals("add")){
@@ -65,7 +65,7 @@ public class Interaction {
             else if(s.trim().equals("find")){
             	System.out.println(">> Enter task to find e.g clean house");            	
                 String task2Find=sc.nextLine().trim();
-                boolean found=newList.getElement(task2Find);
+                boolean found=newList.taskExists(task2Find);
                 if(found){
                 	System.out.println("----> '"+task2Find+"' Exists :)");
                 }
@@ -100,7 +100,7 @@ public class Interaction {
      */
     private void printWelcome(){
         System.out.println("--------------------------------------------------");
-    	System.out.println(">> Bonjour");
+    	System.out.println(">> **** Main Menu ****");
         System.out.println(">> Type 'buy' to exit the scanner");
         System.out.println(">> Type 'new'to save file");
         System.out.println(">> Type 'add' followed by the todo to add it to the list");
@@ -119,7 +119,7 @@ public class Interaction {
 
     public void getTaskInfo(){
         System.out.println("--------------------------------------------------");    	
-    	System.out.println(">> Task Information");
+    	System.out.println(">> **** Task Information ****");
     	System.out.println(">> Type '999' to exit back to the main menu");
     	System.out.println(">> Enter task number e.g 1");
     	System.out.println("--------------------------------------------------");

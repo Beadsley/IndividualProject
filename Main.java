@@ -24,12 +24,5 @@ public class Main{
 	}
 
 
-	public static void createFile(String filePath) {
 
-
-			newList.outputFile(filePath);
-
-		
-
-	}
 }

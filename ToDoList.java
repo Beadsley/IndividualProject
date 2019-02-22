@@ -8,7 +8,7 @@ import java.io.FileInputStream;
 
 public class ToDoList implements Serializable{
 
-        private LinkedList<String> toDoList;
+        private LinkedList<Task> toDoList;
 
     public ToDoList(){
 
@@ -20,9 +20,9 @@ public class ToDoList implements Serializable{
      * @param toDo the element to add to the list
      */
 
-    public void addToList(String toDo){
-
-        toDoList.add(toDo);
+    public void addToList(String taskName){
+    	//Task taskName = new Task("taskName");
+        toDoList.add(new Task(taskName));
     }
 
     /*
@@ -31,20 +31,29 @@ public class ToDoList implements Serializable{
 
     public void printList(){
     	for (int i=0; i<toDoList.size(); i++){
-    		System.out.println("<"+i+"> "+toDoList.get(i));
+    		System.out.println("<"+i+"> "+toDoList.get(i).getTaskName());
     	}
         //toDoList.stream().forEach(System.out::println);
+    }
+    /*
+    *	@return Task object 
+    *	@param index of the task to return
+    */
+    public Task getTask(int i){
+
+    	return toDoList.get(i);
     }
 
     /*
      * @return true if the element exists in the list
+     * @param names of the task to find
      */
 
-    public boolean getElement(String toDo){
+    public boolean taskExists(String task2find){
         boolean found =false;
-        for(String s: toDoList){
-
-            if (s.equals(toDo)){
+        for(Task t: toDoList){
+        	String taskName=t.getTaskName();
+            if (taskName.equals(task2find)){ //****need to convert so it retreives task as a string****
 
                 found=true;
             }
@@ -57,7 +66,7 @@ public class ToDoList implements Serializable{
      *@param filepath of the output directory
      */
 
-    public void outputFile(String filepath) {
+    public void exportFile(String filepath) {
 
     	//Task cleanHouse= new Task("Clean House");	
     	try{
