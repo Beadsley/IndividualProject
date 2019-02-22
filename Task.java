@@ -5,25 +5,37 @@ import java.time.format.DateTimeFormatter;
 /*
 * Class creates a task object
 *@param task the name of the task needs to be supplied
+* notes:
+* serialistaion interfacce is implemented to:
+*	To serialize an object means to convert its state to a byte stream 
+*	so that the byte stream can be reverted back into a copy of the object
 */
-public class Task{
+
+public class Task  { 
 	//fields
-    private String task;
+    private String taskName;
     private long timestamp;
     private ArrayList<String>notes;
     private LocalDate date;
     private LocalTime time;
 
-    public Task(String task){
-        this.task=task;
+    public Task(String taskName){
+        this.taskName=taskName;
         timestamp = System.currentTimeMillis();
         date=LocalDate.now();        
         notes=new ArrayList<>();
         time=LocalTime.now();
     }
-
+    /*
+    * returns the name of the task
+	*/
+    public String getTaskName(){
+    	return taskName;
+    }
+    /*
+    * adds notes about the task
+    */
     public void addNote(String text){
-
         notes.add(text);
     }
 
@@ -34,7 +46,7 @@ public class Task{
     public String getCreationTime()
     {
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mma");
-        return time.format(formatter);
+        	return time.format(formatter);
     }
 
     /*
@@ -43,7 +55,7 @@ public class Task{
 
     public String getCreationDate(){
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E d/M/u");
-    	return date.format(formatter);
+    		return date.format(formatter);
     }
 
 	/*
@@ -51,19 +63,30 @@ public class Task{
 	 */
     public String lifeTime()
     {
-        long current = System.currentTimeMillis();
+        long current = System.currentTimeMillis();	
         long pastMillis = current - timestamp;      // time passed in milliseconds
         long seconds = pastMillis/1000;
         long minutes = seconds/60;
+        long hours = minutes/60;
+        long days =hours/24;
+
         if(minutes > 0) {
             return minutes + " minutes ago";
+        }
+        else if(hours>0){
+        	return hours + " hours ago";
+        }
+        else if(days>0){
+        	return days + " days ago";
         }
         else {
             return seconds + " seconds ago";
         }
     }
 
-    //method of the amount of days gone
+
+
+
 
 }
 
