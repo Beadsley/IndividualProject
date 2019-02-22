@@ -3,6 +3,8 @@ import java.io.Serializable;
 import java.io.ObjectOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.FileInputStream;
 
 public class ToDoList implements Serializable{
 
@@ -59,7 +61,7 @@ public class ToDoList implements Serializable{
 
     	//Task cleanHouse= new Task("Clean House");	
     	try{
-		FileOutputStream fos = new FileOutputStream(filepath+"ToList.txt");
+		FileOutputStream fos = new FileOutputStream(filepath+"ToList.txt"); //maybe don't export as a text file
       	ObjectOutputStream oos = new ObjectOutputStream(fos);
       	oos.writeObject(toDoList);
       	oos.close();
@@ -70,6 +72,20 @@ public class ToDoList implements Serializable{
       		System.out.println(e);
       	}
     	
+    }
+
+    public void importFile(String filepath){
+
+
+	  try{
+   	  FileInputStream fis = new FileInputStream(filepath);
+      ObjectInputStream ois = new ObjectInputStream(fis);
+      Object importedList= ois.readObject(); //ToDoList can also be of type ToDoList
+	  ois.close();	  	
+	  }
+	  catch(IOException | ClassNotFoundException e){
+		System.out.println(e);
+	  }
     }
 
 }
