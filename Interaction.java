@@ -54,7 +54,7 @@ public class Interaction {
         	if(curious && !skip){
             	System.out.println(">> Anything else i can help you with Madam?");
             	}
-            else if (!curious && !skip){
+            else if (!curious && !skip && !s.isEmpty()){
             	System.out.println("****** WARNING! '"+s+"' not recognised *******");
             }
             
