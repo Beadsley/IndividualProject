@@ -1,16 +1,18 @@
 import java.util.Scanner;
 import java.util.InputMismatchException;
+import java.util.InputMismatchException;
 
 public class Interaction {
 
     private ToDoList newList;
     private Scanner sc;
-    private boolean skip;
-    private boolean curious;
+    private boolean open;
+    private boolean skipping;
 
     public Interaction(){
         newList=new ToDoList();
         sc= new Scanner(System.in);
+        open=true;
     }
 
     /*
@@ -19,56 +21,43 @@ public class Interaction {
 
     public void getInput(){          
         printWelcome();
-        boolean open=true;        
-        while(open && sc.hasNext()) {
-        	curious=true;
-        	skip=false;
-        	//sc.reset();
-        	//sc.skip("");
-            String s = sc.nextLine();
-           	
-            
-            if(s.trim().equals("buy")) {
-                System.out.println("***** Ciao for now *****");
-                break;
-            }
-            else if(s.trim().equals("new")){
-            	newList();
-            }
-            else if(s.trim().equals("add")){
-            	addTask();
-            }
-            else if(s.trim().equals("print")){
-				newList.printList();
-			}
-            else if(s.trim().equals("find")){
-          		findTask();
-            }
-            else if(s.trim().equals("info")){
-            	getTaskInfo();
-            }
-            else{
-            	curious=false;
-            	//sc.reset();            	
-        	}
-        	if(curious && !skip){
-            	System.out.println(">> Anything else i can help you with Madam?");
-            	}
-            else if (!curious && !skip && !s.isEmpty()){
-            	System.out.println("****** WARNING! '"+s+"' not recognised *******");
-            }
-            
-        }
+        while(open) {
+        	skipping =false;
+        	try {
+        		int input=sc.nextInt();
+
+        		switch (input){
+        			case 1:	System.out.println("***** Ciao for now *****");
+        					open=false;
+        					skipping=true;
+                			break;
+                	case 2:	sc.nextLine();
+                			addTask();
+                			break;
+                	case 3: sc.nextLine();
+                			newList.printList();
+                			break;
+                	case 4: sc.nextLine();
+                			findTask();
+                			break;
+                	case 5: sc.nextLine();
+                			getTaskInfo();
+                			break;
+
+        		}
+        		if(!skipping){
+        		System.out.println(">> Anything else i can help you with Madam?");
+        		}
+        	
+    		}
+        
+        catch (InputMismatchException e) {
+    		System.err.println("Input must be a number");
+    		sc.nextLine();
+    		}
+		}            
     }
     
-    /*
-    * method creates a new list and saves it to a file
-    */
-    private void newList(){
-    	System.out.println(">> Enter file path e.g. /Users/");
-        String filePath = sc.nextLine();
-        newList.exportFile(filePath);
-    }
     /*
      * method adds a new task
     */
@@ -77,8 +66,7 @@ public class Interaction {
 		String taskName=sc.nextLine().trim();
         	if(taskName.equals("")){
 				System.out.println("***** WARNING! No task entered *****");
-                System.out.println(">> Type 'add' to try again");
-                skip=true; 
+                System.out.println(">> Type <2> to try again");                 
                 }
 			else{
             	newList.addToList(taskName);
@@ -87,6 +75,7 @@ public class Interaction {
     }
     /*
     * Method sees if the task exists in the todo list
+    //maybe switch this method to the ToDoList class
     */
     private void findTask(){
 		System.out.println(">> Enter task to find e.g clean house");            	
@@ -107,38 +96,40 @@ public class Interaction {
     private void printWelcome(){
         System.out.println("--------------------------------------------------");
     	System.out.println(">> **** Main Menu ****");
-        System.out.println(">> Type 'buy' to exit the scanner");
-        System.out.println(">> Type 'new'to save file");
-        System.out.println(">> Type 'add' followed by the todo to add it to the list");
-        System.out.println(">> Type 'print' to print the list");
-        System.out.println(">> Type 'find' followed  by the todo to find in the list");
-        System.out.println(">> Type 'info' to get info about the task");
+        System.out.println(">> Type <1> to EXIT the scanner");
+        System.out.println(">> Type <2> to ADD a task");
+        System.out.println(">> Type <3> to PRINT the list");
+        System.out.println(">> Type <4> to FIND a task");
+        System.out.println(">> Type <5> for TASK INFORMATION");
         System.out.println("--------------------------------------------------");
+    }
+    /*
+    *	method that prints the opening message to the task information
+    */
+
+    private void printTaskInfoWelcome(){
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");    	
+    	System.out.println(">> **** Task Information ****");
+    	System.out.println(">> Type <999> to exit back to the main menu");
+    	System.out.println(">> Enter task number e.g 1");
+    	System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");    	
     }
     /*
     * Method prints out informtaion about a task
     */
 
     public void getTaskInfo(){
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");    	
-    	System.out.println(">> **** Task Information ****");
-    	System.out.println(">> Type '999' to exit back to the main menu");
-    	System.out.println(">> Enter task number e.g 1");
-    	System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
-    	newList.printList();
-        
+    	printTaskInfoWelcome();
+    	newList.printList();        
     	
     	boolean leaveTaskInfo=false;
     	while(!leaveTaskInfo){
-    		if (!sc.hasNextInt() && sc.next()!=""){	//perhaps a seperate method that checks scanner input
-    			System.out.println("****** Enter a number ******");
-    			sc.nextLine();    			
-    		}
-    		else{
+
+   			 try{   		
+    		
     			Integer input = sc.nextInt();
      			if(input.equals(999)){			//add if statement to check if index is within the bounds
     				leaveTaskInfo=true;
-    				sc.reset();
     				printWelcome();
     			} 
     			else if (input>=newList.getListSize()){
@@ -150,16 +141,31 @@ public class Interaction {
     				System.out.println("--------------------------------------------------");
     				System.out.println(t.getTaskName());
     				System.out.println("--------------------------------------------------");
-    				System.out.println("Task created on:");
+    				System.out.println("Created:");
     				System.out.println(t.getCreationDate());
     				System.out.println(t.getCreationTime());
     				System.out.println(t.lifeTime());
     				System.out.println("--------------------------------------------------");
     				//retreive information about the first element
 
-    			}    			  			
+    			} 
     		}
+        	catch (InputMismatchException e) {
+    			System.err.println("Input must be a number");
+    			sc.nextLine();
+    		}   			  			
+    		
     	}
     }
-}
+
+
+    /*
+    * method creates a new list and saves it to a file
+    */
+    private void newList(){
+    	System.out.println(">> Enter file path e.g. /Users/");
+        String filePath = sc.nextLine();
+        newList.exportFile(filePath);
+    }
+ }
 
