@@ -30,10 +30,18 @@ public class ToDoList implements Serializable{
      */
 
     public void printList(){
-    	for (int i=0; i<toDoList.size(); i++){
-    		System.out.println("<"+i+"> "+toDoList.get(i).getTaskName());
+		System.out.println("--------------------------------------------------");
+		System.out.println("ToDos:");
+    	System.out.println("--------------------------------------------------");
+    	if(toDoList.size()>0){
+			for (int i=0; i<toDoList.size(); i++){
+    			System.out.println("<"+i+"> "+toDoList.get(i).getTaskName());
+    		}
     	}
-        //toDoList.stream().forEach(System.out::println);
+    	else{
+    		System.out.println("***** List Empty *****");
+    	}
+    	System.out.println("--------------------------------------------------");
     }
     /*
     *	@return Task object 
