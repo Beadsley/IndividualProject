@@ -49,6 +49,11 @@ public class ToDoList implements Serializable{
      * @param names of the task to find
      */
 
+    public int getListSize(){
+
+    	return toDoList.size();
+    }
+
     public boolean taskExists(String task2find){
         boolean found =false;
         for(Task t: toDoList){
@@ -78,7 +83,7 @@ public class ToDoList implements Serializable{
       	
       	}
       	catch(IOException e){
-      		System.out.println(e);
+      		System.err.println(e);
       	}
     	
     }
@@ -93,7 +98,7 @@ public class ToDoList implements Serializable{
 	  ois.close();	  	
 	  }
 	  catch(IOException | ClassNotFoundException e){
-		System.out.println(e);
+		System.err.println(e);
 	  }
     }
 

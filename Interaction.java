@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class Interaction {
     //fields
@@ -57,6 +58,8 @@ public class Interaction {
             //prints List
             else if(s.trim().equals("print")){
             	System.out.println("--------------------------------------------------");
+    			System.out.println("ToDos:");
+            	System.out.println("--------------------------------------------------");
                 newList.printList();
                 System.out.println("--------------------------------------------------");
             }
@@ -107,43 +110,60 @@ public class Interaction {
         System.out.println(">> Type 'print' to print the list");
         System.out.println(">> Type 'find' followed  by the todo to find in the list");
         System.out.println(">> Type 'info' to get info about the task");
-        System.out.println(">>");
-        //System.out.println("to add to the todo list");
-        //System.out.println("write 'todo' ':' followed by a 'description'");
-        //System.out.println("e.g. Clean: clean before mum arrives");
-        //System.out.println("write 'print' to print the contents of the list");
-        //System.out.println("write 'print todos' to print a list of todos");
-        //System.out.println("write 'find' followed by to do to find the description");
-
+        System.out.println("--------------------------------------------------");
     }
+    /*
+    * Method prints out informtaion about a task
+    */
 
     public void getTaskInfo(){
-        System.out.println("--------------------------------------------------");    	
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");    	
     	System.out.println(">> **** Task Information ****");
     	System.out.println(">> Type '999' to exit back to the main menu");
     	System.out.println(">> Enter task number e.g 1");
-    	System.out.println("--------------------------------------------------");
-    	System.out.println("ToDos");
+    	System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
+    	System.out.println("ToDos:");
         System.out.println("--------------------------------------------------");
-        newList.printList(); //prints current list of tasks
-        System.out.println("--------------------------------------------------");
+        if(newList.getListSize()>0){ 
+        	newList.printList(); //prints current list of tasks
+        	System.out.println("--------------------------------------------------");
+    	}
+    	else{
+    		System.out.println("***** List Empty *****");
+    	}
         
     	
     	boolean leaveTaskInfo=false;
     	while(!leaveTaskInfo){
-    		Integer input = sc.nextInt();
-    		if(input.equals(999)){			//add if statement to check if index is within the bounds
-    			printWelcome();
-    			leaveTaskInfo=true;
+    		if (!sc.hasNextInt() && sc.next()!=""){	//perhaps a seperate method that checks scanner input
+    			System.out.println("not an integer");
+    			sc.nextLine();    			
     		}
     		else{
-    			//retreive information about the first element
+    			Integer input = sc.nextInt();
+     			if(input.equals(999)){			//add if statement to check if index is within the bounds
+    				leaveTaskInfo=true;
+    				printWelcome();
+    			} 
+    			else if (input>=newList.getListSize()){
+    				System.out.println("****** WARNING! '"+input+"' not in list *******");
+    		
+    			}
+    			else{
+    				Task t=newList.getTask(input);
+    				System.out.println("--------------------------------------------------");
+    				System.out.println(t.getTaskName());
+    				System.out.println("--------------------------------------------------");
+    				System.out.println("Task created on:");
+    				System.out.println(t.getCreationDate());
+    				System.out.println(t.getCreationTime());
+    				System.out.println(t.lifeTime());
+    				System.out.println("--------------------------------------------------");
+    				//retreive information about the first element
 
+    			}    			  			
     		}
-
-
     	}
     }
-
 }
 
