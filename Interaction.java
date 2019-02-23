@@ -24,6 +24,7 @@ public class Interaction{
         while(open) {
         	skippingPrompt =false;
         	try {
+        		//check that the integers inputted are just that of the amount of cases
         		int input=sc.nextInt();
 
         		switch (input){
@@ -142,9 +143,9 @@ public class Interaction{
     				System.out.println(t.getTaskName());
     				System.out.println("--------------------------------------------------");
     				System.out.println("Created:");
-    				System.out.println(t.getCreationDate());
-    				System.out.println(t.getCreationTime());
-    				System.out.println(t.lifeTime());
+    				System.out.println(t.getDateCreated());
+    				System.out.println(t.getTimeCreated());
+    				System.out.println(t.getTaskLifeTime());
     				System.out.println("--------------------------------------------------");
     				//retreive information about the first element
     			} 

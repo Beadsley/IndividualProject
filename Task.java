@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.Duration;
+import java.time.Period;
 /*
 * Class creates a task object
 *@param task the name of the task needs to be supplied
@@ -16,19 +18,21 @@ public class Task  {
     private String taskName;
     private long timestamp;
     private ArrayList<String>notes;
-    private LocalDate date;
+    private LocalDate dateCreated;
     private LocalDate dueDate;
-    private LocalTime time;
-    private DateTimeFormatter dateFormat; 
+    private LocalTime timeCreated;
+    private DateTimeFormatter dateFormat;
+    private DateTimeFormatter timeFormat;   
 
     public Task(String taskName){
         this.taskName=taskName;
         timestamp = System.currentTimeMillis();
-        date=LocalDate.now();        
+        dateCreated=LocalDate.now();        
         notes=new ArrayList<>();
-        time=LocalTime.now();
+        timeCreated=LocalTime.now();
         dueDate=null;
         dateFormat = DateTimeFormatter.ofPattern("E d/M/u");
+        timeFormat=DateTimeFormatter.ofPattern("h:mma");
     }
     /*
     * returns the name of the task
@@ -42,6 +46,7 @@ public class Task  {
     */
     public void setDueDate(String date){
     	//check if the due date is in the future
+    	//isAfter() method
     	DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("d/MM/yyyy");
     	dueDate = LocalDate.parse(date, inputFormat);
     	System.out.println(dueDate);
@@ -52,6 +57,19 @@ public class Task  {
     public String getDueDate(){
     	
     		return dueDate.format(dateFormat);
+    }
+
+    public void timeTillDueDate(){
+
+    	    LocalDate currentDate=LocalDate.now();
+    	    DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("d/MM/yyyy"); 
+    		Period period = Period.between(LocalDate.parse("12/10/1992", inputFormat),currentDate);
+    		int diff = period.getDays();
+    		int diffMonths=period.getMonths();
+    		int diffYears=period.getYears();
+    		System.out.println(diff);
+    		System.out.println(diffMonths);
+    		System.out.println(diffYears);
     }
     /*
     * adds notes about the task
@@ -64,46 +82,54 @@ public class Task  {
     * method returns the time of creation
     */
 
-    public String getCreationTime()
+    public String getTimeCreated()
     {
-    	DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("h:mma");
-        	return time.format(timeFormat);
+    	
+        	return timeCreated.format(timeFormat);
     }
 
     /*
     * returns the date of creation
     */
 
-    public String getCreationDate(){
+    public String getDateCreated(){
 
-    		return date.format(dateFormat);
+    		return dateCreated.format(dateFormat);
     }
 
 	/*
 	 * returns the amount of time the task has been created
 	 */
-    public String lifeTime()
-    {
-        long current = System.currentTimeMillis();	
-        long pastMillis = current - timestamp;      // time passed in milliseconds
-        long seconds = pastMillis/1000;
-        long minutes = seconds/60;
-        long hours = minutes/60;
-        long days =hours/24;
-
-        if(minutes > 0) {
-            return minutes + " minutes ago";
-        }
-        else if(hours>0){
-        	return hours + " hours ago";
-        }
-        else if(days>0){
-        	return days + " days ago";
-        }
-        else {
-            return seconds + " seconds ago";
-        }
-    }
+    public String getTaskLifeTime(){
+    	LocalTime currentTime=LocalTime.now();
+    	long elapsedSeconds=Duration.between(timeCreated,currentTime).toSeconds();
+    	long elapsedMinutes=Duration.between(timeCreated, currentTime).toMinutes();
+    	long elapsedHours=Duration.between(timeCreated, currentTime).toHours();
+    		if (elapsedSeconds<60){
+    			return elapsedSeconds+ " seconds ago";
+    		}
+    		else if(elapsedMinutes<60){
+    			return elapsedMinutes+ " minute(s) ago";
+    		}
+    		else if(elapsedHours<24){
+    			return elapsedHours+ " hour(s) ago";
+    		}
+    		else {
+    			LocalDate currentDate=LocalDate.now();
+    			Period period = Period.between(dateCreated,currentDate);
+    			int diffDays = period.getDays();
+    			int diffMonths=period.getMonths();
+    			int diffYears=period.getYears();
+    			if(diffDays<24){
+    				return diffDays+ " day(s) ago";
+    			}
+    			else if(diffMonths<12 && diffYears<1){
+    				return diffYears+ " month(s) ago";
+    			}
+    			return "Over a year ago mate!";
+    		}  	 
+    	}
+  
 
 
 
