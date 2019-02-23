@@ -2,12 +2,12 @@ import java.util.Scanner;
 import java.util.InputMismatchException;
 import java.util.InputMismatchException;
 
-public class Interaction {
+public class Interaction{
 
     private ToDoList newList;
     private Scanner sc;
     private boolean open;
-    private boolean skipping;
+    private boolean skippingPrompt;
 
     public Interaction(){
         newList=new ToDoList();
@@ -19,17 +19,17 @@ public class Interaction {
      *  Creates a scanner to read input from the terminal
      */
 
-    public void getInput(){          
-        printWelcome();
+    public void getInput(){ 
+    	printWelcome();
         while(open) {
-        	skipping =false;
+        	skippingPrompt =false;
         	try {
         		int input=sc.nextInt();
 
         		switch (input){
         			case 1:	System.out.println("***** Ciao for now *****");
         					open=false;
-        					skipping=true;
+        					skippingPrompt=true;
                 			break;
                 	case 2:	sc.nextLine();
                 			addTask();
@@ -45,15 +45,14 @@ public class Interaction {
                 			break;
 
         		}
-        		if(!skipping){
+        		if(!skippingPrompt){
         		System.out.println(">> Anything else i can help you with Madam?");
         		}
         	
     		}
         
-        catch (InputMismatchException e) {
-    		System.err.println("Input must be a number");
-    		sc.nextLine();
+            catch (InputMismatchException e) {
+    			sc.nextLine();
     		}
 		}            
     }
@@ -66,7 +65,8 @@ public class Interaction {
 		String taskName=sc.nextLine().trim();
         	if(taskName.equals("")){
 				System.out.println("***** WARNING! No task entered *****");
-                System.out.println(">> Type <2> to try again");                 
+                System.out.println(">> Type <2> to try again"); 
+                skippingPrompt=true;                
                 }
 			else{
             	newList.addToList(taskName);
@@ -110,8 +110,8 @@ public class Interaction {
     private void printTaskInfoWelcome(){
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");    	
     	System.out.println(">> **** Task Information ****");
-    	System.out.println(">> Type <999> to exit back to the main menu");
-    	System.out.println(">> Enter task number e.g 1");
+    	System.out.println(">> Type <999> to EXIT back to the main menu");
+    	System.out.println(">> Enter task NUMBER e.g 1");
     	System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");    	
     }
     /*
@@ -147,11 +147,9 @@ public class Interaction {
     				System.out.println(t.lifeTime());
     				System.out.println("--------------------------------------------------");
     				//retreive information about the first element
-
     			} 
     		}
-        	catch (InputMismatchException e) {
-    			System.err.println("Input must be a number");
+        	catch (InputMismatchException e) {    			
     			sc.nextLine();
     		}   			  			
     		

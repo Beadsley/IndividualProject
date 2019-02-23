@@ -8,8 +8,6 @@ public class Main{
 		I1.getInput();
 		
 
-
-
 	}
 
 

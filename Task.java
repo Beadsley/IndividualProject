@@ -17,7 +17,9 @@ public class Task  {
     private long timestamp;
     private ArrayList<String>notes;
     private LocalDate date;
+    private LocalDate dueDate;
     private LocalTime time;
+    private DateTimeFormatter dateFormat; 
 
     public Task(String taskName){
         this.taskName=taskName;
@@ -25,12 +27,31 @@ public class Task  {
         date=LocalDate.now();        
         notes=new ArrayList<>();
         time=LocalTime.now();
+        dueDate=null;
+        dateFormat = DateTimeFormatter.ofPattern("E d/M/u");
     }
     /*
     * returns the name of the task
 	*/
     public String getTaskName(){
     	return taskName;
+    }
+    /*
+    * set due date
+    * @param date in the format 12/12/2018
+    */
+    public void setDueDate(String date){
+    	//check if the due date is in the future
+    	DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("d/MM/yyyy");
+    	dueDate = LocalDate.parse(date, inputFormat);
+    	System.out.println(dueDate);
+    	//System.out.println(dueDate);
+
+    }
+
+    public String getDueDate(){
+    	
+    		return dueDate.format(dateFormat);
     }
     /*
     * adds notes about the task
@@ -45,8 +66,8 @@ public class Task  {
 
     public String getCreationTime()
     {
-    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mma");
-        	return time.format(formatter);
+    	DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("h:mma");
+        	return time.format(timeFormat);
     }
 
     /*
@@ -54,8 +75,8 @@ public class Task  {
     */
 
     public String getCreationDate(){
-    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E d/M/u");
-    		return date.format(formatter);
+
+    		return date.format(dateFormat);
     }
 
 	/*
