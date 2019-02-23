@@ -12,9 +12,8 @@ import java.time.Period;
 *	To serialize an object means to convert its state to a byte stream 
 *	so that the byte stream can be reverted back into a copy of the object
 */
-
 public class Task  { 
-	//fields
+
     private String taskName;
     private long timestamp;
     private ArrayList<String>notes;
@@ -25,6 +24,7 @@ public class Task  {
     private DateTimeFormatter timeFormat;   
 
     public Task(String taskName){
+
         this.taskName=taskName;
         timestamp = System.currentTimeMillis();
         dateCreated=LocalDate.now();        
@@ -33,14 +33,15 @@ public class Task  {
         dueDate=null;
         dateFormat = DateTimeFormatter.ofPattern("E d/M/u");
         timeFormat=DateTimeFormatter.ofPattern("h:mma");
+
     }
-    /*
+   /*
     * returns the name of the task
 	*/
     public String getTaskName(){
     	return taskName;
     }
-    /*
+   /*
     * set due date
     * @param date in the format 12/12/2018
     */
@@ -53,53 +54,57 @@ public class Task  {
     	//System.out.println(dueDate);
 
     }
-
+   /*
+    * Returns the date in which the task
+    * must be completed
+    */
     public String getDueDate(){
     	
     		return dueDate.format(dateFormat);
     }
-
+   /*
+    * Returns the amount of time left 
+    * to complete the task or if 
+    * the task is over due
+    */
     public void timeTillDueDate(){
-
-    	    LocalDate currentDate=LocalDate.now();
-    	    DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("d/MM/yyyy"); 
-    		Period period = Period.between(LocalDate.parse("12/10/1992", inputFormat),currentDate);
-    		int diff = period.getDays();
-    		int diffMonths=period.getMonths();
-    		int diffYears=period.getYears();
-    		System.out.println(diff);
-    		System.out.println(diffMonths);
-    		System.out.println(diffYears);
+	  		String dateDiff=diffDates(dueDate);
+	  		LocalDate currentDate=LocalDate.now();
+    		if(dueDate.isAfter(currentDate)){
+    			System.out.println( dateDiff+" to complete task");
+    		}
+    		else if(dueDate.equals(currentDate)){
+    			System.out.println("Task must be completed today");
+    		}
+    		else{
+    			System.out.println(dateDiff+ " over due");
+    		}
     }
-    /*
+   /*
     * adds notes about the task
     */
     public void addNote(String text){
         notes.add(text);
     }
 
-    /*
+   /*
     * method returns the time of creation
     */
 
     public String getTimeCreated()
-    {
-    	
+    {    	
         	return timeCreated.format(timeFormat);
     }
-
-    /*
+   /*
     * returns the date of creation
     */
-
     public String getDateCreated(){
-
     		return dateCreated.format(dateFormat);
     }
-
-	/*
-	 * returns the amount of time the task has been created
-	 */
+   /*
+	* Returns the amount of time the 
+	* since the task was created
+	*/
     public String getTaskLifeTime(){
     	LocalTime currentTime=LocalTime.now();
     	long elapsedSeconds=Duration.between(timeCreated,currentTime).toSeconds();
@@ -116,24 +121,29 @@ public class Task  {
     		}
     		else {
     			LocalDate currentDate=LocalDate.now();
-    			Period period = Period.between(dateCreated,currentDate);
-    			int diffDays = period.getDays();
-    			int diffMonths=period.getMonths();
-    			int diffYears=period.getYears();
-    			if(diffDays<24){
-    				return diffDays+ " day(s) ago";
+    			return diffDates(currentDate)+" ago";
+
+    		}
+    }
+   /*
+    * Returns the difference between the date created and
+    * @param a given date
+    */
+    public String diffDates(LocalDate date2Compare){
+
+    		    Period period = Period.between(dateCreated, date2Compare);
+    			int diffDays = Math.abs(period.getDays());
+    			int diffMonths=Math.abs(period.getMonths());
+    			int diffYears=Math.abs(period.getYears());
+    			if(diffDays<24 && diffMonths<1){
+    				return diffDays+ " day(s)";
     			}
     			else if(diffMonths<12 && diffYears<1){
-    				return diffYears+ " month(s) ago";
+    				return diffMonths+ " month(s)";
     			}
-    			return "Over a year ago mate!";
-    		}  	 
-    	}
+    			return "Over a year!";
+    }  	 
   
-
-
-
-
 
 }
 

@@ -6,6 +6,9 @@ public class Main{
 		
 		Interaction I1= new Interaction();
 		I1.getInput();
+		
+
+
 
 		
 
