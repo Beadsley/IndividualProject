@@ -50,9 +50,30 @@ public class Task  {
     	//isAfter() method
     	DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("d/MM/yyyy");
     	dueDate = LocalDate.parse(date, inputFormat);
+    	LocalDate currentDate=LocalDate.now();
+    	if (currentDate.isAfter(dueDate)){
+    		System.out.println("nono");
+    	}
+
+
     	System.out.println(dueDate);
     	//System.out.println(dueDate);
 
+    }
+
+    public static boolean dateChecker(String date){
+
+    	DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("d/MM/yyyy");
+    	LocalDate date2check = LocalDate.parse(date, inputFormat);
+    	LocalDate currentDate=LocalDate.now();
+    	if (currentDate.isAfter(date2check)){
+    		return false;
+    	}
+    	else{
+    		return true;
+    	}
+    		
+    	
     }
    /*
     * Returns the date in which the task

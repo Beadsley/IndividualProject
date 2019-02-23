@@ -1,6 +1,10 @@
 import java.util.Scanner;
 import java.util.InputMismatchException;
 import java.util.InputMismatchException;
+import java.time.format.DateTimeParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 
 public class Interaction{
 
@@ -8,11 +12,15 @@ public class Interaction{
     private Scanner sc;
     private boolean open;
     private boolean skippingPrompt;
+    private LocalDate currentDate;
+    private DateTimeFormatter dateFormat;
 
     public Interaction(){
         newList=new ToDoList();
         sc= new Scanner(System.in);
         open=true;
+        currentDate=LocalDate.now();
+        dateFormat = DateTimeFormatter.ofPattern("E d/M/u");
     }
 
     /*
@@ -70,9 +78,33 @@ public class Interaction{
                 skippingPrompt=true;                
                 }
 			else{
-            	newList.addToList(taskName);
-				System.out.println("----> '"+taskName+"' Added :)");
-                }
+				Task t= new Task(taskName);
+            	newList.addToList(t);
+				System.out.println("----> Task Added :)");
+				System.out.println(">> Enter a completion date e.g. 02/02/2020");
+
+				boolean dueDateAdded=false;
+				while(!dueDateAdded){
+					try{
+						String dueDate=sc.nextLine().trim();
+						boolean dateOK=Task.dateChecker(dueDate);
+						if(!dateOK){
+							System.out.println("Date in the past, try again");
+						}
+						else{
+							t.setDueDate(dueDate);
+							System.out.println("----> Date Added :)");
+							System.out.println(t.getDueDate());
+							dueDateAdded=true;
+						}
+					}
+					catch(DateTimeParseException e){						
+						System.out.println("Must be d/MM/yyyy e.g. 12/12/2050");
+					}
+				}
+				
+             }
+					
     }
     /*
     * Method sees if the task exists in the todo list
@@ -97,6 +129,7 @@ public class Interaction{
     private void printWelcome(){
         System.out.println("--------------------------------------------------");
     	System.out.println(">> **** Main Menu ****");
+    	System.out.println(">> " + currentDate.format(dateFormat));
         System.out.println(">> Type <1> to EXIT the scanner");
         System.out.println(">> Type <2> to ADD a task");
         System.out.println(">> Type <3> to PRINT the list");
