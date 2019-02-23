@@ -56,9 +56,6 @@ public class Task  {
     	}
 
 
-    	System.out.println(dueDate);
-    	//System.out.println(dueDate);
-
     }
    /*
     * checks if the date is of the correct format
@@ -109,6 +106,9 @@ public class Task  {
     */
     public void addNote(String text){
         notes.add(text);
+    }
+    public void printNotes(){
+    	notes.stream().forEach(System.out::println);
     }
 
    /*
