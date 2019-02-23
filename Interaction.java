@@ -99,7 +99,7 @@ public class Interaction{
 						}
 					}
 					catch(DateTimeParseException e){						
-						System.out.println("Must be d/MM/yyyy e.g. 12/12/2050");
+						System.out.println("Must be d/MM/yyyy e.g. 12/02/2050");
 					}
 				}
 				
@@ -179,6 +179,8 @@ public class Interaction{
     				System.out.println(t.getDateCreated());
     				System.out.println(t.getTimeCreated());
     				System.out.println(t.getTaskLifeTime());
+    				System.out.println("Reminder:");
+    				System.out.println(t.timeTillDueDate());
     				System.out.println("--------------------------------------------------");
     				//retreive information about the first element
     			} 
