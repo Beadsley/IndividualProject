@@ -20,9 +20,10 @@ public class ToDoList implements Serializable{
      * @param toDo the element to add to the list
      */
 
-    public void addToList(String taskName){
+    public void addToList(Task t){
     	//Task taskName = new Task("taskName");
-        toDoList.add(new Task(taskName));
+        //toDoList.add(new Task(taskName));
+        toDoList.add(t);
     }
 
     /*
