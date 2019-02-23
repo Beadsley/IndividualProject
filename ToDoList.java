@@ -25,6 +25,13 @@ public class ToDoList implements Serializable{
         //toDoList.add(new Task(taskName));
         toDoList.add(t);
     }
+   /*
+    * removes a task from the list
+    * @param index of the task
+    */
+    public void removeTask(int i){
+    	toDoList.remove(i);
+    }
 
     /*
      * prints the contents of the list
@@ -32,11 +39,12 @@ public class ToDoList implements Serializable{
 
     public void printList(){
 		System.out.println("--------------------------------------------------");
-		System.out.println("ToDos:");
+		System.out.println("ToDos:				Complete by:");
     	System.out.println("--------------------------------------------------");
     	if(toDoList.size()>0){
 			for (int i=0; i<toDoList.size(); i++){
-    			System.out.println("<"+i+"> "+toDoList.get(i).getTaskName());
+    			System.out.println("<"+i+"> "+toDoList.get(i).getTaskName()
+    								+"			"+toDoList.get(i).getDueDate());
     		}
     	}
     	else{
