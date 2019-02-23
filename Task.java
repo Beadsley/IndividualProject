@@ -54,15 +54,12 @@ public class Task  {
     	if (currentDate.isAfter(dueDate)){
     		System.out.println("nono");
     	}
-
-
     }
    /*
     * checks if the date is of the correct format
     * @param date to be analyseed
     */
     public static boolean dateChecker(String date){
-
     	DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("d/MM/yyyy");
     	LocalDate date2check = LocalDate.parse(date, inputFormat);
     	LocalDate currentDate=LocalDate.now();
@@ -71,9 +68,7 @@ public class Task  {
     	}
     	else{
     		return true;
-    	}
-    		
-    	
+    	}	
     }
    /*
     * Returns the date in which the task
@@ -107,14 +102,18 @@ public class Task  {
     public void addNote(String text){
         notes.add(text);
     }
+   /*
+    * returns the size of the notes arraylist
+    */
+    public int notesAvailable(){
+    	return notes.size();
+    }
     public void printNotes(){
     	notes.stream().forEach(System.out::println);
     }
-
    /*
     * method returns the time of creation
     */
-
     public String getTimeCreated()
     {    	
         	return timeCreated.format(timeFormat);
@@ -167,7 +166,4 @@ public class Task  {
     			}
     			return "Over a year!";
     }  	 
-  
-
 }
-
