@@ -24,11 +24,9 @@ public class Interaction{
         currentDate=LocalDate.now();
         dateFormat = DateTimeFormatter.ofPattern("E d/M/u");
     }
-
-    /*
-     *  Creates a scanner to read input from the terminal
-     */
-
+   /*
+    *  Creates a scanner to read input from the terminal
+    */
     public void getInput(){ 
     	printWelcome();
         while(open) {
@@ -80,15 +78,12 @@ public class Interaction{
         		else if(listEmpty){
         			System.out.println("***** List Empty *****");
         		}
-        	
     		}
-        
             catch (InputMismatchException e) {
     			sc.nextLine();
     		}
 		}            
-    }
-    
+    }  
     /*
      * method adds a new task, with a completion date
     */
@@ -105,7 +100,6 @@ public class Interaction{
             	newList.addToList(t);
 				System.out.println("----> Task Added :)");
 				System.out.println(">> Enter a completion date e.g. 02/02/2020");
-
 				boolean dueDateAdded=false;
 				while(!dueDateAdded){
 					try{
@@ -123,32 +117,27 @@ public class Interaction{
 					catch(DateTimeParseException e){						
 						System.out.println("Must be d/MM/yyyy e.g. 12/02/2050");
 					}
-				}
-				
+				}	
              }					
     }
-
-
-    /*
-    * Method sees if the task exists in the todo list
-    //maybe switch this method to the ToDoList class
+   /*
+    * Sees if the task exists in the todo list
+    			//maybe switch this method to the ToDoList class
     */
     private void findTask(){
 		System.out.println(">> Enter task to find e.g clean house");            	
 		String task2Find=sc.nextLine().trim();
         boolean found=newList.taskExists(task2Find);
         	if(found){
-            	System.out.println("----> '"+task2Find+"' Exists :)");
+            	System.out.println("----> <"+task2Find+"> Exists :)");
             }
             else{
-               	System.out.println("----> '"+task2Find+"' Doesn't exist :(");
+               	System.out.println("----> <"+task2Find+"> Doesn't exist :(");
             }
 	}
-
-    /*
-        *  prints out the opening message alongside intial instructions
-
-     */
+   /*
+    *  Prints out the opening message alongside intial instructions
+    */
     private void printWelcome(){
         System.out.println("--------------------------------------------------");
     	System.out.println(">> **** Main Menu ****");
@@ -157,22 +146,22 @@ public class Interaction{
         System.out.println(">> Type <1> to ADD a task");
         System.out.println(">> Type <2> to PRINT the list");
         System.out.println(">> Type <3> to FIND a task");
-        System.out.println(">> Type <4> for TASK INFORMATION");
-		System.out.println(">> Type <5> for TASK EDITOR");        
+        System.out.println(">> Type <4> for **** Task Info ****");
+		System.out.println(">> Type <5> for **** Task Editor ****");        
         System.out.println("--------------------------------------------------");
     }
     /*
-    *	method that prints the opening message to the task information
+    *	prints the opening message to the task information
     */
-
     private void printTaskInfoWelcome(){
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");    	
     	System.out.println(">> **** Task Information ****");
     	System.out.println(">> Type <999> to EXIT back to the main menu");
-    	System.out.println(">> Enter task NUMBER e.g 1");
     	System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");    	
     }
-
+    /*
+    *	prints the opening message to the task editor
+    */
     private void printTaskEditorWelcome(){
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");    	
     	System.out.println(">> **** Task Editor ****");
@@ -181,7 +170,10 @@ public class Interaction{
     	System.out.println(">> Type <9> to DELETE a task");
     	System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
     }
-
+    /*
+    * User can delete and add notes to 
+    * a task
+    */
     public void taskEditor(){
     	printTaskEditorWelcome();
     	newList.printList();
@@ -189,12 +181,16 @@ public class Interaction{
     	while(!leaveTaskEditor){
     		try{
     			Integer input = sc.nextInt(); //check if index is in bounds 
+    			if (input != 1||input !=9||input !=99){
+    				System.out.println("****** WARNING! <"+input+"> not recognised *******");
+    				System.out.println(">> Try again :)");
 
+    			}
     			switch(input){
     				case 999: leaveTaskEditor=true;
     						  printWelcome();
     						  break; 
-    				case 1: System.out.println(">> Enter task NUMBER e.g 1");
+    				case 1: System.out.println(">> Enter <task NUMBER> e.g 1");
     						input=sc.nextInt();
     						checkIndex(input);
     						Task t=newList.getTask(input);
@@ -202,16 +198,17 @@ public class Interaction{
     						sc.nextLine();
     						t.addNote(sc.nextLine());
     						System.out.println("----> Note Added :)");
+    						System.out.println(">> Type <999> for main menu");
+    						System.out.println(">> OR type an <option> from the Task Editor menu");
     						break;
-    				case 9: System.out.println(">> Enter task NUMBER e.g 1");
+    				case 9: System.out.println(">> Enter <task NUMBER> e.g 1");
     						input=sc.nextInt();
     						checkIndex(input);
     						newList.removeTask(input);
-    						System.out.println("----> Task Deleted");    						
-
-    				
+    						System.out.println("----> Task Deleted <999>");  
+							System.out.println(">> Type <999> for main menu");
+    						System.out.println(">> OR type an <option> from the Task Editor menu");  							
     			}
-   			
     		}
     		catch(InputMismatchException | IndexOutOfBoundsException e){
     			sc.nextLine();
@@ -219,16 +216,15 @@ public class Interaction{
     	}
     }
     /*
-    * Method prints out informtaion about a task
+    * Prints out informtaion about a 
+    * specified task
     */
-
     public void getTaskInfo(){
     	printTaskInfoWelcome();
-    	newList.printList();        
-    	
+    	newList.printList();
+    	System.out.println(">> Enter <task NUMBER> e.g 1");        
     	boolean leaveTaskInfo=false;
     	while(!leaveTaskInfo){
-
    			 try{   		
     		
     			Integer input = sc.nextInt();
@@ -237,7 +233,6 @@ public class Interaction{
     				leaveTaskInfo=true;
     				printWelcome();
     			} 
-    			
     			else{
     				Task t=newList.getTask(input);
     				System.out.println("--------------------------------------------------");
@@ -247,31 +242,36 @@ public class Interaction{
     				System.out.println(t.getDateCreated());
     				System.out.println(t.getTimeCreated());
     				System.out.println(t.getTaskLifeTime());
+    				System.out.println();
     				System.out.println("Reminder:");
     				System.out.println(t.timeTillDueDate());
+    				if(t.notesAvailable()!=0){
+    					System.out.println();
+    					System.out.println("Notes:");
+    					t.printNotes();
+    				}
     				System.out.println("--------------------------------------------------");
-    				System.out.println("Notes:");
-    				t.printNotes();
-    				//retreive information about the first element
+    				System.out.println(">> Type <999> for Main Menu");
+    				System.out.println(">> OR enter a <task number> ");
     			} 
     		}
         	catch (InputMismatchException | IndexOutOfBoundsException e) {    			
     			sc.nextLine();
     		}   			  			
-    		
     	}
     }
-
+   /* verifies if the index is
+   	* out of bounds
+    * @param task index
+    */
     public void checkIndex(int index){
     	boolean indexExists;
     	indexExists= index<newList.getListSize() || index==999;
     	if (!indexExists){
-    		System.out.println("****** WARNING! '"+index+"' not in list *******");
+    		System.out.println("****** WARNING! <"+index+"> not in list *******");
+    		System.out.println(">> Try Again :)");
     	}
-
     }
-
-
     /*
     * method creates a new list and saves it to a file
     */
