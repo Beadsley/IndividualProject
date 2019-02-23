@@ -14,11 +14,13 @@ public class Interaction{
     private boolean skippingPrompt;
     private LocalDate currentDate;
     private DateTimeFormatter dateFormat;
+    private boolean listEmpty;
 
     public Interaction(){
         newList=new ToDoList();
         sc= new Scanner(System.in);
         open=true;
+        listEmpty=true;
         currentDate=LocalDate.now();
         dateFormat = DateTimeFormatter.ofPattern("E d/M/u");
     }
@@ -34,28 +36,49 @@ public class Interaction{
         	try {
         		//check that the integers inputted are just that of the amount of cases
         		int input=sc.nextInt();
-
         		switch (input){
-        			case 1:	System.out.println("***** Ciao for now *****");
+        			case 999:System.out.println("***** Ciao for now *****");
         					open=false;
         					skippingPrompt=true;
                 			break;
-                	case 2:	sc.nextLine();
+                	case 1:	sc.nextLine();
                 			addTask();
+                			listEmpty=false;
+                			break;
+                	case 2: sc.nextLine();
+                			if (!listEmpty){
+                				newList.printList();
+                				break;
+                			}
+                			skippingPrompt=true;
                 			break;
                 	case 3: sc.nextLine();
-                			newList.printList();
+                 			if (!listEmpty){
+                				findTask();
+                				break;
+                			}
+                			skippingPrompt=true;                			           			
                 			break;
                 	case 4: sc.nextLine();
-                			findTask();
+                  			if (!listEmpty){
+                				getTaskInfo();
+                				break;
+                			}           		
+                			skippingPrompt=true;                				
+                			break;               	
+                	case 5: sc.nextLine();                			
+                  			if (!listEmpty){
+                				taskEditor();
+                				break;
+                			}           
+                			skippingPrompt=true;                						
                 			break;
-                	case 5: sc.nextLine();
-                			getTaskInfo();
-                			break;
-
         		}
         		if(!skippingPrompt){
-        		System.out.println(">> Anything else i can help you with Madam?");
+        			System.out.println(">> Anything else i can help you with Madam?");
+        		}
+        		else if(listEmpty){
+        			System.out.println("***** List Empty *****");
         		}
         	
     		}
@@ -67,7 +90,7 @@ public class Interaction{
     }
     
     /*
-     * method adds a new task
+     * method adds a new task, with a completion date
     */
     private void addTask(){
 		System.out.println(">> Enter task e.g clean house");
@@ -94,18 +117,18 @@ public class Interaction{
 						else{
 							t.setDueDate(dueDate);
 							System.out.println("----> Date Added :)");
-							System.out.println(t.getDueDate());
 							dueDateAdded=true;
 						}
 					}
 					catch(DateTimeParseException e){						
-						System.out.println("Must be d/MM/yyyy e.g. 12/12/2050");
+						System.out.println("Must be d/MM/yyyy e.g. 12/02/2050");
 					}
 				}
 				
-             }
-					
+             }					
     }
+
+
     /*
     * Method sees if the task exists in the todo list
     //maybe switch this method to the ToDoList class
@@ -130,11 +153,12 @@ public class Interaction{
         System.out.println("--------------------------------------------------");
     	System.out.println(">> **** Main Menu ****");
     	System.out.println(">> " + currentDate.format(dateFormat));
-        System.out.println(">> Type <1> to EXIT the scanner");
-        System.out.println(">> Type <2> to ADD a task");
-        System.out.println(">> Type <3> to PRINT the list");
-        System.out.println(">> Type <4> to FIND a task");
-        System.out.println(">> Type <5> for TASK INFORMATION");
+        System.out.println(">> Type <999> to EXIT the scanner");
+        System.out.println(">> Type <1> to ADD a task");
+        System.out.println(">> Type <2> to PRINT the list");
+        System.out.println(">> Type <3> to FIND a task");
+        System.out.println(">> Type <4> for TASK INFORMATION");
+		System.out.println(">> Type <5> for TASK EDITOR");        
         System.out.println("--------------------------------------------------");
     }
     /*
@@ -147,6 +171,46 @@ public class Interaction{
     	System.out.println(">> Type <999> to EXIT back to the main menu");
     	System.out.println(">> Enter task NUMBER e.g 1");
     	System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");    	
+    }
+
+    private void printTaskEditorWelcome(){
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");    	
+    	System.out.println(">> **** Task Editor ****");
+    	System.out.println(">> Type <999> to EXIT back to the main menu");
+    	System.out.println(">> Type <1> to ADD a note to a task");
+    	System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
+    }
+
+    public void taskEditor(){
+    	printTaskEditorWelcome();
+    	newList.printList();
+    	boolean leaveTaskEditor=false;
+    	while(!leaveTaskEditor){
+    		try{
+    			Integer input = sc.nextInt(); //check if index is in bounds 
+
+    			switch(input){
+    				case 999: leaveTaskEditor=true;
+    						  printWelcome();
+    						  break; 
+    				case 1: System.out.println(">> Enter task NUMBER e.g 1");
+    						input=sc.nextInt();
+    						checkIndex(input);
+    						Task t=newList.getTask(input);
+    						System.out.println(">> Enter note");
+    						sc.nextLine();
+    						t.addNote(sc.nextLine());
+    						System.out.println("----> Note Added :)");
+    						break;
+
+    				
+    			}
+   			
+    		}
+    		catch(InputMismatchException | IndexOutOfBoundsException e){
+    			sc.nextLine();
+    		}
+    	}
     }
     /*
     * Method prints out informtaion about a task
@@ -162,14 +226,12 @@ public class Interaction{
    			 try{   		
     		
     			Integer input = sc.nextInt();
+    			checkIndex(input);
      			if(input.equals(999)){			//add if statement to check if index is within the bounds
     				leaveTaskInfo=true;
     				printWelcome();
     			} 
-    			else if (input>=newList.getListSize()){
-    				System.out.println("****** WARNING! '"+input+"' not in list *******");
-    		
-    			}
+    			
     			else{
     				Task t=newList.getTask(input);
     				System.out.println("--------------------------------------------------");
@@ -179,15 +241,28 @@ public class Interaction{
     				System.out.println(t.getDateCreated());
     				System.out.println(t.getTimeCreated());
     				System.out.println(t.getTaskLifeTime());
+    				System.out.println("Reminder:");
+    				System.out.println(t.timeTillDueDate());
     				System.out.println("--------------------------------------------------");
+    				System.out.println("Notes:");
+    				t.printNotes();
     				//retreive information about the first element
     			} 
     		}
-        	catch (InputMismatchException e) {    			
+        	catch (InputMismatchException | IndexOutOfBoundsException e) {    			
     			sc.nextLine();
     		}   			  			
     		
     	}
+    }
+
+    public void checkIndex(int index){
+    	boolean indexExists;
+    	indexExists= index<newList.getListSize() || index==999;
+    	if (!indexExists){
+    		System.out.println("****** WARNING! '"+index+"' not in list *******");
+    	}
+
     }
 
 

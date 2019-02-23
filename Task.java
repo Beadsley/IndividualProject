@@ -56,11 +56,11 @@ public class Task  {
     	}
 
 
-    	System.out.println(dueDate);
-    	//System.out.println(dueDate);
-
     }
-
+   /*
+    * checks if the date is of the correct format
+    * @param date to be analyseed
+    */
     public static boolean dateChecker(String date){
 
     	DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("d/MM/yyyy");
@@ -88,17 +88,17 @@ public class Task  {
     * to complete the task or if 
     * the task is over due
     */
-    public void timeTillDueDate(){
+    public String timeTillDueDate(){
 	  		String dateDiff=diffDates(dueDate);
 	  		LocalDate currentDate=LocalDate.now();
     		if(dueDate.isAfter(currentDate)){
-    			System.out.println( dateDiff+" to complete task");
+    			return dateDiff+" to complete task";
     		}
     		else if(dueDate.equals(currentDate)){
-    			System.out.println("Task must be completed today");
+    			return "Task must be completed today";
     		}
     		else{
-    			System.out.println(dateDiff+ " over due");
+    			return dateDiff+ " over due";
     		}
     }
    /*
@@ -106,6 +106,9 @@ public class Task  {
     */
     public void addNote(String text){
         notes.add(text);
+    }
+    public void printNotes(){
+    	notes.stream().forEach(System.out::println);
     }
 
    /*
