@@ -178,6 +178,7 @@ public class Interaction{
     	System.out.println(">> **** Task Editor ****");
     	System.out.println(">> Type <999> to EXIT back to the main menu");
     	System.out.println(">> Type <1> to ADD a note to a task");
+    	System.out.println(">> Type <9> to DELETE a task");
     	System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
     }
 
@@ -202,6 +203,11 @@ public class Interaction{
     						t.addNote(sc.nextLine());
     						System.out.println("----> Note Added :)");
     						break;
+    				case 9: System.out.println(">> Enter task NUMBER e.g 1");
+    						input=sc.nextInt();
+    						checkIndex(input);
+    						newList.removeTask(input);
+    						System.out.println("----> Task Deleted");    						
 
     				
     			}
