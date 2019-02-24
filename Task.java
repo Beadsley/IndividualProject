@@ -4,6 +4,8 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.Duration;
 import java.time.Period;
+import java.io.Serializable;
+
 /*
 * Class creates a task object
 *@param task the name of the task needs to be supplied
@@ -12,7 +14,7 @@ import java.time.Period;
 *	To serialize an object means to convert its state to a byte stream 
 *	so that the byte stream can be reverted back into a copy of the object
 */
-public class Task  { 
+public class Task implements Serializable{ 
 
     private String taskName;
     private long timestamp;
@@ -26,7 +28,7 @@ public class Task  {
     public Task(String taskName){
 
         this.taskName=taskName;
-        timestamp = System.currentTimeMillis();
+        timestamp = System.currentTimeMillis(); //can perhaps delekjkj
         dateCreated=LocalDate.now();        
         notes=new ArrayList<>();
         timeCreated=LocalTime.now();
@@ -52,7 +54,7 @@ public class Task  {
     	dueDate = LocalDate.parse(date, inputFormat);
     	LocalDate currentDate=LocalDate.now();
     	if (currentDate.isAfter(dueDate)){
-    		System.out.println("nono");
+    		System.out.println("Must enter a date sometime in the future");
     	}
     }
    /*
