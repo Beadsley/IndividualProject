@@ -12,12 +12,6 @@ public class Formatter{
     private static DateTimeFormatter dateFormat;
     private static DateTimeFormatter timeFormat; 
 
-	public Formatter(){
-        
-        //timeFormat=
-
-	}
-
 /*
     * checks if the date is of the correct format
     * @param date to be analyseed
