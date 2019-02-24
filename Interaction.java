@@ -151,7 +151,7 @@ public class Interaction {
 				while(!dueDateAdded){
 					try{
 						String dueDate=sc.nextLine().trim();
-						boolean dateOK=Task.dateChecker(dueDate);
+						boolean dateOK=Formatter.checkDateFormat(dueDate);
 						if(!dateOK){
 							System.out.println("Date in the past, try again");
 						}

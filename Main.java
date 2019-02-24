@@ -13,6 +13,9 @@ public class Main{
 		//t1.exportFile("/Users/beadsley/Dropbox/IP/Bin/");
 		//ToDoList.importFile("/Users/beadsley/Dropbox/IP/Bin/ToList.txt");
 
+		
+		//Formatter.dateFormatter(java.time.LocalDate.now());
+
 
 
 

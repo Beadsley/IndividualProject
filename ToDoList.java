@@ -4,9 +4,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.FileInputStream;
-import java.io.Serializable;
 
-public class ToDoList implements Serializable{
+public class ToDoList {
 
         private ArrayList<Task> toDoList;
 
@@ -41,7 +40,7 @@ public class ToDoList implements Serializable{
     	if(toDoList.size()>0){
 			for (int i=0; i<toDoList.size(); i++){
     			System.out.println("<"+i+"> "+toDoList.get(i).getTaskName()
-    								+"			"+toDoList.get(i).getDueDate());
+    								+"			"+Formatter.duedateFormatter(toDoList.get(i).getDueDate()));
     		}
     	}
     	else{
