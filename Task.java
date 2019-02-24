@@ -1,9 +1,10 @@
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.time.Duration;
 import java.time.Period;
+import java.io.Serializable;
+
 /*
 * Class creates a task object
 *@param task the name of the task needs to be supplied
@@ -12,27 +13,21 @@ import java.time.Period;
 *	To serialize an object means to convert its state to a byte stream 
 *	so that the byte stream can be reverted back into a copy of the object
 */
-public class Task  { 
+public class Task implements Serializable{ 
 
     private String taskName;
-    private long timestamp;
     private ArrayList<String>notes;
     private LocalDate dateCreated;
-    private LocalDate dueDate;
     private LocalTime timeCreated;
-    private DateTimeFormatter dateFormat;
-    private DateTimeFormatter timeFormat;   
+    private String completionDate;   
 
     public Task(String taskName){
 
         this.taskName=taskName;
-        timestamp = System.currentTimeMillis();
         dateCreated=LocalDate.now();        
         notes=new ArrayList<>();
         timeCreated=LocalTime.now();
-        dueDate=null;
-        dateFormat = DateTimeFormatter.ofPattern("E d/M/u");
-        timeFormat=DateTimeFormatter.ofPattern("h:mma");
+        completionDate="";
 
     }
    /*
@@ -48,27 +43,13 @@ public class Task  {
     public void setDueDate(String date){
     	//check if the due date is in the future
     	//isAfter() method
-    	DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("d/MM/yyyy");
-    	dueDate = LocalDate.parse(date, inputFormat);
-    	LocalDate currentDate=LocalDate.now();
-    	if (currentDate.isAfter(dueDate)){
-    		System.out.println("nono");
-    	}
-    }
-   /*
-    * checks if the date is of the correct format
-    * @param date to be analyseed
-    */
-    public static boolean dateChecker(String date){
-    	DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("d/MM/yyyy");
-    	LocalDate date2check = LocalDate.parse(date, inputFormat);
-    	LocalDate currentDate=LocalDate.now();
-    	if (currentDate.isAfter(date2check)){
-    		return false;
-    	}
-    	else{
-    		return true;
-    	}	
+
+    	//DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("d/MM/yyyy");
+    	//dueDate = LocalDate.parse(date, inputFormat);
+
+    	completionDate=date;
+
+ 
     }
    /*
     * Returns the date in which the task
@@ -76,7 +57,7 @@ public class Task  {
     */
     public String getDueDate(){
     	
-    		return dueDate.format(dateFormat);
+    		return completionDate;
     }
    /*
     * Returns the amount of time left 
@@ -84,6 +65,7 @@ public class Task  {
     * the task is over due
     */
     public String timeTillDueDate(){
+    		LocalDate dueDate=Formatter.duedateSystemFormatter(completionDate);
 	  		String dateDiff=diffDates(dueDate);
 	  		LocalDate currentDate=LocalDate.now();
     		if(dueDate.isAfter(currentDate)){
@@ -116,13 +98,13 @@ public class Task  {
     */
     public String getTimeCreated()
     {    	
-        	return timeCreated.format(timeFormat);
+        return Formatter.timeFormatter(timeCreated);
     }
    /*
     * returns the date of creation
     */
     public String getDateCreated(){
-    		return dateCreated.format(dateFormat);
+    		return Formatter.dateFormatter(dateCreated);
     }
    /*
 	* Returns the amount of time the 

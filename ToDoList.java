@@ -1,12 +1,11 @@
 import java.util.ArrayList;
-import java.io.Serializable;
 import java.io.ObjectOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.FileInputStream;
 
-public class ToDoList implements Serializable{
+public class ToDoList {
 
         private ArrayList<Task> toDoList;
 
@@ -41,7 +40,7 @@ public class ToDoList implements Serializable{
     	if(toDoList.size()>0){
 			for (int i=0; i<toDoList.size(); i++){
     			System.out.println("<"+i+"> "+toDoList.get(i).getTaskName()
-    								+"			"+toDoList.get(i).getDueDate());
+    								+"			"+Formatter.duedateFormatter(toDoList.get(i).getDueDate()));
     		}
     	}
     	else{
@@ -92,25 +91,30 @@ public class ToDoList implements Serializable{
       	ObjectOutputStream oos = new ObjectOutputStream(fos);
       	oos.writeObject(toDoList);
       	oos.close();
-      	System.out.println("----> File created :)"); 	
+      	System.out.println("----> File saved :)"); 	
       	}
       	catch(IOException e){
-      		System.err.println(e);
+      		System.out.println(e); // ln can be deleted
+      		System.out.println("**** Error message: ****");
+      		System.out.println(e.getMessage());
       	}    	
     }
    /*
     * imports a file
     * @param filepath 
     */
-    public void importFile(String filepath){
+    public static void importFile(String filepath){
 	  try{
    	  FileInputStream fis = new FileInputStream(filepath);
       ObjectInputStream ois = new ObjectInputStream(fis);
       Object importedList= ois.readObject(); //ToDoList can also be of type ToDoList
-	  ois.close();	  	
+	  ois.close();
+	  System.out.println("----> File opened :)");	  	
 	  }
 	  catch(IOException | ClassNotFoundException e){
-		System.err.println(e);
+			System.err.println(e); // ln can be deleted
+     		System.out.println("**** Error message: ****");
+      		System.out.println(e.getMessage());
 	  }
     }
 
