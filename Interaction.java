@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Interaction{
 
-    private ToDoList newList;
+    private ToDoList currentList;
     private Scanner sc;
     private boolean open;
     private boolean skippingPrompt;
@@ -17,7 +17,6 @@ public class Interaction{
     private boolean listEmpty;
 
     public Interaction(){
-        newList=new ToDoList();
         sc= new Scanner(System.in);
         open=true;
         listEmpty=true;
@@ -28,24 +27,47 @@ public class Interaction{
     *  Creates a scanner to read input from the terminal
     */
     public void getInput(){ 
-    	printWelcome();
+    	printWelcome(); //loop to see if a file has been open
+    	while (currentList==null && open){
+    		try{
+        		int input=sc.nextInt();
+        		switch (input){
+        			case 1: currentList=new ToDoList();
+        					System.out.println("----> List Created :)");
+        					break;
+        			case 2: sc.nextLine();
+        					System.out.println(">> Enter file path e.g. /Users/");
+        					String filepath= sc.nextLine();
+        					System.out.println(filepath);
+        					ToDoList.importFile(filepath);
+        					break;
+        					///importFile;
+        			case 999: System.out.println("***** Ciao for now *****");
+        					  open=false;
+        					  break;
+
+        		}    			
+    		}
+            catch (InputMismatchException e) {
+    			sc.nextLine();
+    		}	
+    	}
+    	if (open){
+    		printMainMenu();
+    	}    	
         while(open) {
         	skippingPrompt =false;
         	try {
         		//check that the integers inputted are just that of the amount of cases
         		int input=sc.nextInt();
         		switch (input){
-        			case 999:System.out.println("***** Ciao for now *****");
-        					open=false;
-        					skippingPrompt=true;
-                			break;
                 	case 1:	sc.nextLine();
                 			addTask();
                 			listEmpty=false;
                 			break;
                 	case 2: sc.nextLine();
                 			if (!listEmpty){
-                				newList.printList();
+                				currentList.printList();
                 				break;
                 			}
                 			skippingPrompt=true;
@@ -71,11 +93,15 @@ public class Interaction{
                 			}           
                 			skippingPrompt=true;                						
                 			break;
+        			case 999:System.out.println("***** Ciao for now *****");
+        					open=false;
+        					skippingPrompt=true;
+                			break;                			
         		}
         		if(!skippingPrompt){
         			System.out.println(">> Anything else i can help you with Madam?");
         		}
-        		else if(listEmpty){
+        		else if(listEmpty && open){ 
         			System.out.println("***** List Empty *****");
         		}
     		}
@@ -83,7 +109,8 @@ public class Interaction{
     			sc.nextLine();
     		}
 		}            
-    }  
+    }
+
     /*
      * method adds a new task, with a completion date
     */
@@ -97,7 +124,7 @@ public class Interaction{
                 }
 			else{
 				Task t= new Task(taskName);
-            	newList.addToList(t);
+            	currentList.addToList(t);
 				System.out.println("----> Task Added :)");
 				System.out.println(">> Enter a completion date e.g. 02/02/2020");
 				boolean dueDateAdded=false;
@@ -127,7 +154,7 @@ public class Interaction{
     private void findTask(){
 		System.out.println(">> Enter task to find e.g clean house");            	
 		String task2Find=sc.nextLine().trim();
-        boolean found=newList.taskExists(task2Find);
+        boolean found=currentList.taskExists(task2Find);
         	if(found){
             	System.out.println("----> <"+task2Find+"> Exists :)");
             }
@@ -136,10 +163,26 @@ public class Interaction{
             }
 	}
    /*
+	* prints out welcoming message and
+	* options for a new list or open an existing 
+	* file  
+    */
+	private void printWelcome(){
+		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
+		System.out.println("**** Bonjour ****");
+		System.out.println(">> " + currentDate.format(dateFormat));
+		System.out.println(">> Welcome to NAME");
+		System.out.println(">> Choose an option:");
+		System.out.println(">> (1) Create new task list");
+		System.out.println(">> (2) Open an existing task list");
+		System.out.println(">> (999) To Exit");
+		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
+	}
+   /*
     *  Prints out the opening message alongside intial instructions
     */
-    private void printWelcome(){
-        System.out.println("--------------------------------------------------");
+    private void printMainMenu(){
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
     	System.out.println(">> **** Main Menu ****");
     	System.out.println(">> " + currentDate.format(dateFormat));
         System.out.println(">> Type <999> to EXIT the scanner");
@@ -148,7 +191,7 @@ public class Interaction{
         System.out.println(">> Type <3> to FIND a task");
         System.out.println(">> Type <4> for **** Task Info ****");
 		System.out.println(">> Type <5> for **** Task Editor ****");        
-        System.out.println("--------------------------------------------------");
+       	System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
     }
     /*
     *	prints the opening message to the task information
@@ -176,7 +219,7 @@ public class Interaction{
     */
     public void taskEditor(){
     	printTaskEditorWelcome();
-    	newList.printList();
+    	currentList.printList();
     	boolean leaveTaskEditor=false;
     	while(!leaveTaskEditor){
     		try{
@@ -188,12 +231,12 @@ public class Interaction{
     			}
     			switch(input){
     				case 999: leaveTaskEditor=true;
-    						  printWelcome();
+    						  printMainMenu();
     						  break; 
     				case 1: System.out.println(">> Enter <task NUMBER> e.g 1");
     						input=sc.nextInt();
     						checkIndex(input);
-    						Task t=newList.getTask(input);
+    						Task t=currentList.getTask(input);
     						System.out.println(">> Enter note");
     						sc.nextLine();
     						t.addNote(sc.nextLine());
@@ -204,7 +247,7 @@ public class Interaction{
     				case 9: System.out.println(">> Enter <task NUMBER> e.g 1");
     						input=sc.nextInt();
     						checkIndex(input);
-    						newList.removeTask(input);
+    						currentList.removeTask(input);
     						System.out.println("----> Task Deleted <999>");  
 							System.out.println(">> Type <999> for main menu");
     						System.out.println(">> OR type an <option> from the Task Editor menu");  							
@@ -221,8 +264,8 @@ public class Interaction{
     */
     public void getTaskInfo(){
     	printTaskInfoWelcome();
-    	newList.printList();
-    	System.out.println(">> Enter <task NUMBER> e.g 1");        
+    	currentList.printList();
+    	System.out.println(">> Enter <Task NUMBER> e.g 1");        
     	boolean leaveTaskInfo=false;
     	while(!leaveTaskInfo){
    			 try{   		
@@ -231,10 +274,10 @@ public class Interaction{
     			checkIndex(input);
      			if(input.equals(999)){			//add if statement to check if index is within the bounds
     				leaveTaskInfo=true;
-    				printWelcome();
+    				printMainMenu();
     			} 
     			else{
-    				Task t=newList.getTask(input);
+    				Task t=currentList.getTask(input);
     				System.out.println("--------------------------------------------------");
     				System.out.println(t.getTaskName());
     				System.out.println("--------------------------------------------------");
@@ -266,19 +309,20 @@ public class Interaction{
     */
     public void checkIndex(int index){
     	boolean indexExists;
-    	indexExists= index<newList.getListSize() || index==999;
+    	indexExists= index<currentList.getListSize() || index==999;
     	if (!indexExists){
-    		System.out.println("****** WARNING! <"+index+"> not in list *******");
-    		System.out.println(">> Try Again :)");
+    		System.out.println("**** WARNING! <"+index+"> not in list **** ");
+    		System.out.println(">> (999) for Main Menu");
+    		System.out.println(">> Or Try Again :)");
     	}
     }
     /*
     * method creates a new list and saves it to a file
     */
-    private void newList(){
+    private void saveList(){
     	System.out.println(">> Enter file path e.g. /Users/");
         String filePath = sc.nextLine();
-        newList.exportFile(filePath);
+        currentList.exportFile(filePath);
     }
  }
 

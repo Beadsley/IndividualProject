@@ -102,7 +102,7 @@ public class ToDoList implements Serializable{
     * imports a file
     * @param filepath 
     */
-    public void importFile(String filepath){
+    public static void importFile(String filepath){
 	  try{
    	  FileInputStream fis = new FileInputStream(filepath);
       ObjectInputStream ois = new ObjectInputStream(fis);
