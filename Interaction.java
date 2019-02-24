@@ -4,6 +4,12 @@ import java.util.InputMismatchException;
 import java.time.format.DateTimeParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.FileInputStream;
 
 public class Interaction {
 
@@ -37,10 +43,26 @@ public class Interaction {
         					System.out.println("----> List Created :)");
         					break;
         			case 2: sc.nextLine();
-        					System.out.println(">> Enter file path e.g. /Users/");
+        					System.out.println(">> Enter file path e.g./Users/ToList.txt");
+        					System.out.println(">> Remember file name e.g. ToList.txt :)");
         					String filepath= sc.nextLine();
-        					System.out.println(filepath); //ln can be deleted sen
-        					ToDoList.importFile(filepath);
+        					//System.out.println(filepath); //ln can be deleted sen
+        					//currentList=
+        					
+        					Object o=ToDoList.importFile(filepath);
+        					
+        					if (o instanceof ToDoList){
+        						System.out.println("----> File opened :)"); 
+        						currentList=(ToDoList) ToDoList.importFile(filepath);
+        						listEmpty=false;
+        					}
+        					else{
+        						System.out.println("Couldn't open file");
+        						System.out.println("File is of type:");
+        						System.out.println(o.getClass());
+        						System.out.println("Try opening a new file");
+        						System.out.println("or create a new list");
+        					}
         					break;
         					///importFile;
         			case 999: System.out.println("***** Ciao for now *****");
@@ -106,7 +128,8 @@ public class Interaction {
         						System.out.println(">> Enter file path e.g. /Users/");								
 								String filepath=sc.nextLine();
 								System.out.println(filepath);
-                				currentList.exportFile(filepath);								
+                				
+                				saveList(filepath);								
 								System.out.println(">> Enter file name e.g. ToDoList 2018");
 								String filename=sc.nextLine();
 								System.out.println(filename);
@@ -288,10 +311,19 @@ public class Interaction {
     /*
     * method creates a new list and saves it to a file
     */
-    private void saveList(){
-    	System.out.println(">> Enter file path e.g. /Users/");
-        String filePath = sc.nextLine();
-        currentList.exportFile(filePath);
+    private void saveList(String filepath){
+   	try{
+		FileOutputStream fos = new FileOutputStream(filepath+"ToList.txt"); //maybe don't export as a text file
+      	ObjectOutputStream oos = new ObjectOutputStream(fos);
+      	oos.writeObject(currentList);
+      	oos.close();
+      	System.out.println("----> File saved :)"); 	
+      	}
+      	catch(IOException e){
+      		System.out.println(e); // ln can be deleted
+      		System.out.println("**** Error message: ****");
+      		System.out.println(e.getMessage());
+      	}    
     }
     /*
 	* prints out welcoming message and

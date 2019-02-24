@@ -4,8 +4,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.FileInputStream;
+import java.io.Serializable;
 
-public class ToDoList {
+public class ToDoList implements Serializable{
 
         private ArrayList<Task> toDoList;
 
@@ -103,19 +104,21 @@ public class ToDoList {
     * imports a file
     * @param filepath 
     */
-    public static void importFile(String filepath){
+    public static Object importFile(String filepath){
 	  try{
    	  FileInputStream fis = new FileInputStream(filepath);
       ObjectInputStream ois = new ObjectInputStream(fis);
       Object importedList= ois.readObject(); //ToDoList can also be of type ToDoList
 	  ois.close();
-	  System.out.println("----> File opened :)");	  	
+	  return importedList;
+	  //System.out.println("----> File opened :)");	  	
 	  }
 	  catch(IOException | ClassNotFoundException e){
-			System.err.println(e); // ln can be deleted
-     		System.out.println("**** Error message: ****");
-      		System.out.println(e.getMessage());
+			//System.err.println(e); // ln can be deleted
+     		//System.out.println("**** Error message: ****");
+      		return e.getMessage(); //System.out.println(e.getMessage());
 	  }
+
     }
 
 }
