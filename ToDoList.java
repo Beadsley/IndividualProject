@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.io.ObjectOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.FileInputStream;
@@ -80,25 +78,6 @@ public class ToDoList implements Serializable{
             }
         }
         return found;
-    }
-   /*
-    *creates an output file
-    *@param filepath of the output directory
-    */
-    public void exportFile(String filepath) {
-    	//Task cleanHouse= new Task("Clean House");	
-    	try{
-		FileOutputStream fos = new FileOutputStream(filepath+"ToList.txt"); //maybe don't export as a text file
-      	ObjectOutputStream oos = new ObjectOutputStream(fos);
-      	oos.writeObject(toDoList);
-      	oos.close();
-      	System.out.println("----> File saved :)"); 	
-      	}
-      	catch(IOException e){
-      		System.out.println(e); // ln can be deleted
-      		System.out.println("**** Error message: ****");
-      		System.out.println(e.getMessage());
-      	}    	
     }
    /*
     * imports a file

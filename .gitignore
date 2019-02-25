@@ -1,6 +1,8 @@
-#ignore class and text files
+ignore class and text files
 *.class
 *.rtf
 *.txt
 .DS_Store
 Bin/
+*.BIN
+Response.java
