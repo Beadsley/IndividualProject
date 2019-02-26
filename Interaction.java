@@ -18,6 +18,7 @@ public class Interaction {
     private LocalDate currentDate;
     private DateTimeFormatter dateFormat;
     private boolean listEmpty;
+    private boolean sorted;
 
     public Interaction(){
         sc= new Scanner(System.in);
@@ -25,6 +26,7 @@ public class Interaction {
         listEmpty=true;
         currentDate=LocalDate.now();
         dateFormat = DateTimeFormatter.ofPattern("E d/M/u");
+        sorted = true;
     }
     /*
     * Initial interaction
@@ -78,7 +80,6 @@ public class Interaction {
     		}
             catch (InputMismatchException e) {
     			sc.nextLine();
-    			System.out.println(">> ***** Failed to open file ****");
     			printResponse(1);
         		printResponse(5);
     		}	
@@ -104,7 +105,7 @@ public class Interaction {
                 			break;
                 	case 2: sc.nextLine();
                 			if (!listEmpty){
-                				currentList.printList();
+                				currentList.printList(sorted);
                 				break;
                 			}
                 			skippingPrompt=true;
@@ -229,7 +230,7 @@ public class Interaction {
     */
     public void taskInfo(){
     	printTaskInfoWelcome();
-    	currentList.printList();
+    	currentList.printList(!sorted);
     	System.out.println(">> Enter <Task NUMBER> e.g 1");        
     	boolean leaveTaskInfo=false;
     	while(!leaveTaskInfo){
@@ -284,7 +285,7 @@ public class Interaction {
     */
     public void taskEditor(){
     	printTaskEditorWelcome();
-    	currentList.printList();
+    	currentList.printList(!sorted);
     	printResponse(1);
     	boolean leaveTaskEditor=false;
     	while(!leaveTaskEditor){
@@ -314,7 +315,7 @@ public class Interaction {
     							break;   							
     						}
   					case 8: printTaskEditorWelcome();
-    						currentList.printList();
+    						currentList.printList(!sorted);
         					skippingPrompt=true;        					
         					break;   						
 
