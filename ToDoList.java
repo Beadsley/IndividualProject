@@ -47,7 +47,7 @@ public class ToDoList implements Serializable{
     	else if(toDoList.size()>0 && sorted){
 			toDoList.stream()
     			    .sorted(new SortByDueDate())
-    			    .forEach(t->System.out.println(t.getTaskName()+"-------> "
+    			    .forEach(t->System.out.println(t.getTaskName()+"			"
     					+Formatter.duedateFormatter(t.getDueDate())));
     	}
     	
