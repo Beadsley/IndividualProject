@@ -53,7 +53,7 @@ public class Interaction {
         						skippingPrompt=true;
         					}
         					else if(o instanceof String) {
-        						System.out.println(">> **** Error message: ****");
+        						printResponse(4);
         						System.out.println(o);       						
         					}
         					else{
@@ -65,22 +65,22 @@ public class Interaction {
         			case 8: printWelcome();
         					skippingPrompt=true;        					
         					break;
-        			case 999: System.out.println("***** Ciao for now *****");
+        			case 999: printResponse(2);
         					  open=false;
         					  skippingPrompt=true;
         					  break;
 
         		} 
         		if(!skippingPrompt){
-        			System.out.println(">> Choose an (option) from the Menu");
-        			System.out.println(">> (8) View menu again");
+        			printResponse(1);
+        			printResponse(5);
         		}   			
     		}
             catch (InputMismatchException e) {
     			sc.nextLine();
     			System.out.println(">> ***** Failed to open file ****");
-    			System.out.println(">> Choose an (option) from the Menu");
-        		System.out.println(">> (8) View menu again");
+    			printResponse(1);
+        		printResponse(5);
     		}	
     	}
     	if (open){
@@ -148,25 +148,25 @@ public class Interaction {
                 			} 
                 			skippingPrompt=true;                						
                 			break;
-        			case 999:System.out.println("***** Ciao for now *****");
-        					open=false;
-        					skippingPrompt=true;
-                			break;                			
+        			case 999: printResponse(2);
+        					  open=false;
+        					  skippingPrompt=true;
+                			  break;                			
         		}
         		if(!skippingPrompt){
-        			System.out.println(">> Choose an (option) from the Menu");
-        			System.out.println(">> (8) View menu again");
+        			printResponse(1);
+        			printResponse(5);
         		}
         		else if(listEmpty && open){ 
         			System.out.println(">> ***** List Empty *****");
-        			System.out.println(">> Choose an (option) from the Menu");
-        			System.out.println(">> (8) View menu again");
+        			printResponse(1);
+        			printResponse(5);
         		}
     		}
             catch (InputMismatchException e) {
     			sc.nextLine();
-    			System.out.println(">> Choose an (option) from the Menu");
-    			System.out.println(">> (8) View menu again");
+    			printResponse(1);
+    			printResponse(5);
 
     		}
 		}            
@@ -259,7 +259,7 @@ public class Interaction {
     					t.printNotes();
     				}
     				System.out.println("--------------------------------------------------");
-    				System.out.println(">> Type (999) for Main Menu");
+    				printResponse(3);
     				System.out.println(">> OR enter a <task number> ");
     			} 
     		}
@@ -274,7 +274,7 @@ public class Interaction {
 					System.out.println(">> Choose task number from <0 --> "+i+">");
 				}   			
     			
-    			System.out.println(">> Or (999) Main Menu");
+    			printResponse(3);
     		}   			  			
     	}
     }
@@ -285,7 +285,7 @@ public class Interaction {
     public void taskEditor(){
     	printTaskEditorWelcome();
     	currentList.printList();
-    	System.out.println(">> Choose an (option) from the Menu");
+    	printResponse(1);
     	boolean leaveTaskEditor=false;
     	while(!leaveTaskEditor){
     		skippingPrompt =false;
@@ -325,17 +325,17 @@ public class Interaction {
     						System.out.println("----> Task Deleted :)");    							
     			}
     		    if(!skippingPrompt){
-        			System.out.println(">> Choose an (option) from the Menu");
-        			System.out.println(">> (8) View menu again");
-        			System.out.println(">> (999) for Main Menu");
+        			printResponse(1);
+        			printResponse(5);
+        			printResponse(3);
         		}	
     		}        	
     		catch(InputMismatchException | IndexOutOfBoundsException e){
     			sc.nextLine();
     			//System.out.println("****** WARNING! (option) not recognised *******");
-    			System.out.println(">> Choose an (option) from the Menu");
-        		System.out.println(">> (8) View menu again");
-    			System.out.println(">> (999) for Main Menu");
+    			printResponse(1);
+        		printResponse(5);
+    			printResponse(3);
 
     		}
     	}
@@ -349,7 +349,7 @@ public class Interaction {
     	indexExists= index<currentList.getListSize() || index==999;
     	if (!indexExists){
     		System.out.println("**** WARNING! <"+index+"> not in list **** ");
-    		System.out.println(">> (999) for Main Menu");
+    		printResponse(3);
     		System.out.println(">> Or Try Again :)");
     	}
     }
@@ -368,9 +368,23 @@ public class Interaction {
       	}
       	catch(IOException e){
       		System.out.println(e); // ln can be deleted
-      		System.out.println("**** Error message: ****");
+      		printResponse(4);
       		System.out.println(e.getMessage());
       	}    
+    }
+    private void printResponse(int i){
+    	switch(i){
+    		case 1: System.out.println(">> Choose an (option) from the Menu");
+    				break;
+    		case 2: System.out.println("***** Ciao for now *****");
+    				break;
+        	case 3: System.out.println(">> (999) for Main Menu");
+        			break;
+        	case 4: System.out.println("**** Error message: ****");
+        			break;
+        	case 5: System.out.println(">> (8) View menu again");
+        			break;
+    	}
     }
     /*
 	* prints out welcoming message and
