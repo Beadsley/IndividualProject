@@ -31,17 +31,26 @@ public class ToDoList implements Serializable{
     }
    /*
     * prints the contents of the list
+    * @param to sort this list by duedate or 
+    *not
     */
-    public void printList(){
+    public void printList(Boolean sorted){
 		System.out.println("--------------------------------------------------");
 		System.out.println("ToDos:				Complete by:");
     	System.out.println("--------------------------------------------------");
-    	if(toDoList.size()>0){
+    	if(toDoList.size()>0 && !sorted){
 			for (int i=0; i<toDoList.size(); i++){
     			System.out.println("<"+i+"> "+toDoList.get(i).getTaskName()
     								+"			"+Formatter.duedateFormatter(toDoList.get(i).getDueDate()));
     		}
     	}
+    	else if(toDoList.size()>0 && sorted){
+			toDoList.stream()
+    			    .sorted(new SortByDueDate())
+    			    .forEach(t->System.out.println(t.getTaskName()+"-------> "
+    					+Formatter.duedateFormatter(t.getDueDate())));
+    	}
+    	
     	else{
     		System.out.println("***** List Empty *****");
     	}
