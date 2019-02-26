@@ -19,7 +19,8 @@ public class Task implements Serializable{
     private ArrayList<String>notes;
     private LocalDate dateCreated;
     private LocalTime timeCreated;
-    private String completionDate;   
+    private String completionDate;
+    private boolean done;   
 
     public Task(String taskName){
 
@@ -28,7 +29,11 @@ public class Task implements Serializable{
         notes=new ArrayList<>();
         timeCreated=LocalTime.now();
         completionDate="";
+        done=false;
 
+    }
+    public void setTaskName(String name){
+    	taskName=name;
     }
    /*
     * returns the name of the task
@@ -41,23 +46,36 @@ public class Task implements Serializable{
     * @param date in the format 12/12/2018
     */
     public void setDueDate(String date){
-    	//check if the due date is in the future
-    	//isAfter() method
-
-    	//DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("d/MM/yyyy");
-    	//dueDate = LocalDate.parse(date, inputFormat);
-
-    	completionDate=date;
-
- 
+    	completionDate=date; 
     }
    /*
     * Returns the date in which the task
     * must be completed
     */
-    public String getDueDate(){
-    	
-    		return completionDate;
+    public String getDueDate(){    	
+    		return completionDate;    
+    }
+   /* returns the status of the task
+    *
+    */
+    public String getStatus(){
+    	if(done){
+    		return "Completed";
+    	}
+    	return "Not Completed";
+    }
+   /*
+    * sets the task to completed
+    * or not completed
+    * @param tasks status
+    */
+    public void set2Completed(boolean completed){
+    	if(completed){
+    		done=true;
+    	}
+    	else if (!completed){
+    		done=false;
+    	}    	
     }
    /*
     * Returns the amount of time left 

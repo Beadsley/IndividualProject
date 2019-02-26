@@ -93,6 +93,7 @@ public class Interaction {
     */
     public void mainMenu(){ 
     	printMainMenu();
+    	printResponse(1);
         while(open) {
         	skippingPrompt =false;
         	try {
@@ -231,7 +232,7 @@ public class Interaction {
     public void taskInfo(){
     	printTaskInfoWelcome();
     	currentList.printList(!sorted);
-    	System.out.println(">> Enter <Task NUMBER> e.g 1");        
+    	printResponse(6);        
     	boolean leaveTaskInfo=false;
     	while(!leaveTaskInfo){
    			 try{   		
@@ -247,6 +248,9 @@ public class Interaction {
     				System.out.println("--------------------------------------------------");
     				System.out.println(t.getTaskName());
     				System.out.println("--------------------------------------------------");
+    				System.out.println("Status:");
+    				System.out.println(t.getStatus());
+    				System.out.println();
     				System.out.println("Created:");
     				System.out.println(t.getDateCreated());
     				System.out.println(t.getTimeCreated());
@@ -261,7 +265,8 @@ public class Interaction {
     				}
     				System.out.println("--------------------------------------------------");
     				printResponse(3);
-    				System.out.println(">> OR enter a <task number> ");
+    				System.out.println(">> Or");
+    				printResponse(6);
     			} 
     		}
         	catch (InputMismatchException | IndexOutOfBoundsException e) {    			
@@ -297,7 +302,7 @@ public class Interaction {
     						  printMainMenu();
     						  skippingPrompt=true;
     						  break; 
-    				case 1: System.out.println(">> Enter <task NUMBER> e.g 0");
+    				case 1: printResponse(6);
     						input=sc.nextInt();
     						//checkIndex(input);
     						
@@ -314,16 +319,47 @@ public class Interaction {
     							System.out.println("----> Note Added :)");
     							break;   							
     						}
+    				case 2: printResponse(6);
+    						input=sc.nextInt();
+    						if (input>currentList.getListSize()-1){
+    							System.out.println("**** Task number <"+input+"> not recognised ****");
+    							sc.nextLine();
+    							break;
+    						}
+    						else{
+    							Task t=currentList.getTask(input);
+    							t.set2Completed(true);
+    							System.out.println("----> Task Completed");
+    							sc.nextLine();
+    							break;    							
+    						}
+    				case 3: printResponse(6);
+    						input=sc.nextInt();
+    						if (input>currentList.getListSize()-1){
+    							System.out.println("**** Task number <"+input+"> not recognised ****");
+    							sc.nextLine();
+    							break;
+    						}
+    						else{
+     							Task t=currentList.getTask(input);
+    							System.out.println(">> Enter new Task name");
+    							sc.nextLine();
+    							t.setTaskName(sc.nextLine());
+    							System.out.println("----> Name changed :)");
+    							break;   							
+    						}    				
+
   					case 8: printTaskEditorWelcome();
     						currentList.printList(!sorted);
         					skippingPrompt=true;        					
         					break;   						
 
-    				case 9: System.out.println(">> Enter <task NUMBER> e.g 1");
+    				case 9: printResponse(6);
     						input=sc.nextInt();
     						checkIndex(input);
     						currentList.removeTask(input);
-    						System.out.println("----> Task Deleted :)");    							
+    						System.out.println("----> Task Deleted :)");
+    						break;    							
     			}
     		    if(!skippingPrompt){
         			printResponse(1);
@@ -385,6 +421,8 @@ public class Interaction {
         			break;
         	case 5: System.out.println(">> (8) View menu again");
         			break;
+        	case 6: System.out.println(">> Enter <task NUMBER> e.g 0");
+        			break;
     	}
     }
     /*
@@ -426,7 +464,7 @@ public class Interaction {
     private void printTaskInfoWelcome(){
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");    	
     	System.out.println(">> **** Task Information Menu ****");
-    	System.out.println(">> (999) to EXIT back to the main menu");
+    	System.out.println(">> (999) EXIT back to the main menu");
     	System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");    	
     }
     /*
@@ -435,9 +473,11 @@ public class Interaction {
     private void printTaskEditorWelcome(){
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");    	
     	System.out.println(">> **** Task Editor Menu ****");
-    	System.out.println(">> (999) to EXIT back to the main menu");
-    	System.out.println(">> (1) to ADD a note to a task");
-    	System.out.println(">> (9) to DELETE a task");
+    	System.out.println(">> (999) EXIT back to the main menu");
+    	System.out.println(">> (1) ADD a note to a task");
+    	System.out.println(">> (2) Set a task to completed");
+    	System.out.println(">> (3) Edit task name");
+    	System.out.println(">> (9) DELETE a task");
     	System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
     }
 
