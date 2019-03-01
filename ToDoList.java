@@ -40,15 +40,18 @@ public class ToDoList implements Serializable{
     	System.out.println("--------------------------------------------------");
     	if(toDoList.size()>0 && !sorted){
 			for (int i=0; i<toDoList.size(); i++){
-    			System.out.println("<"+i+"> "+toDoList.get(i).getTaskName()
-    								+"			"+Formatter.duedateFormatter(toDoList.get(i).getDueDate()));
+    			System.out.println("<"+i+"> " + String.format("%1$-30s %2$-10s",
+    				               toDoList.get(i).getTaskName(),    								
+    								Formatter.duedateFormatter(toDoList.get(i).getDueDate())));
     		}
     	}
     	else if(toDoList.size()>0 && sorted){
 			toDoList.stream()
     			    .sorted(new SortByDueDate())
-    			    .forEach(t->System.out.println(t.getTaskName()+"			"
-    					+Formatter.duedateFormatter(t.getDueDate())));
+    			    .forEach(t->System.out.println(String.format(
+    			    		 "%1$-30s %2$-10s",
+    			    	     t.getTaskName(),			
+    					     Formatter.duedateFormatter(t.getDueDate()))));
     	}
     	
     	else{
