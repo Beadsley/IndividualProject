@@ -6,11 +6,11 @@ import java.io.Serializable;
 
 public class ToDoList implements Serializable{
 
-        private ArrayList<Task> toDoList;
+    private ArrayList<Task> toDoList;
 
     public ToDoList(){
-
-        toDoList= new ArrayList<>();
+    	//include hashset of projects
+        toDoList= new ArrayList<>();        
 
     }
    /*
@@ -36,7 +36,7 @@ public class ToDoList implements Serializable{
     */
     public void printList(Boolean sorted){
 		System.out.println("--------------------------------------------------");
-		System.out.println("ToDos:				Complete by:");
+		System.out.println(" ToDos:				Complete by:");
     	System.out.println("--------------------------------------------------");
     	if(toDoList.size()>0 && !sorted){
 			for (int i=0; i<toDoList.size(); i++){

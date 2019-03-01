@@ -35,12 +35,14 @@ public class Interaction {
     */
     public void welcome(){
     	printWelcome(); //loop to see if a file has been open
+    	printResponse(1);
     	while (currentList==null && open){
     		skippingPrompt =false;
     		try{
         		int input=sc.nextInt();
         		switch (input){
-        			case 1: currentList=new ToDoList();
+        			case 1: sc.nextLine();
+        					currentList=new ToDoList();
         					System.out.println("----> List Created :)");
         					skippingPrompt=true;
         					break;
@@ -133,7 +135,8 @@ public class Interaction {
                 			skippingPrompt=true;                						
                 			break;
   					case 8: printMainMenu();
-        					skippingPrompt=true;        					
+  							printResponse(1);
+  							skippingPrompt=true;        					        					
         					break;
                 	case 68: sc.nextLine();
 							if (!listEmpty){
@@ -245,11 +248,14 @@ public class Interaction {
     			} 
     			else{
     				Task t=currentList.getTask(input);
-    				System.out.println("--------------------------------------------------");
+    				printResponse(7);
     				System.out.println(t.getTaskName());
-    				System.out.println("--------------------------------------------------");
+    				printResponse(7);
     				System.out.println("Status:");
     				System.out.println(t.getStatus());
+    				System.out.println();
+    				System.out.println("Project:");
+    				System.out.println(t.getProject().getName());
     				System.out.println();
     				System.out.println("Created:");
     				System.out.println(t.getDateCreated());
@@ -263,7 +269,7 @@ public class Interaction {
     					System.out.println("Notes:");
     					t.printNotes();
     				}
-    				System.out.println("--------------------------------------------------");
+    				printResponse(7);
     				printResponse(3);
     				System.out.println(">> Or");
     				printResponse(6);
@@ -347,10 +353,27 @@ public class Interaction {
     							t.setTaskName(sc.nextLine());
     							System.out.println("----> Name changed :)");
     							break;   							
-    						}    				
+    						}
+    				case 4: printResponse(6); //Assign to project
+    						input=sc.nextInt();
+    						if (input>currentList.getListSize()-1){
+    							System.out.println("**** Task number <"+input+"> not recognised ****");
+    							sc.nextLine();
+    							break;
+    						}
+    						else{
+     							Task t=currentList.getTask(input);
+    							System.out.println(">> Enter project name");
+    							sc.nextLine();
+    							t.getProject().setProjectName(sc.nextLine());
+    							System.out.println("----> Name changed :)");
+    							break;   							
+    						}    								    				
 
   					case 8: printTaskEditorWelcome();
-    						currentList.printList(!sorted);
+    						currentList.printList(!sorted);  					
+  							printResponse(6);
+  							printResponse(3);
         					skippingPrompt=true;        					
         					break;   						
 
@@ -423,6 +446,8 @@ public class Interaction {
         			break;
         	case 6: System.out.println(">> Enter <task NUMBER> e.g 0");
         			break;
+        	case 7: System.out.println("--------------------------------------------------");
+        			break;
     	}
     }
     /*
@@ -477,6 +502,7 @@ public class Interaction {
     	System.out.println(">> (1) ADD a note to a task");
     	System.out.println(">> (2) Set a task to completed");
     	System.out.println(">> (3) Edit task name");
+    	System.out.println(">> (4) Assign task to a project");
     	System.out.println(">> (9) DELETE a task");
     	System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
     }
