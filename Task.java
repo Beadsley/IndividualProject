@@ -1,3 +1,14 @@
+/*
+ * Class creates a task object
+ * @param the name of the task 
+ * a task can have a number of attributes.
+ * a completion date must be assigned when
+ * a task object is created. A task object is 
+ * automatically assigned to uncompleted. A task 
+ * can have notes assigned to it and the creation 
+ * time, alngside timeto completion date may be 
+ * calculated  
+ */
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -5,14 +16,6 @@ import java.time.Duration;
 import java.time.Period;
 import java.io.Serializable;
 
-/*
-* Class creates a task object
-*@param task the name of the task needs to be supplied
-* notes:
-* serialistaion interfacce is implemented to:
-*	To serialize an object means to convert its state to a byte stream 
-*	so that the byte stream can be reverted back into a copy of the object
-*/
 public class Task implements Serializable{ 
 
     private String taskName;
@@ -34,11 +37,16 @@ public class Task implements Serializable{
         project= new Project("Not Assigned");
 
     }
+   /*
+    * Method sets the name of the task
+    * @param task's name
+    */
     public void setTaskName(String name){
     	taskName=name;
     }
    /*
     * returns the name of the task
+    * @return tasks name
 	*/
     public String getTaskName(){
     	return taskName;
@@ -53,16 +61,21 @@ public class Task implements Serializable{
    /*
     * Returns the date in which the task
     * must be completed
+    * @return completion date
     */
     public String getDueDate(){    	
     		return completionDate;    
     }
-    
+   /*
+    * Returns the project object
+    * @return project
+    */
     public Project getProject(){
    		return project;
    }
-   /* returns the status of the task
-    *
+   /* 
+    * Returns the status of the task
+    * @return task status
     */
     public String getStatus(){
     	if(done){
@@ -87,6 +100,7 @@ public class Task implements Serializable{
     * Returns the amount of time left 
     * to complete the task or if 
     * the task is over due
+    * @return time till completion
     */
     public String timeTillDueDate(){
     		LocalDate dueDate=Formatter.duedateSystemFormatter(completionDate);
@@ -104,21 +118,27 @@ public class Task implements Serializable{
     }
    /*
     * adds notes about the task
+    * @oaram notes content
     */
     public void addNote(String text){
         notes.add(text);
     }
    /*
     * returns the size of the notes arraylist
+    * @return amount of a tasks notes 
     */
     public int notesAvailable(){
     	return notes.size();
     }
+   /*
+    * Method prints the contents of the notes
+    */
     public void printNotes(){
     	notes.stream().forEach(System.out::println);
     }
    /*
     * method returns the time of creation
+    * @return time created
     */
     public String getTimeCreated()
     {    	
@@ -126,13 +146,15 @@ public class Task implements Serializable{
     }
    /*
     * returns the date of creation
+    * @return date created
     */
     public String getDateCreated(){
     		return Formatter.dateFormatter(dateCreated);
     }
    /*
-	* Returns the amount of time the 
+	* Returns the amount of time  
 	* since the task was created
+    * @return tasks age
 	*/
     public String getTaskLifeTime(){
     	LocalTime currentTime=LocalTime.now();
@@ -156,7 +178,9 @@ public class Task implements Serializable{
     }
    /*
     * Returns the difference between the date created and
-    * @param a given date
+    * a date
+    * @param date to be compared too
+    * @return difference between 2 dates
     */
     public String diffDates(LocalDate date2Compare){
 

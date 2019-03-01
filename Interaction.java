@@ -1,3 +1,10 @@
+/* 
+ * Class creates the user interaction.
+ * Enabling the user to create or open 
+ * an existing todo list. Tasks can be 
+ * created and attributes can be assigned
+ * to the task
+ */
 import java.util.Scanner;
 import java.util.InputMismatchException;
 import java.util.InputMismatchException;
@@ -29,9 +36,9 @@ public class Interaction {
         sorted = true;
     }
     /*
-    * Initial interaction
-    * User acan create a new list
-    * or open an existing
+    * welcome page where 
+    * User can create a new list
+    * or open an existing list
     */
     public void welcome(){
     	printWelcome(); //loop to see if a file has been open
@@ -41,12 +48,12 @@ public class Interaction {
     		try{
         		int input=sc.nextInt();
         		switch (input){
-        			case 1: sc.nextLine();
+        			case 1: sc.nextLine(); // 1) create new list
         					currentList=new ToDoList();
         					System.out.println("----> List Created :)");
         					skippingPrompt=true;
         					break;
-        			case 2: sc.nextLine();
+        			case 2: sc.nextLine(); // 2) open existing list
         					System.out.println(">> Enter file path e.g./Users/ToList.BIN");
         					String filepath= sc.nextLine();        					
         					Object o=ToDoList.importFile(filepath);        					
@@ -69,7 +76,7 @@ public class Interaction {
         			case 8: printWelcome();
         					skippingPrompt=true;        					
         					break;
-        			case 999: printResponse(2);
+        			case 999: printResponse(2); // 999) Exit menu
         					  open=false;
         					  skippingPrompt=true;
         					  break;
@@ -102,43 +109,43 @@ public class Interaction {
         		//check that the integers inputted are just that of the amount of cases
         		int input=sc.nextInt();
         		switch (input){
-                	case 1:	sc.nextLine();
+                	case 1:	sc.nextLine(); // 1) add a task
                 			addTask();
                 			listEmpty=false;
                 			break;
-                	case 2: sc.nextLine();
+                	case 2: sc.nextLine(); // 2) view list
                 			if (!listEmpty){
                 				currentList.printList(sorted);
                 				break;
                 			}
-                			skippingPrompt=true;
+                			skippingPrompt=true; 
                 			break;
-                	case 3: sc.nextLine();
+                	case 3: sc.nextLine(); // 3) find a task
                  			if (!listEmpty){
                 				findTask();
                 				break;
                 			}
                 			skippingPrompt=true;                			           			
                 			break;
-                	case 4: sc.nextLine();
+                	case 4: sc.nextLine(); // 4) view task information   
                   			if (!listEmpty){
                 				taskInfo();
                 				break;
                 			}           		
                 			skippingPrompt=true;                				
                 			break;               	
-                	case 5: sc.nextLine();                			
+                	case 5: sc.nextLine();// 5) edit tasks               			
                   			if (!listEmpty){
                 				taskEditor();
                 				break;
                 			}           
                 			skippingPrompt=true;                						
                 			break;
-  					case 8: printMainMenu();
+  					case 8: printMainMenu(); 
   							printResponse(1);
   							skippingPrompt=true;        					        					
         					break;
-                	case 68: sc.nextLine();
+                	case 68: sc.nextLine();  // 68) save list to file
 							if (!listEmpty){
         						System.out.println(">> Enter file path e.g. /Users/");								
 								String filepath=sc.nextLine();
@@ -153,7 +160,7 @@ public class Interaction {
                 			} 
                 			skippingPrompt=true;                						
                 			break;
-        			case 999: printResponse(2);
+        			case 999: printResponse(2); // 999/ Exit terminal application
         					  open=false;
         					  skippingPrompt=true;
                 			  break;                			
@@ -304,11 +311,11 @@ public class Interaction {
     		try{
     			Integer input = sc.nextInt(); //check if index is in bounds    			
     			switch(input){
-    				case 999: leaveTaskEditor=true;
+    				case 999: leaveTaskEditor=true; // 999) exits back to main menu
     						  printMainMenu();
     						  skippingPrompt=true;
     						  break; 
-    				case 1: printResponse(6);
+    				case 1: printResponse(6); // 1) add not to a task
     						input=sc.nextInt();
     						//checkIndex(input);
     						
@@ -325,7 +332,7 @@ public class Interaction {
     							System.out.println("----> Note Added :)");
     							break;   							
     						}
-    				case 2: printResponse(6);
+    				case 2: printResponse(6); // 2) set task to completed
     						input=sc.nextInt();
     						if (input>currentList.getListSize()-1){
     							System.out.println("**** Task number <"+input+"> not recognised ****");
@@ -339,7 +346,7 @@ public class Interaction {
     							sc.nextLine();
     							break;    							
     						}
-    				case 3: printResponse(6);
+    				case 3: printResponse(6); // 3) adit a task name
     						input=sc.nextInt();
     						if (input>currentList.getListSize()-1){
     							System.out.println("**** Task number <"+input+"> not recognised ****");
@@ -354,7 +361,7 @@ public class Interaction {
     							System.out.println("----> Name changed :)");
     							break;   							
     						}
-    				case 4: printResponse(6); //Assign to project
+    				case 4: printResponse(6); //Assign task to a project
     						input=sc.nextInt();
     						if (input>currentList.getListSize()-1){
     							System.out.println("**** Task number <"+input+"> not recognised ****");
@@ -370,14 +377,14 @@ public class Interaction {
     							break;   							
     						}    								    				
 
-  					case 8: printTaskEditorWelcome();
+  					case 8: printTaskEditorWelcome(); 
     						currentList.printList(!sorted);  					
-  							printResponse(6);
+  							printResponse(1);
   							printResponse(3);
         					skippingPrompt=true;        					
         					break;   						
 
-    				case 9: printResponse(6);
+    				case 9: printResponse(6); // delete a task
     						input=sc.nextInt();
     						checkIndex(input);
     						currentList.removeTask(input);
@@ -430,7 +437,12 @@ public class Interaction {
       		System.out.println(e); // ln can be deleted
       		printResponse(4);
       		System.out.println(e.getMessage());
-      	}    
+      	}
+    /*
+    * prints out a response 
+    * @param index representing the repsonse to be 
+    * printed
+    */    
     }
     private void printResponse(int i){
     	switch(i){

@@ -1,3 +1,7 @@
+/*
+ * Class creates a todo list used to
+ * store task objects
+ */
 import java.util.ArrayList;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -9,17 +13,15 @@ public class ToDoList implements Serializable{
     private ArrayList<Task> toDoList;
 
     public ToDoList(){
-    	//include hashset of projects
+
         toDoList= new ArrayList<>();        
 
     }
    /*
-    * Adds an element to the list
-    * @param toDo the element to add to the list
+    * Method adds a task to the list
+    * @param task to be added 
     */
     public void addToList(Task t){
-    	//Task taskName = new Task("taskName");
-        //toDoList.add(new Task(taskName));
         toDoList.add(t);
     }
    /*
@@ -32,7 +34,7 @@ public class ToDoList implements Serializable{
    /*
     * prints the contents of the list
     * @param to sort this list by duedate or 
-    *not
+    * not
     */
     public void printList(Boolean sorted){
 		System.out.println("--------------------------------------------------");
@@ -59,9 +61,9 @@ public class ToDoList implements Serializable{
     	}
     	System.out.println("--------------------------------------------------");
     }
-   /*
-    *	@return Task object 
-    *	@param index of the task to return
+   /* Method returns a task object
+    * @return Task object 
+    * @param index of the task to return
     */
     public Task getTask(int i){
 
@@ -69,6 +71,7 @@ public class ToDoList implements Serializable{
     }
 
    /*
+    * Method returns the size of a list
     * @return true if the element exists in the list
     * @param names of the task to find
     */
@@ -77,7 +80,9 @@ public class ToDoList implements Serializable{
     	return toDoList.size();
     }
    /* 
-    * assesses if task elememt exists
+    * assesses if abtask elememt exists
+    * in the list
+    * @return 
     * @param name of the task 
     */
     public boolean taskExists(String task2find){
@@ -92,7 +97,7 @@ public class ToDoList implements Serializable{
         return found;
     }
    /*
-    * imports a file
+    * imports a file of an existing todo list
     * @param filepath 
     */
     public static Object importFile(String filepath){
