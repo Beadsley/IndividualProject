@@ -21,6 +21,7 @@ public class Task implements Serializable{
     private LocalTime timeCreated;
     private String completionDate;
     private boolean done;   
+	private Project project;    
 
     public Task(String taskName){
 
@@ -30,6 +31,7 @@ public class Task implements Serializable{
         timeCreated=LocalTime.now();
         completionDate="";
         done=false;
+        project= new Project("Not Assigned");
 
     }
     public void setTaskName(String name){
@@ -55,6 +57,10 @@ public class Task implements Serializable{
     public String getDueDate(){    	
     		return completionDate;    
     }
+    
+    public Project getProject(){
+   		return project;
+   }
    /* returns the status of the task
     *
     */
