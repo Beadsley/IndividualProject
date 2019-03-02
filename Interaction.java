@@ -196,8 +196,11 @@ public class Interaction {
 		System.out.println(">> Enter task e.g clean house");
 		String taskName=sc.nextLine().trim();
         	if(taskName.equals("")){
-				System.out.println("***** WARNING! No task entered *****");                
+				System.out.println(">> **** WARNING! No task entered ****");                
                 }
+            else if(taskName.length()>29){
+            	System.out.println(">> **** Task name too long ****");
+            } 
 			else{
 				Task t= new Task(taskName);
             	currentList.addToList(t);
@@ -234,8 +237,6 @@ public class Interaction {
 		System.out.println(">> Enter the task name e.g clean house");            	
 		String task2Find=sc.nextLine().trim();
 		int index=currentList.findTask(task2Find);
-		System.out.println(index);
-
 		if (index==-1){
 			System.out.println("----> *"+task2Find+"* Doesn't exist :(");
 		}
