@@ -12,9 +12,6 @@ import java.time.format.DateTimeParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.io.ObjectOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class Interaction {
 
@@ -56,7 +53,7 @@ public class Interaction {
         			case 2: sc.nextLine(); // 2) open existing list
         					System.out.println(">> Enter file path e.g./Users/ToList.BIN");
         					String filepath= sc.nextLine();        					
-        					Object o=ToDoList.importFile(filepath);        					
+        					Object o=FileReader.importFile(filepath);        					
         					if (o instanceof ToDoList){
         						System.out.println("----> File opened :)"); 
         						currentList=(ToDoList) o;
@@ -155,7 +152,7 @@ public class Interaction {
 								System.out.println(">> Enter file name e.g. ToDoList2018");
 								String filename=sc.nextLine();
 								System.out.println(filename);
-								saveList(filepath, filename);
+								FileReader.saveList(filepath, filename, currentList);
                 				break;
                 			} 
                 			skippingPrompt=true;                						
@@ -420,31 +417,13 @@ public class Interaction {
     		System.out.println(">> Or Try Again :)");
     	}
     }
-   /*
-    *creates an output file
-    *@param filepath of the output directory
-    *@pram filename of the file to save
-    */
-    private void saveList(String filepath, String filename){
-   	try{
-		FileOutputStream fos = new FileOutputStream(filepath+filename+".BIN"); //maybe don't export as a text file
-      	ObjectOutputStream oos = new ObjectOutputStream(fos);
-      	oos.writeObject(currentList);
-      	oos.close();
-      	System.out.println("----> File saved :)"); 	
-      	}
-      	catch(IOException e){
-      		System.out.println(e); // ln can be deleted
-      		printResponse(4);
-      		System.out.println(e.getMessage());
-      	}
     /*
     * prints out a response 
     * @param index representing the repsonse to be 
     * printed
     */    
     }
-    private void printResponse(int i){
+    public static void printResponse(int i){
     	switch(i){
     		case 1: System.out.println(">> Choose an (option) from the Menu");
     				break;
