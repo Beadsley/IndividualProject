@@ -485,7 +485,7 @@ public class Interaction {
     	System.out.println(">> " + currentDate.format(dateFormat));
 		System.out.println(">> Choose an option:");    	
         System.out.println(">> (1) Add a task");
-        System.out.println(">> (2) Print To-do list");
+        System.out.println(">> (2) View uncompleted tasks");
         System.out.println(">> (3) Find a task");
         System.out.println(">> (4) **** Task Info ****");
 		System.out.println(">> (5) **** Task Editor ****");
