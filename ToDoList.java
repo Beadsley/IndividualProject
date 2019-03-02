@@ -1,9 +1,10 @@
+import java.util.ArrayList;
+import java.io.Serializable;
+
 /*
  * Class creates a todo list used to
  * store task objects
  */
-import java.util.ArrayList;
-import java.io.Serializable;
 
 public class ToDoList implements Serializable{
 
@@ -34,10 +35,9 @@ public class ToDoList implements Serializable{
     * not
     */
     public void printList(Boolean sorted){
-    	Interaction.printResponse(7);
-		Interaction.printResponse(7);
-		System.out.println(" ToDos:				Complete by:");
-    	Interaction.printResponse(7);
+		Interaction.printMessage("---");
+		System.out.println(String.format("%1$-30s %2$-10s", " ToDos:", "Complete by:"));
+    	Interaction.printMessage("---");
     	if(toDoList.size()>0 && !sorted){
 			for (int i=0; i<toDoList.size(); i++){
     			System.out.println("<"+i+"> " + String.format("%1$-30s %2$-10s",
@@ -57,7 +57,7 @@ public class ToDoList implements Serializable{
     	else{
     		System.out.println("***** List Empty *****");
     	}
-    	Interaction.printResponse(7);
+    	Interaction.printMessage("---");
     }
    /* Method returns a task object
     * @return Task object 

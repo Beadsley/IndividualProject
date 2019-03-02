@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 /*
  * Class creates a project object
  * @param name of the project
@@ -8,7 +10,7 @@
  * 
  * 
  */
-import java.io.Serializable;
+
 public class Project implements Serializable{
 
 	private String projectName;
