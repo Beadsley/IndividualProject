@@ -3,9 +3,6 @@
  * store task objects
  */
 import java.util.ArrayList;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.FileInputStream;
 import java.io.Serializable;
 
 public class ToDoList implements Serializable{
@@ -37,9 +34,10 @@ public class ToDoList implements Serializable{
     * not
     */
     public void printList(Boolean sorted){
-		System.out.println("--------------------------------------------------");
+    	Interaction.printResponse(7);
+		Interaction.printResponse(7);
 		System.out.println(" ToDos:				Complete by:");
-    	System.out.println("--------------------------------------------------");
+    	Interaction.printResponse(7);
     	if(toDoList.size()>0 && !sorted){
 			for (int i=0; i<toDoList.size(); i++){
     			System.out.println("<"+i+"> " + String.format("%1$-30s %2$-10s",
@@ -59,7 +57,7 @@ public class ToDoList implements Serializable{
     	else{
     		System.out.println("***** List Empty *****");
     	}
-    	System.out.println("--------------------------------------------------");
+    	Interaction.printResponse(7);
     }
    /* Method returns a task object
     * @return Task object 
@@ -95,26 +93,6 @@ public class ToDoList implements Serializable{
             }
         }
         return found;
-    }
-   /*
-    * imports a file of an existing todo list
-    * @param filepath 
-    */
-    public static Object importFile(String filepath){
-	  try{
-   	  FileInputStream fis = new FileInputStream(filepath);
-      ObjectInputStream ois = new ObjectInputStream(fis);
-      Object importedList= ois.readObject(); //ToDoList can also be of type ToDoList
-	  ois.close();
-	  return importedList;
-	  //System.out.println("----> File opened :)");	  	
-	  }
-	  catch(IOException | ClassNotFoundException e){
-			//System.err.println(e); // ln can be deleted
-     		//System.out.println("**** Error message: ****");
-      		return e.getMessage(); //System.out.println(e.getMessage());
-	  }
-
     }
 
 }
