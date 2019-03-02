@@ -227,19 +227,21 @@ public class Interaction {
              }					
     }
    /*
-    * Sees if the task exists in the todo list
-    			//maybe switch this method to the ToDoList class
+    * Method sees if a task exists in the list
+    * If so, task information will be printed
     */
     private void findTask(){
 		System.out.println(">> Enter the task name e.g clean house");            	
 		String task2Find=sc.nextLine().trim();
-        boolean found=currentList.taskExists(task2Find);
-        	if(found){
-            	System.out.println("----> *"+task2Find+"* Exists :)");
-            }
-            else{
-               	System.out.println("----> *"+task2Find+"* Doesn't exist :(");
-            }
+		int index=currentList.findTask(task2Find);
+		System.out.println(index);
+
+		if (index==-1){
+			System.out.println("----> *"+task2Find+"* Doesn't exist :(");
+		}
+		else{
+			printTaskInfo(index);
+		}
 	}
    /*
 	* Method saves the current todo list to a .Bin
@@ -484,7 +486,7 @@ public class Interaction {
 		System.out.println(">> Choose an option:");    	
         System.out.println(">> (1) Add a task");
         System.out.println(">> (2) Print To-do list");
-        System.out.println(">> (3) FIND a task");
+        System.out.println(">> (3) Find a task");
         System.out.println(">> (4) **** Task Info ****");
 		System.out.println(">> (5) **** Task Editor ****");
 		System.out.println(">> (68) Save To-do list");    
