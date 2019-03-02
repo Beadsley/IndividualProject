@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.io.Serializable;
+import java.util.HashSet;
 
 /*
  * Class creates a todo list used to
@@ -9,10 +10,13 @@ import java.io.Serializable;
 public class ToDoList implements Serializable{
 
     private ArrayList<Task> toDoList;
+    private static HashSet<Project> projects;
+
 
     public ToDoList(){
 
-        toDoList= new ArrayList<>();        
+        toDoList= new ArrayList<>();
+        projects= new HashSet<>();        
 
     }
    /*
@@ -29,36 +33,69 @@ public class ToDoList implements Serializable{
     public void removeTask(int i){
     	toDoList.remove(i);
     }
+    public static void addProject2Set(Project p){
+    	projects.add(p);
+    } 
+    public static void viewProjects(){
+    	for (Project p:projects){
+    		System.out.println(p.getName());
+    	}
+    }
+
    /*
     * prints the contents of the list
     * @param to sort this list by duedate or 
     * not
     */
-    public void printList(Boolean sorted){
+    public void printList(Boolean sortByDate, String project){
 		Interaction.printMessage("---");
 		System.out.println(String.format("%1$-30s %2$-10s", " ToDos:", "Complete by:"));
     	Interaction.printMessage("---");
-    	if(toDoList.size()>0 && !sorted){
+    	if(toDoList.size()>0 && !sortByDate){
 			for (int i=0; i<toDoList.size(); i++){
     			System.out.println("<"+i+"> " + String.format("%1$-30s %2$-10s",
     				               toDoList.get(i).getTaskName(),    								
     								Formatter.duedateFormatter(toDoList.get(i).getDueDate())));
     		}
     	}
-    	else if(toDoList.size()>0 && sorted){
+    	else if(toDoList.size()>0 && sortByDate && project.equals("allProjects")){
 			toDoList.stream()
     			    .sorted(new SortByDueDate())
     			    .filter(t->t.getStatus().equals("Not Completed"))
     			    .forEach(t->System.out.println(String.format(
     			    		 "%1$-30s %2$-10s",
-    			    	     t.getTaskName(),			
+    			    	     t.getTaskName(),	 		
     					     Formatter.duedateFormatter(t.getDueDate()))));
     	}
-    	
+    	else if (sortByDate && projects.contains(project)){
+
+			Interaction.printMessage("---");
+			System.out.println(String.format("%1$-30s %2$-10s", " "+project+" ToDos:", "Complete by:"));
+    		Interaction.printMessage("---");
+    					toDoList.stream()
+    				    .sorted(new SortByDueDate())
+    			    	.filter(t->t.getProject().getName().equals(project))
+    				    .forEach(t->System.out.println(String.format(
+    			    			 "%1$-30s %2$-10s",
+    			    		     t.getTaskName(),			
+    					    	 Formatter.duedateFormatter(t.getDueDate()))));
+    	}
     	else{
     		System.out.println("***** List Empty *****");
     	}
     	Interaction.printMessage("---");
+    }
+    public void filterByProject(String project){
+		Interaction.printMessage("---");
+		System.out.println(String.format("%1$-30s %2$-10s", " "+project+" ToDos:", "Complete by:"));
+    	Interaction.printMessage("---");
+    				toDoList.stream()
+    			    .sorted(new SortByDueDate())
+    			    .filter(t->t.getProject().getName().equals(project))
+    			    .forEach(t->System.out.println(String.format(
+    			    		 "%1$-30s %2$-10s",
+    			    	     t.getTaskName(),			
+    					     Formatter.duedateFormatter(t.getDueDate()))));
     }
    /* Method returns a task object
     * @return Task object 
