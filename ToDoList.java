@@ -48,6 +48,7 @@ public class ToDoList implements Serializable{
     	else if(toDoList.size()>0 && sorted){
 			toDoList.stream()
     			    .sorted(new SortByDueDate())
+    			    .filter(t->t.getStatus().equals("Not Completed"))
     			    .forEach(t->System.out.println(String.format(
     			    		 "%1$-30s %2$-10s",
     			    	     t.getTaskName(),			
