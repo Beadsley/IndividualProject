@@ -1,12 +1,12 @@
-/*
- * Class to format dates and times
- * has been created due to the fact 
- * DateTimeFormatter is not serialisable
-*/
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
 import java.time.LocalTime;
+/*
+ * Class to format dates and times
+ * has been created due to the fact 
+ * DateTimeFormatter is not serialisable
+ */
 
 public class Formatter{
 

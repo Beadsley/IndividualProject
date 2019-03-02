@@ -1,3 +1,10 @@
+import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Duration;
+import java.time.Period;
+import java.io.Serializable;
+
 /*
  * Class creates a task object
  * @param the name of the task 
@@ -9,12 +16,6 @@
  * time, alngside timeto completion date may be 
  * calculated  
  */
-import java.util.ArrayList;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Duration;
-import java.time.Period;
-import java.io.Serializable;
 
 public class Task implements Serializable{ 
 
