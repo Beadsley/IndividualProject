@@ -78,21 +78,19 @@ public class ToDoList implements Serializable{
     	return toDoList.size();
     }
    /* 
-    * assesses if abtask elememt exists
-    * in the list
-    * @return 
+    * Method sees if a task exists in the list
+    * @return task index 
     * @param name of the task 
     */
-    public boolean taskExists(String task2find){
-        boolean found =false;
-        for(Task t: toDoList){
-        	String taskName=t.getTaskName();
-            if (taskName.equals(task2find)){ //****need to convert so it retreives task as a string****
+    public int findTask(String task2find){
+    	int index=-1;
+    	for(int i =0; i<toDoList.size(); i++){
 
-                found=true;
-            }
-        }
-        return found;
+    		if(getTask(i).getTaskName().equals(task2find)){
+    			return index=i; 
+    		}
+    	}
+    	return index;
     }
 
 }
