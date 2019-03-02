@@ -36,6 +36,7 @@ public class Task implements Serializable{
         completionDate="";
         done=false;
         project= new Project("Not Assigned");
+        ToDoList.addProject2Set(project);
 
     }
    /*
@@ -57,7 +58,8 @@ public class Task implements Serializable{
     * @param date in the format 12/12/2018
     */
     public void setDueDate(String date){
-    	completionDate=date; 
+    	completionDate=date;
+
     }
    /*
     * Returns the date in which the task

@@ -22,7 +22,7 @@ public class Interaction {
     private LocalDate currentDate;
     private DateTimeFormatter dateFormat;
     private boolean listEmpty;
-    private boolean sorted;
+    private boolean sortByDate;
 
     public Interaction(){
         sc= new Scanner(System.in);
@@ -30,7 +30,7 @@ public class Interaction {
         listEmpty=true;
         currentDate=LocalDate.now();
         dateFormat = DateTimeFormatter.ofPattern("E d/M/u");
-        sorted = true;
+        sortByDate = true;
         welcomeMenu();
     }
     /*
@@ -126,27 +126,36 @@ public class Interaction {
                 					break;
 
                 	case 2: 	if (!listEmpty){
-                					currentList.printList(sorted);
+                					currentList.printList(sortByDate, "allProjects");
                 					break;
                 				}
                 				skippingPrompt=true; 
                 				break;
 
-                	case 3: 	if (!listEmpty){
+                	case 3:		if (!listEmpty){
+                					System.out.println(">> Enter project name ");
+                					currentList.printList(sortByDate, sc.nextLine().trim());
+                					ToDoList.viewProjects();
+                					break;
+                				}
+                				skippingPrompt=true;                			           			
+                				break;			
+
+                	case 4: 	if (!listEmpty){
                 					findTask();
                 					break;
                 				}
                 				skippingPrompt=true;                			           			
                 				break;
 
-                	case 4: 	if (!listEmpty){
+                	case 5: 	if (!listEmpty){
                 					taskInfoMenu();
                 					break;
                 				}           		
                 				skippingPrompt=true;                				
                 				break;  
 
-                	case 5: 	if (!listEmpty){
+                	case 6: 	if (!listEmpty){
                 					taskEditorMenu();
                 					break;
                 				}           
@@ -261,7 +270,7 @@ public class Interaction {
     */
     private void taskInfoMenu(){
     	printTaskInfoWelcome();
-    	currentList.printList(!sorted);
+    	currentList.printList(!sortByDate,"allProjects");
     	printMessage("enterTaskNumber");        
     	boolean leaveTaskInfo=false;
     	while(!leaveTaskInfo){
@@ -302,7 +311,7 @@ public class Interaction {
     */
     private void taskEditorMenu(){
     	printTaskEditorWelcome();
-    	currentList.printList(!sorted);
+    	currentList.printList(!sortByDate, "allProjects");
     	printMessage("chooseOption");
     	boolean leaveTaskEditor=false;
     	while(!leaveTaskEditor){
@@ -360,7 +369,7 @@ public class Interaction {
     						}    									    				
 
   					case 8: printTaskEditorWelcome(); 
-    						currentList.printList(!sorted);  					
+    						currentList.printList(!sortByDate, "allProjects");  					
   							printMessage("chooseOption");
   							printMessage("mainMenuPrompt");
         					skippingPrompt=true;        					
@@ -487,9 +496,10 @@ public class Interaction {
 		System.out.println(">> Choose an option:");    	
         System.out.println(">> (1) Add a task");
         System.out.println(">> (2) View uncompleted tasks");
-        System.out.println(">> (3) Find a task");
-        System.out.println(">> (4) **** Task Info ****");
-		System.out.println(">> (5) **** Task Editor ****");
+        System.out.println(">> (3) View tasks by project");
+        System.out.println(">> (4) Find a task");
+        System.out.println(">> (5) **** Task Info ****");
+		System.out.println(">> (6) **** Task Editor ****");
 		System.out.println(">> (68) Save To-do list");    
         System.out.println(">> (999) To Exit");		    
        	System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
