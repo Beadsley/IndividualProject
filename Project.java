@@ -38,7 +38,7 @@ public class Project implements Serializable{
     		Interaction.printMessage("---");
     	}
     	else{
-    		System.out.println(">> **** No projects assigned ****");
+    		System.out.println(">> **** No tasks have been assigned to a project ****");
     	}  		
     }
    /*
