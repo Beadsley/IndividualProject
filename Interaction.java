@@ -1,13 +1,17 @@
 import java.util.Scanner;
 import java.util.InputMismatchException;
-import java.util.InputMismatchException;
 import java.time.format.DateTimeParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.io.ObjectOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+
+/* 
+ * Class creates the user interaction.
+ * Enabling the user to create or open 
+ * an existing todo list. Tasks can be 
+ * created and attributes can be assigned
+ * to the task
+ */
 
 public class Interaction {
 
@@ -18,6 +22,7 @@ public class Interaction {
     private LocalDate currentDate;
     private DateTimeFormatter dateFormat;
     private boolean listEmpty;
+    private boolean sortByDate;
 
     public Interaction(){
         sc= new Scanner(System.in);
@@ -25,148 +30,172 @@ public class Interaction {
         listEmpty=true;
         currentDate=LocalDate.now();
         dateFormat = DateTimeFormatter.ofPattern("E d/M/u");
+        sortByDate = true;
+        welcomeMenu();
     }
     /*
-    * Initial interaction
-    * User acan create a new list
-    * or open an existing
+    * welcome page where 
+    * User can create a new list
+    * or open an existing list
     */
-    public void welcome(){
-    	printWelcome(); //loop to see if a file has been open
+    private void welcomeMenu(){
+    	printWelcomeMenu(); 
+    	printMessage("chooseOption");
     	while (currentList==null && open){
     		skippingPrompt =false;
     		try{
         		int input=sc.nextInt();
         		switch (input){
-        			case 1: currentList=new ToDoList();
-        					System.out.println("----> List Created :)");
-        					skippingPrompt=true;
-        					break;
-        			case 2: sc.nextLine();
-        					System.out.println(">> Enter file path e.g./Users/ToList.BIN");
-        					String filepath= sc.nextLine();        					
-        					Object o=ToDoList.importFile(filepath);        					
-        					if (o instanceof ToDoList){
-        						System.out.println("----> File opened :)"); 
-        						currentList=(ToDoList) o;
-        						listEmpty=false;
-        						skippingPrompt=true;
-        					}
-        					else if(o instanceof String) {
-        						System.out.println(">> **** Error message: ****");
-        						System.out.println(o);       						
-        					}
-        					else{
-        						System.out.println(">> **** Couldn't open file ****");
-        						System.out.println(">> File is of type:");
-        						System.out.println(o.getClass()); 
-        					}
-        					break;
-        			case 8: printWelcome();
-        					skippingPrompt=true;        					
-        					break;
-        			case 999: System.out.println("***** Ciao for now *****");
-        					  open=false;
-        					  skippingPrompt=true;
-        					  break;
+        			case 1: 	createNewList();
+        							break;
 
+        			case 2: 	openExistingList();
+        							break;
+
+        			case 8: 	printWelcomeMenu();
+        							skippingPrompt=true;        					
+        							break;
+
+        			case 999: 	printMessage("goodbuy"); 
+        					  		open=false;
+        					  		skippingPrompt=true;
+        					  		break;
         		} 
         		if(!skippingPrompt){
-        			System.out.println(">> Choose an (option) from the Menu");
-        			System.out.println(">> (8) View menu again");
+        			printMessage("chooseOption");
+        			printMessage("viewMenuAgain");
         		}   			
     		}
             catch (InputMismatchException e) {
     			sc.nextLine();
-    			System.out.println(">> ***** Failed to open file ****");
-    			System.out.println(">> Choose an (option) from the Menu");
-        		System.out.println(">> (8) View menu again");
+    			printMessage("chooseOption");
+        		printMessage("viewMenuAgain");
     		}	
     	}
     	if (open){
     		mainMenu();
     	}  
     }
+    /*
+    * Method creates a new todo list
+    */
+    private void createNewList(){
+    	sc.nextLine(); 
+		currentList=new ToDoList();
+        System.out.println("----> List Created :)");
+        skippingPrompt=true;
+    }
+   /*
+    * Method opens an existing .BIN file 
+    */
+    private void openExistingList(){
+		sc.nextLine(); 
+        System.out.println(">> Enter file path e.g./Users/ToList.BIN");
+        String filepath= sc.nextLine();        					
+        Object o=FileReader.importFile(filepath);        					
+        if (o instanceof ToDoList){
+        	System.out.println("----> File opened :)"); 
+        	currentList=(ToDoList) o;
+        	listEmpty=false;
+        	skippingPrompt=true;
+        }
+        else if(o instanceof String) {
+        	printMessage("error");
+        	System.out.println(o);       						
+        }
+        else{
+        	System.out.println(">> **** Couldn't open file ****");
+        	System.out.println(">> File is of type:");
+        	System.out.println(o.getClass()); 
+        }
+    }
    /*
     *  main menu
     */
-    public void mainMenu(){ 
+    private void mainMenu(){ 
     	printMainMenu();
+    	printMessage("chooseOption");
         while(open) {
         	skippingPrompt =false;
         	try {
-        		//check that the integers inputted are just that of the amount of cases
         		int input=sc.nextInt();
+        		sc.nextLine();
         		switch (input){
-                	case 1:	sc.nextLine();
-                			addTask();
-                			listEmpty=false;
-                			break;
-                	case 2: sc.nextLine();
-                			if (!listEmpty){
-                				currentList.printList();
+                	case 1:		createTask();
+                					listEmpty=false;
+                					break;
+
+                	case 2: 	if (!listEmpty){
+                					currentList.printList(sortByDate, "allProjects");
+                					break;
+                				}
+                				skippingPrompt=true; 
                 				break;
-                			}
-                			skippingPrompt=true;
-                			break;
-                	case 3: sc.nextLine();
-                 			if (!listEmpty){
-                				findTask();
+
+                	case 3:		if (!listEmpty){
+                					System.out.println(">> Enter project name ");
+                					currentList.printList(sortByDate, sc.nextLine().trim());
+                					break;
+                				}
+                				skippingPrompt=true;                			           			
+                				break;			
+
+                	case 4: 	if (!listEmpty){
+                					findTask();
+                					break;
+                				}
+                				skippingPrompt=true;                			           			
                 				break;
-                			}
-                			skippingPrompt=true;                			           			
-                			break;
-                	case 4: sc.nextLine();
-                  			if (!listEmpty){
-                				taskInfo();
+
+                    case 5:     Project.viewProjects();
+                                break;
+
+
+                	case 6: 	if (!listEmpty){
+                					taskInfoMenu();
+                					break;
+                				}           		
+                				skippingPrompt=true;                				
+                				break;  
+
+                	case 7: 	if (!listEmpty){
+                					taskEditorMenu();
+                					break;
+                				}           
+                				skippingPrompt=true;                						
                 				break;
-                			}           		
-                			skippingPrompt=true;                				
-                			break;               	
-                	case 5: sc.nextLine();                			
-                  			if (!listEmpty){
-                				taskEditor();
+
+  					case 8: 	printMainMenu(); 
+  								printMessage("chooseOption");
+  								skippingPrompt=true;        					        					
+        						break;
+
+                	case 68:    if (!listEmpty){
+									saveList();
+                					break;
+                				} 
+                				skippingPrompt=true;                						
                 				break;
-                			}           
-                			skippingPrompt=true;                						
-                			break;
-  					case 8: printMainMenu();
-        					skippingPrompt=true;        					
-        					break;
-                	case 68: sc.nextLine();
-							if (!listEmpty){
-        						System.out.println(">> Enter file path e.g. /Users/");								
-								String filepath=sc.nextLine();
-								System.out.println(filepath);
-                				
-                												
-								System.out.println(">> Enter file name e.g. ToDoList2018");
-								String filename=sc.nextLine();
-								System.out.println(filename);
-								saveList(filepath, filename);
-                				break;
-                			} 
-                			skippingPrompt=true;                						
-                			break;
-        			case 999:System.out.println("***** Ciao for now *****");
-        					open=false;
-        					skippingPrompt=true;
-                			break;                			
+
+        			case 999: 	printMessage("goodbuy"); 
+        					  	open=false;
+        					  	skippingPrompt=true;
+                			  	break;                			
         		}
         		if(!skippingPrompt){
-        			System.out.println(">> Choose an (option) from the Menu");
-        			System.out.println(">> (8) View menu again");
+        			printMessage("chooseOption");
+        			printMessage("viewMenuAgain");
         		}
         		else if(listEmpty && open){ 
         			System.out.println(">> ***** List Empty *****");
-        			System.out.println(">> Choose an (option) from the Menu");
-        			System.out.println(">> (8) View menu again");
+        			printMessage("chooseOption");
+        			printMessage("viewMenuAgain");
         		}
     		}
             catch (InputMismatchException e) {
     			sc.nextLine();
-    			System.out.println(">> Choose an (option) from the Menu");
-    			System.out.println(">> (8) View menu again");
+    			printMessage("chooseOption");
+    			printMessage("viewMenuAgain");
 
     		}
 		}            
@@ -174,12 +203,16 @@ public class Interaction {
     /*
      * method adds a new task, with a completion date
     */
-    private void addTask(){
+    private void createTask(){
+    	
 		System.out.println(">> Enter task e.g clean house");
 		String taskName=sc.nextLine().trim();
         	if(taskName.equals("")){
-				System.out.println("***** WARNING! No task entered *****");                
+				System.out.println(">> **** WARNING! No task entered ****");                
                 }
+            else if(taskName.length()>29){
+            	System.out.println(">> **** Task name too long ****");
+            } 
 			else{
 				Task t= new Task(taskName);
             	currentList.addToList(t);
@@ -209,179 +242,253 @@ public class Interaction {
              }					
     }
    /*
-    * Sees if the task exists in the todo list
-    			//maybe switch this method to the ToDoList class
+    * Method sees if a task exists in the list
+    * If so, task information will be printed
     */
     private void findTask(){
 		System.out.println(">> Enter the task name e.g clean house");            	
 		String task2Find=sc.nextLine().trim();
-        boolean found=currentList.taskExists(task2Find);
-        	if(found){
-            	System.out.println("----> *"+task2Find+"* Exists :)");
-            }
-            else{
-               	System.out.println("----> *"+task2Find+"* Doesn't exist :(");
-            }
+		int index=currentList.findTask(task2Find);
+		if (index==-1){
+			System.out.println("----> *"+task2Find+"* Doesn't exist :(");
+		}
+		else{
+			printTaskInfo(index);
+		}
+	}
+   /*
+	* Method saves the current todo list to a .Bin
+	* file
+	*/
+	private void saveList(){
+     	System.out.println(">> Enter file path e.g. /Users/");								
+		String filepath=sc.nextLine();         												
+		System.out.println(">> Enter file name e.g. ToDoList2018");
+		String filename=sc.nextLine();
+		FileReader.exportFile(filepath, filename, currentList);		
 	}
     /* USE SWITCH CASE
     * User can delete and add notes to 
     * a task
     */
-    public void taskInfo(){
+    private void taskInfoMenu(){
     	printTaskInfoWelcome();
-    	currentList.printList();
-    	System.out.println(">> Enter <Task NUMBER> e.g 1");        
+    	currentList.printList(!sortByDate,"allProjects");
+    	printMessage("enterTaskNumber");        
     	boolean leaveTaskInfo=false;
     	while(!leaveTaskInfo){
-   			 try{   		
-    		
+   			 try{      		
     			Integer input = sc.nextInt();
-    			//checkIndex(input);
-     			if(input.equals(999)){			//add if statement to check if index is within the bounds
+     			if(input.equals(999)){			
     				leaveTaskInfo=true;
     				printMainMenu();
     			} 
     			else{
-    				Task t=currentList.getTask(input);
-    				System.out.println("--------------------------------------------------");
-    				System.out.println(t.getTaskName());
-    				System.out.println("--------------------------------------------------");
-    				System.out.println("Created:");
-    				System.out.println(t.getDateCreated());
-    				System.out.println(t.getTimeCreated());
-    				System.out.println(t.getTaskLifeTime());
-    				System.out.println();
-    				System.out.println("Reminder:");
-    				System.out.println(t.timeTillDueDate());
-    				if(t.notesAvailable()!=0){
-    					System.out.println();
-    					System.out.println("Notes:");
-    					t.printNotes();
-    				}
-    				System.out.println("--------------------------------------------------");
-    				System.out.println(">> Type (999) for Main Menu");
-    				System.out.println(">> OR enter a <task number> ");
+    				printTaskInfo(input);
     			} 
     		}
         	catch (InputMismatchException | IndexOutOfBoundsException e) {    			
+				printListIndices();
+				printMessage("mainMenuPrompt");
+    		}   			  			
+    	}
+    }
+   /*
+    * Method informs the user on which task indices
+    * can be selected
+    */
+    private void printListIndices(){
     			sc.nextLine();
-				int i= currentList.getListSize()-1;
-				if (i==0){
-					System.out.println(">> Choose task number <"+i+">");
+				int listSize= currentList.getListSize()-1;
+				if (listSize==0){
+					System.out.println(">> **** Choose task number <"+listSize+"> ****");
 
 				} 
 				else{
-					System.out.println(">> Choose task number from <0 --> "+i+">");
-				}   			
-    			
-    			System.out.println(">> Or (999) Main Menu");
-    		}   			  			
-    	}
+					System.out.println(">> **** Choose task number from <0 --> "+listSize+"> ****");
+				}
     }
    /* verifies if the index is
    	* out of bounds
     * @param task index
     */
-    public void taskEditor(){
+    private void taskEditorMenu(){
     	printTaskEditorWelcome();
-    	currentList.printList();
-    	System.out.println(">> Choose an (option) from the Menu");
+    	currentList.printList(!sortByDate, "allProjects");
+    	printMessage("chooseOption");
     	boolean leaveTaskEditor=false;
     	while(!leaveTaskEditor){
     		skippingPrompt =false;
     		try{
-    			Integer input = sc.nextInt(); //check if index is in bounds    			
+    			Integer input = sc.nextInt();   			
     			switch(input){
-    				case 999: leaveTaskEditor=true;
-    						  printMainMenu();
-    						  skippingPrompt=true;
-    						  break; 
-    				case 1: System.out.println(">> Enter <task NUMBER> e.g 0");
+    				case 999: 	leaveTaskEditor=true; 
+    						  	printMainMenu();
+    						  	skippingPrompt=true;
+    						  	break; 
+
+    				case 1: 	printMessage("enterTaskNumber");   
+    							input=sc.nextInt(); 						
+    							try {      							
+    								addTaskNote(input);
+    								break; 
+    							}
+    							catch (IndexOutOfBoundsException e) {
+    								printListIndices();
+    								break;
+    							}
+    							
+    				case 2: 	printMessage("enterTaskNumber"); 
+    							input=sc.nextInt();
+    							try{
+    								setTask2Completed(input);	
+    								break;     							
+    							}
+    							catch (IndexOutOfBoundsException e) {
+    								printListIndices();
+    								break;
+    							}    						
+
+    				case 3: printMessage("enterTaskNumber"); 
     						input=sc.nextInt();
-    						//checkIndex(input);
-    						
-    						if (input>currentList.getListSize()-1){
-    							System.out.println("**** Task number <"+input+"> not recognised ****");
-    							sc.nextLine();
+    						try{
+    							editTaskName(input);
     							break;
     						}
-    						else{
-     							Task t=currentList.getTask(input);
-    							System.out.println(">> Enter note");
-    							sc.nextLine();
-    							t.addNote(sc.nextLine());
-    							System.out.println("----> Note Added :)");
-    							break;   							
+    						catch (IndexOutOfBoundsException e) {
+    							printListIndices();
+    							break;
+    						}      						
+
+    				case 4: printMessage("enterTaskNumber"); 
+    						input=sc.nextInt();
+    						try{
+    							assignTask2Project(input);
+    							break;
     						}
-  					case 8: printTaskEditorWelcome();
-    						currentList.printList();
+    						catch (IndexOutOfBoundsException e) {
+    							printListIndices();
+    							break;
+    						}    									    				
+
+  					case 8: printTaskEditorWelcome(); 
+    						currentList.printList(!sortByDate, "allProjects");  					
+  							printMessage("chooseOption");
+  							printMessage("mainMenuPrompt");
         					skippingPrompt=true;        					
         					break;   						
 
-    				case 9: System.out.println(">> Enter <task NUMBER> e.g 1");
+    				case 9: printMessage("enterTaskNumber"); // delete a task
     						input=sc.nextInt();
-    						checkIndex(input);
-    						currentList.removeTask(input);
-    						System.out.println("----> Task Deleted :)");    							
+    						try{
+    							currentList.removeTask(input);
+    							System.out.println("----> Task Deleted :)");
+    							break;    							
+    						}
+    						catch (IndexOutOfBoundsException e) {
+    							printListIndices();
+    							break;
+    						} 
+   							
     			}
     		    if(!skippingPrompt){
-        			System.out.println(">> Choose an (option) from the Menu");
-        			System.out.println(">> (8) View menu again");
-        			System.out.println(">> (999) for Main Menu");
+        			printMessage("chooseOption");
+        			printMessage("viewMenuAgain");
+        			printMessage("mainMenuPrompt");
         		}	
     		}        	
     		catch(InputMismatchException | IndexOutOfBoundsException e){
     			sc.nextLine();
-    			//System.out.println("****** WARNING! (option) not recognised *******");
-    			System.out.println(">> Choose an (option) from the Menu");
-        		System.out.println(">> (8) View menu again");
-    			System.out.println(">> (999) for Main Menu");
+    			System.out.println(">> **** Input not recognised ****");
+    			printMessage("chooseOption");
+        		printMessage("viewMenuAgain");
+    			printMessage("mainMenuPrompt");
 
     		}
     	}
     }
-    /* !!!might be able to delete method
-    * Prints out informtaion about a 
-    * specified task
-    */    
-    public void checkIndex(int index){
-    	boolean indexExists;
-    	indexExists= index<currentList.getListSize() || index==999;
-    	if (!indexExists){
-    		System.out.println("**** WARNING! <"+index+"> not in list **** ");
-    		System.out.println(">> (999) for Main Menu");
-    		System.out.println(">> Or Try Again :)");
-    	}
+    /*
+    * Method adds a note to a task
+    * @param task index
+    */
+    private void addTaskNote(int index){
+    	Task t=currentList.getTask(index);
+    	System.out.println(">> Enter note");
+    	sc.nextLine();
+    	t.addNote(sc.nextLine());
+    	System.out.println("----> Note Added :)");
     }
    /*
-    *creates an output file
-    *@param filepath of the output directory
-    *@pram filename of the file to save
+    * Method sets a tasks status to completed
+    * @param task index 
     */
-    private void saveList(String filepath, String filename){
-   	try{
-		FileOutputStream fos = new FileOutputStream(filepath+filename+".BIN"); //maybe don't export as a text file
-      	ObjectOutputStream oos = new ObjectOutputStream(fos);
-      	oos.writeObject(currentList);
-      	oos.close();
-      	System.out.println("----> File saved :)"); 	
-      	}
-      	catch(IOException e){
-      		System.out.println(e); // ln can be deleted
-      		System.out.println("**** Error message: ****");
-      		System.out.println(e.getMessage());
-      	}    
+    private void setTask2Completed(int index){
+		Task t=currentList.getTask(index);
+    	t.set2Completed(true);
+    	System.out.println("----> Task Completed");
+    	sc.nextLine();
+    }
+   /*
+    * Method edits the name of a task
+    * @param task index
+    */
+    private void editTaskName(int index){
+    	Task t=currentList.getTask(index);
+    	System.out.println(">> Enter new Task name");
+    	sc.nextLine();
+    	t.setTaskName(sc.nextLine());
+    	System.out.println("----> Name changed :)");    	
+    }
+   /*
+    * Method assigns a task to a project
+    *@param task index
+    */
+    private void assignTask2Project(int index){
+		Task t=currentList.getTask(index);
+    	System.out.println(">> Enter project name");
+    	sc.nextLine();
+        String projectName=sc.nextLine();
+        if (projectName.equals("allProjects")){
+            System.out.println(">> **** 'allProjects' can't be used as a project name ****");
+        }
+        else{
+            t.setTask2project(projectName); 
+            System.out.println("----> Assigned to project :)");  
+        }   	  							 
+    } 
+   /*
+    * prints out a response message
+    * @param String representing the repsonse to be 
+    * printed
+    */ 
+    public static void printMessage(String s){
+    	switch (s){
+    		case "chooseOption":   	System.out.println(">> Choose an (option) from the Menu");
+    							   	break;
+			case "goodbuy": 	   	System.out.println("***** Ciao for now *****");
+							 	   	break;
+			case "mainMenuPrompt": 	System.out.println(">> (999) for Main Menu");
+        						   	break;
+        	case "error":		   	System.out.println("**** Error message: ****");
+        							break; 
+  	 		case "viewMenuAgain": 	System.out.println(">> (8) View menu again");
+        							break; 
+        	case "enterTaskNumber": System.out.println(">> Enter <task NUMBER> e.g 0");
+        							break;
+        	case "---":				System.out.println("--------------------------------------------------");
+        							break;				  							   							 
+    	}
     }
     /*
 	* prints out welcoming message and
 	* options for a new list or open an existing 
 	* file  
     */
-	private void printWelcome(){
+	private void printWelcomeMenu(){
 		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
 		System.out.println("**** Welcome Menu ****");
 		System.out.println(">> " + currentDate.format(dateFormat));
-		System.out.println(">> Welcome to Intent");
+		System.out.println(">> Welcome to Your To-Dos");
 		System.out.println(">> Choose an option:");
 		System.out.println(">> (1) Create new To-do list");
 		System.out.println(">> (2) Open an existing To-do list");
@@ -397,10 +504,12 @@ public class Interaction {
     	System.out.println(">> " + currentDate.format(dateFormat));
 		System.out.println(">> Choose an option:");    	
         System.out.println(">> (1) Add a task");
-        System.out.println(">> (2) Print To-do list");
-        System.out.println(">> (3) FIND a task");
-        System.out.println(">> (4) **** Task Info ****");
-		System.out.println(">> (5) **** Task Editor ****");
+        System.out.println(">> (2) View uncompleted tasks");
+        System.out.println(">> (3) View tasks by project");
+        System.out.println(">> (4) Find a task");
+        System.out.println(">> (5) View projects");
+        System.out.println(">> (6) **** Task Info ****");
+		System.out.println(">> (7) **** Task Editor ****");
 		System.out.println(">> (68) Save To-do list");    
         System.out.println(">> (999) To Exit");		    
        	System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
@@ -411,8 +520,40 @@ public class Interaction {
     private void printTaskInfoWelcome(){
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");    	
     	System.out.println(">> **** Task Information Menu ****");
-    	System.out.println(">> (999) to EXIT back to the main menu");
+    	System.out.println(">> (999) EXIT back to the main menu");
     	System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");    	
+    }
+   /*
+    * prints informations about a specified task
+    * @param index of the task
+    */
+    private void printTaskInfo(int index){
+    	Task t=currentList.getTask(index);
+    	printMessage("---");
+    	System.out.println(t.getTaskName());
+    	printMessage("---");
+    	System.out.println("Status:");
+    	System.out.println(t.getStatus());
+    	System.out.println();
+    	System.out.println("Project:");
+    	System.out.println(t.getprojectName());
+    	System.out.println();
+    	System.out.println("Created:");
+    	System.out.println(t.getDateCreated());
+    	System.out.println(t.getTimeCreated());
+    	System.out.println(t.getTaskLifeTime());
+    	System.out.println();
+    	System.out.println("Reminder:");
+    	System.out.println(t.timeTillDueDate());
+    	if(t.notesAvailable()!=0){
+    		System.out.println();
+    		System.out.println("Notes:");
+    		t.printNotes();
+		}
+		printMessage("---");
+    	printMessage("mainMenuPrompt");
+    	System.out.println(">> Or");
+    	printMessage("enterTaskNumber");
     }
     /*
     *	prints the opening message to the task editor
@@ -420,9 +561,12 @@ public class Interaction {
     private void printTaskEditorWelcome(){
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");    	
     	System.out.println(">> **** Task Editor Menu ****");
-    	System.out.println(">> (999) to EXIT back to the main menu");
-    	System.out.println(">> (1) to ADD a note to a task");
-    	System.out.println(">> (9) to DELETE a task");
+    	System.out.println(">> (999) EXIT back to the main menu");
+    	System.out.println(">> (1) Add a note to a task");
+    	System.out.println(">> (2) Set a task to completed");
+    	System.out.println(">> (3) Edit task name");
+    	System.out.println(">> (4) Assign task to a project");
+    	System.out.println(">> (9) Delete a task");
     	System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
     }
 

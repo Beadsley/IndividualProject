@@ -1,25 +1,27 @@
 import java.util.ArrayList;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.FileInputStream;
 import java.io.Serializable;
+
+
+/*
+ * Class creates a todo list used to
+ * store task objects
+ */
 
 public class ToDoList implements Serializable{
 
-        private ArrayList<Task> toDoList;
+    private ArrayList<Task> toDoList;
+
 
     public ToDoList(){
 
-        toDoList= new ArrayList<>();
+        toDoList= new ArrayList<>();              
 
     }
    /*
-    * Adds an element to the list
-    * @param toDo the element to add to the list
+    * Method adds a task to the list
+    * @param task to be added 
     */
     public void addToList(Task t){
-    	//Task taskName = new Task("taskName");
-        //toDoList.add(new Task(taskName));
         toDoList.add(t);
     }
    /*
@@ -29,27 +31,72 @@ public class ToDoList implements Serializable{
     public void removeTask(int i){
     	toDoList.remove(i);
     }
+
+
    /*
     * prints the contents of the list
+    * @param whether to sort this list by duedate  
+    * @param name of the project
     */
-    public void printList(){
-		System.out.println("--------------------------------------------------");
-		System.out.println("ToDos:				Complete by:");
-    	System.out.println("--------------------------------------------------");
-    	if(toDoList.size()>0){
-			for (int i=0; i<toDoList.size(); i++){
-    			System.out.println("<"+i+"> "+toDoList.get(i).getTaskName()
-    								+"			"+Formatter.duedateFormatter(toDoList.get(i).getDueDate()));
-    		}
+    public void printList(Boolean sortByDate, String project){
+		Interaction.printMessage("---");
+		System.out.println(String.format("%1$-30s %2$-10s", " ToDos:", "Complete by:"));
+    	Interaction.printMessage("---");
+    	if(toDoList.size()>0 && !sortByDate){
+    		printByIndex();
+    	}
+    	else if(toDoList.size()>0 && sortByDate && project.equals("allProjects")){
+    		printByDate();
+    	}
+    	else if (sortByDate && Project.containsProject(project)){
+    		filterByProject(project);
     	}
     	else{
     		System.out.println("***** List Empty *****");
     	}
-    	System.out.println("--------------------------------------------------");
+    	Interaction.printMessage("---");
     }
    /*
-    *	@return Task object 
-    *	@param index of the task to return
+    * Method prints out all tasks corresponding
+    * to their index
+    */
+    private void printByIndex(){
+			for (int i=0; i<toDoList.size(); i++){
+    			System.out.println("<"+i+"> " + String.format("%1$-30s %2$-10s",
+    				               toDoList.get(i).getTaskName(),    								
+    								Formatter.duedateFormatter(toDoList.get(i).getDueDate())));
+    		}
+    }
+   /*
+    * Method prints out all non completed tasks
+    * in order of when they need to be completed
+    */
+    private void printByDate(){
+			toDoList.stream()
+    			    .sorted(new SortByDueDate())
+    			    .filter(t->t.getStatus().equals("Not Completed"))
+    			    .forEach(t->System.out.println(String.format(
+    			    		 "%1$-30s %2$-10s",
+    			    	     t.getTaskName(),	 		
+    					     Formatter.duedateFormatter(t.getDueDate()))));    	
+    }
+   /*
+    * Method prints out all tasks of a corresponding project
+    * @param name of the project
+    */
+    private void filterByProject(String projectName){
+    			toDoList.stream()
+    				    .sorted(new SortByDueDate())
+    			    	.filter(t->t.getprojectName().equals(projectName))
+    				    .forEach(t->System.out.println(String.format(
+    			    			 "%1$-30s %2$-10s",
+    			    		     t.getTaskName(),			
+    					    	 Formatter.duedateFormatter(t.getDueDate()))));
+    	
+    }
+   /* Method returns a task object
+    * @return Task object 
+    * @param index of the task to return
     */
     public Task getTask(int i){
 
@@ -57,6 +104,7 @@ public class ToDoList implements Serializable{
     }
 
    /*
+    * Method returns the size of a list
     * @return true if the element exists in the list
     * @param names of the task to find
     */
@@ -65,39 +113,19 @@ public class ToDoList implements Serializable{
     	return toDoList.size();
     }
    /* 
-    * assesses if task elememt exists
+    * Method sees if a task exists in the list
+    * @return task index 
     * @param name of the task 
     */
-    public boolean taskExists(String task2find){
-        boolean found =false;
-        for(Task t: toDoList){
-        	String taskName=t.getTaskName();
-            if (taskName.equals(task2find)){ //****need to convert so it retreives task as a string****
+    public int findTask(String task2find){
+    	int index=-1;
+    	for(int i =0; i<toDoList.size(); i++){
 
-                found=true;
-            }
-        }
-        return found;
-    }
-   /*
-    * imports a file
-    * @param filepath 
-    */
-    public static Object importFile(String filepath){
-	  try{
-   	  FileInputStream fis = new FileInputStream(filepath);
-      ObjectInputStream ois = new ObjectInputStream(fis);
-      Object importedList= ois.readObject(); //ToDoList can also be of type ToDoList
-	  ois.close();
-	  return importedList;
-	  //System.out.println("----> File opened :)");	  	
-	  }
-	  catch(IOException | ClassNotFoundException e){
-			//System.err.println(e); // ln can be deleted
-     		//System.out.println("**** Error message: ****");
-      		return e.getMessage(); //System.out.println(e.getMessage());
-	  }
-
+    		if(getTask(i).getTaskName().equals(task2find)){
+    			return index=i; 
+    		}
+    	}
+    	return index;
     }
 
 }

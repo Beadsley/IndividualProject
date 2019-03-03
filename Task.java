@@ -6,20 +6,27 @@ import java.time.Period;
 import java.io.Serializable;
 
 /*
-* Class creates a task object
-*@param task the name of the task needs to be supplied
-* notes:
-* serialistaion interfacce is implemented to:
-*	To serialize an object means to convert its state to a byte stream 
-*	so that the byte stream can be reverted back into a copy of the object
-*/
+ * Class creates a task object
+ * @param the name of the task 
+ * a task can have a number of attributes.
+ * a completion date must be assigned when
+ * a task object is created. A task object is 
+ * automatically assigned to uncompleted. A task 
+ * can have notes assigned to it and the creation 
+ * time, alngside timeto completion date may be 
+ * calculated  
+ */
+
 public class Task implements Serializable{ 
 
     private String taskName;
     private ArrayList<String>notes;
     private LocalDate dateCreated;
     private LocalTime timeCreated;
-    private String completionDate;   
+    private String completionDate;
+    private boolean done;   
+	private Project project;
+    private String projectName;    
 
     public Task(String taskName){
 
@@ -28,41 +35,84 @@ public class Task implements Serializable{
         notes=new ArrayList<>();
         timeCreated=LocalTime.now();
         completionDate="";
+        done=false;
+        projectName="Not Assigned";
+        
 
     }
    /*
-    * returns the name of the task
+    * Method sets the name of the task
+    * @param task's name
+    */
+    public void setTaskName(String name){
+    	taskName=name;
+    }
+   /*
+    * Method returns the name of the task
+    * @return tasks name
 	*/
     public String getTaskName(){
     	return taskName;
     }
    /*
-    * set due date
+    * Method assigns a completion date
     * @param date in the format 12/12/2018
     */
     public void setDueDate(String date){
-    	//check if the due date is in the future
-    	//isAfter() method
-
-    	//DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("d/MM/yyyy");
-    	//dueDate = LocalDate.parse(date, inputFormat);
-
     	completionDate=date;
-
- 
     }
    /*
-    * Returns the date in which the task
+    * Method returns the date in which the task
     * must be completed
+    * @return completion date
     */
-    public String getDueDate(){
-    	
-    		return completionDate;
+    public String getDueDate(){    	
+    		return completionDate;    
     }
    /*
-    * Returns the amount of time left 
+    * Method assigns a task to a project
+    * @param name of the project
+    */
+    public void setTask2project(String name){
+        this.projectName=name;
+        Project.addProject2Set(name);
+    }
+   /*
+    * Method reyruns the project that the task is 
+    * assigned too
+    * @return name of the project
+    */
+    public String getprojectName(){
+        return projectName;
+    }
+   /* 
+    * Method returns the status of the task
+    * @return task status
+    */
+    public String getStatus(){
+    	if(done){
+    		return "Completed";
+    	}
+    	return "Not Completed";
+    }
+   /*
+    * Method assigns the task to completed
+    * or not completed
+    * @param tasks status
+    */
+    public void set2Completed(boolean completed){
+    	if(completed){
+    		done=true;
+    	}
+    	else if (!completed){
+    		done=false;
+    	}    	
+    }
+   /*
+    * Method returns the amount of time left 
     * to complete the task or if 
     * the task is over due
+    * @return time till completion
     */
     public String timeTillDueDate(){
     		LocalDate dueDate=Formatter.duedateSystemFormatter(completionDate);
@@ -79,36 +129,44 @@ public class Task implements Serializable{
     		}
     }
    /*
-    * adds notes about the task
+    * Method adds notes corresponding to the task
+    * @oaram notes content
     */
     public void addNote(String text){
         notes.add(text);
     }
    /*
-    * returns the size of the notes arraylist
+    * Method returns the size of the notes arraylist
+    * @return amount of a tasks notes 
     */
     public int notesAvailable(){
     	return notes.size();
     }
+   /*
+    * Method prints the contents of the notes
+    */
     public void printNotes(){
     	notes.stream().forEach(System.out::println);
     }
    /*
-    * method returns the time of creation
+    * Method returns the time of creation
+    * @return time created
     */
     public String getTimeCreated()
     {    	
         return Formatter.timeFormatter(timeCreated);
     }
    /*
-    * returns the date of creation
+    * Method returns the date of creation
+    * @return date created
     */
     public String getDateCreated(){
     		return Formatter.dateFormatter(dateCreated);
     }
    /*
-	* Returns the amount of time the 
+	* Method returns the amount of time  
 	* since the task was created
+    * @return tasks age
 	*/
     public String getTaskLifeTime(){
     	LocalTime currentTime=LocalTime.now();
@@ -131,8 +189,10 @@ public class Task implements Serializable{
     		}
     }
    /*
-    * Returns the difference between the date created and
-    * @param a given date
+    * Method Returns the difference between the date 
+    * created and a specified date
+    * @param date to be compared too
+    * @return difference between 2 dates
     */
     public String diffDates(LocalDate date2Compare){
 
