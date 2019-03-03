@@ -23,6 +23,7 @@ public class Interaction {
     private DateTimeFormatter dateFormat;
     private boolean listEmpty;
     private boolean sortByDate;
+    private boolean saved;
 
     public Interaction(){
         sc= new Scanner(System.in);
@@ -31,6 +32,7 @@ public class Interaction {
         currentDate=LocalDate.now();
         dateFormat = DateTimeFormatter.ofPattern("E d/M/u");
         sortByDate = true;
+        saved = false;
         welcomeMenu();
     }
     /*
@@ -123,6 +125,7 @@ public class Interaction {
         		switch (input){
                 	case 1:		createTask();
                 					listEmpty=false;
+                                    saved =false;
                 					break;
 
                 	case 2: 	if (!listEmpty){
@@ -150,7 +153,6 @@ public class Interaction {
                     case 5:     Project.viewProjects();
                                 break;
 
-
                 	case 6: 	if (!listEmpty){
                 					taskInfoMenu();
                 					break;
@@ -160,6 +162,7 @@ public class Interaction {
 
                 	case 7: 	if (!listEmpty){
                 					taskEditorMenu();
+                                    saved=false;
                 					break;
                 				}           
                 				skippingPrompt=true;                						
@@ -172,15 +175,37 @@ public class Interaction {
 
                 	case 68:    if (!listEmpty){
 									saveList();
+                                    saved = true;
                 					break;
                 				} 
                 				skippingPrompt=true;                						
                 				break;
 
-        			case 999: 	printMessage("goodbuy"); 
-        					  	open=false;
-        					  	skippingPrompt=true;
-                			  	break;                			
+        			case 999: 	if (listEmpty || saved){
+                                    printMessage("goodbuy"); 
+                                    open=false;
+                                    skippingPrompt=true;
+                                    break;
+                                }
+                                else{
+                                    System.out.println(">> Would you like to save before leaving??");
+                                    System.out.println(">> (1) Yes");
+                                    System.out.println(">> (2) No");
+                                    int choice=sc.nextInt();
+                                    if (choice==2) {
+                                        printMessage("goodbuy"); 
+                                        open=false;
+                                        skippingPrompt=true;
+                                        break;                                     
+                                    }
+                                    else if(choice==1) {
+                                        sc.nextLine();
+                                        saveList();
+                                        break;                                    
+                                    }
+                                    
+                                }
+               			
         		}
         		if(!skippingPrompt){
         			printMessage("chooseOption");
@@ -561,7 +586,7 @@ public class Interaction {
     private void printTaskEditorWelcome(){
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");    	
     	System.out.println(">> **** Task Editor Menu ****");
-    	System.out.println(">> (999) EXIT back to the main menu");
+    	System.out.println(">> (999) Exit back to the main menu");
     	System.out.println(">> (1) Add a note to a task");
     	System.out.println(">> (2) Set a task to completed");
     	System.out.println(">> (3) Edit task name");
