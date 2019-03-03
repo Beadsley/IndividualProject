@@ -88,7 +88,7 @@ public class ToDoList implements Serializable{
     private void filterByProject(String projectName){
     			toDoList.stream()
     				    .sorted(new SortByDueDate())
-    			    	.filter(t->t.getProject().getName().equals(projectName))
+    			    	.filter(t->t.getprojectName().equals(projectName))
     				    .forEach(t->System.out.println(String.format(
     			    			 "%1$-30s %2$-10s",
     			    		     t.getTaskName(),			
