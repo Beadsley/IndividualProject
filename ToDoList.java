@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.io.Serializable;
-import java.util.HashSet;
+
 
 /*
  * Class creates a todo list used to
@@ -10,13 +10,12 @@ import java.util.HashSet;
 public class ToDoList implements Serializable{
 
     private ArrayList<Task> toDoList;
-    private static HashSet<Project> projects;
 
 
     public ToDoList(){
 
         toDoList= new ArrayList<>();
-        projects= new HashSet<>();        
+              
 
     }
    /*
@@ -33,20 +32,12 @@ public class ToDoList implements Serializable{
     public void removeTask(int i){
     	toDoList.remove(i);
     }
-    public static void addProject2Set(Project p){
-    	projects.add(p);
-    } 
-    public static void viewProjects(){
-    	for (Project p:projects){
-    		System.out.println(p);
-    		System.out.println(p.getName());
-    	}
-    }
+
 
    /*
     * prints the contents of the list
-    * @param to sort this list by duedate or 
-    * not
+    * @param whether to sort this list by duedate  
+    * @param name of the project
     */
     public void printList(Boolean sortByDate, String project){
 		Interaction.printMessage("---");
@@ -58,7 +49,7 @@ public class ToDoList implements Serializable{
     	else if(toDoList.size()>0 && sortByDate && project.equals("allProjects")){
     		printByDate();
     	}
-    	else if (sortByDate && projects.contains(project)){
+    	else if (sortByDate && Project.containsProject(project)){
     		filterByProject(project);
     	}
     	else{
@@ -66,14 +57,21 @@ public class ToDoList implements Serializable{
     	}
     	Interaction.printMessage("---");
     }
+   /*
+    * Method prints out all tasks corresponding
+    * to their index
+    */
     private void printByIndex(){
 			for (int i=0; i<toDoList.size(); i++){
     			System.out.println("<"+i+"> " + String.format("%1$-30s %2$-10s",
     				               toDoList.get(i).getTaskName(),    								
     								Formatter.duedateFormatter(toDoList.get(i).getDueDate())));
     		}
-
     }
+   /*
+    * Method prints out all non completed tasks
+    * in order of when they need to be completed
+    */
     private void printByDate(){
 			toDoList.stream()
     			    .sorted(new SortByDueDate())
@@ -83,11 +81,12 @@ public class ToDoList implements Serializable{
     			    	     t.getTaskName(),	 		
     					     Formatter.duedateFormatter(t.getDueDate()))));    	
     }
+   /*
+    * Method prints out all tasks of a corresponding project
+    * @param name of the project
+    */
     private void filterByProject(String projectName){
-			Interaction.printMessage("---");
-			System.out.println(String.format("%1$-30s %2$-10s", " "+projectName+" ToDos:", "Complete by:"));
-    		Interaction.printMessage("---");
-    					toDoList.stream()
+    			toDoList.stream()
     				    .sorted(new SortByDueDate())
     			    	.filter(t->t.getProject().getName().equals(projectName))
     				    .forEach(t->System.out.println(String.format(
