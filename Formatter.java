@@ -2,10 +2,15 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
 import java.time.LocalTime;
+
 /*
- * Class to format dates and times
- * has been created due to the fact 
- * DateTimeFormatter is not serialisable
+ * This class formats dates and times
+ *
+ * A seperate class to format these types has 
+ * been created beacuse DateTimeFormatter
+ * is non serialisable
+ *
+ * @author Daniel Beadleson
  */
 
 public class Formatter{
@@ -15,7 +20,8 @@ public class Formatter{
     private static DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("d/MM/yyyy");
 
    /*
-    * checks if the date is of the correct format
+    * Method checks if the date inputed through the
+    * terminal is of the correct format
     * @param date to be analyseed
     * @return correct format
     */
@@ -30,7 +36,7 @@ public class Formatter{
     	}	
     }
    /* 
-	* Method converts the completion date inputed into
+	* Method converts a completion date into
 	* a fancy format used to be printed back to the user  
 	* @param completion date to be converted
 	* @return fancy completion date
@@ -42,7 +48,7 @@ public class Formatter{
     }
    /*
     * Method converts the completion date into a format the
-    * system can read
+    * system can read and analyse
     * @param completion date to be converted
     * @return completion date in a system format
 	*/
@@ -62,12 +68,12 @@ public class Formatter{
     }
    /*
     * Method converts a date into a fancy format
+    * used to be printed back to the user 
     * @param date to be converted
     * @return converted date
     */
     public static String dateFormatter(LocalDate date){
     	  String datePrintFormat=date.format(dateFormat);
-
     	  return datePrintFormat;
     }
 

@@ -5,15 +5,22 @@ import java.io.ObjectOutputStream;
 import java.io.FileOutputStream;
 
 /*
- * Class opens  and saves a todo 
- * list to a .BIN file
+ * This class saves and opens files of type .BIN.
  * 
+ * The FileReader saves the current todo list to
+ * a .BIN file when a specified filePath and
+ * fileName are supplied via input through 
+ * the terminal. The .BIN file can then be opened
+ * when a filePath is supplied.
+ *
+ * @author Daniel Beadleson
  */
 
 public class FileReader{
 
    /*
-    * imports a file of an existing todo list
+    * Method imports a .BIN file containing an 
+    * existing todo list
     * @param filepath 
     */
     public static Object importFile(String filepath){
@@ -27,12 +34,12 @@ public class FileReader{
 	      catch(IOException | ClassNotFoundException e){
       		  return e.getMessage(); 
 	      }
-
     }
-    /*
-    *creates an output file
-    *@param filepath of the output directory
-    *@pram filename of the file to save
+   /*
+    * Method creates a .BIN file containing the 
+    * current toDo list
+    * @param filepath of the output directory
+    * @pram filename of the file to save
     */
     public static void exportFile(String filepath, String filename, ToDoList list2save){
    	    try{

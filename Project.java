@@ -2,14 +2,9 @@ import java.io.Serializable;
 import java.util.HashSet;
 
 /*
- * Class creates a project object
- * @param name of the project
- * a task may be assigned to a project
- * when a task object is created it is
- * automatically assigned to a 'Not Assigned'
- * project object
+ * This Class stores information about projects
  * 
- * 
+ * @author Daniel Beadleson 
  */
 
 public class Project implements Serializable{
@@ -38,7 +33,7 @@ public class Project implements Serializable{
     		Interaction.printMessage("---");
     	}
     	else{
-    		System.out.println(">> **** No projects assigned ****");
+    		System.out.println(">> **** No tasks have been assigned to a project ****");
     	}  		
     }
    /*
