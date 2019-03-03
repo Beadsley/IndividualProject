@@ -135,7 +135,7 @@ public class Interaction {
                 	case 3:		if (!listEmpty){
                 					System.out.println(">> Enter project name ");
                 					currentList.printList(sortByDate, sc.nextLine().trim());
-                					ToDoList.viewProjects();
+                					Project.viewProjects();
                 					break;
                 				}
                 				skippingPrompt=true;                			           			

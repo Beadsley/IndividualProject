@@ -36,7 +36,7 @@ public class Task implements Serializable{
         completionDate="";
         done=false;
         project= new Project("Not Assigned");
-        ToDoList.addProject2Set(project);
+        
 
     }
    /*
