@@ -2,8 +2,9 @@ import java.util.ArrayList;
 import java.io.Serializable;
 
 /*
- * Class creates a todo list used to
- * store task objects
+ * This class creates a todo list used to store tasks. 
+ *
+ * @author Daniel Beadleson 
  */
 
 public class ToDoList implements Serializable{
@@ -17,6 +18,7 @@ public class ToDoList implements Serializable{
         toDoList= new ArrayList<>(); 
         completedTasks=0;
         unCompletedTasks=0;
+        
     }
    /*
     * Method adds a task to the list
@@ -26,14 +28,16 @@ public class ToDoList implements Serializable{
         toDoList.add(t);
     }
    /*
-    * removes a task from the list
+    * Method removes a task from the list
     * @param index of the task
     */
     public void removeTask(int i){
     	toDoList.remove(i);
     }
    /*
-    * prints the contents of the list
+    * Method prints the contents of the to-do list. The list can 
+    * be printed with task indices, sorted by completion date
+    * or filtered by a specified project
     * @param whether to sort this list by duedate  
     * @param name of the project
     */
@@ -101,10 +105,9 @@ public class ToDoList implements Serializable{
 
     	return toDoList.get(i);
     }
-
    /*
     * Method returns the size of a list
-    * @return true if the element exists in the list
+    * @return size of to-do list
     * @param names of the task to find
     */
     public int getListSize(){

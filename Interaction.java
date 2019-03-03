@@ -6,11 +6,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /* 
- * Class creates the user interaction.
- * Enabling the user to create or open 
- * an existing todo list. Tasks can be 
+ * This Class creates the user interaction.
+ *
+ * The Interaction enables the user to input
+ * commands via the terminal. The user can create 
+ * or open an existing todo list. Tasks can be 
  * created and attributes can be assigned
- * to the task
+ * to the task using the task editor. 
+ * Attributes can be viewed in task information. 
+ * 
+ *  @author Daniel Beadleson
  */
 
 public class Interaction {
@@ -26,6 +31,7 @@ public class Interaction {
     private boolean saved;
 
     public Interaction(){
+
         sc= new Scanner(System.in);
         open=true;
         listEmpty=true;
@@ -34,10 +40,11 @@ public class Interaction {
         sortByDate = true;
         saved = false;
         welcomeMenu();
+        
     }
-    /*
-    * welcome page where 
-    * User can create a new list
+   /*
+    * Method creates a welcome page where 
+    * the user can decide to create a new list
     * or open an existing list
     */
     private void welcomeMenu(){
@@ -118,7 +125,17 @@ public class Interaction {
         }
     }
    /*
-    *  main menu
+    * Method creates a main menu where the user can:
+    * 1) create a new task
+    * 2) view a list of uncompleted tasks
+    * 3) view a list of tasks filtered by project
+    * 4) find a task in the list
+    * 5) view a list of projects 
+    * 6) go to task information 
+    * 7) go to task editor
+    * 8) view main menu again
+    * 9) save the current list
+    * 999) Exit application
     */
     private void mainMenu(){ 
     	printMainMenu();
@@ -179,7 +196,7 @@ public class Interaction {
   								skippingPrompt=true;        					        					
         						break;
 
-                	case 68:    if (!listEmpty){
+                	case 9:    if (!listEmpty){
 									saveList();
                                     saved = true;
                 					break;
@@ -228,8 +245,10 @@ public class Interaction {
     		}
 		}            
     }
-    /*
-     * method adds a new task, with a completion date
+   /*
+    * Method creates a new task, in which a completion
+    * date must be assigned to the task in a specific 
+    * format.
     */
     private void createTask(){
     	
@@ -271,7 +290,7 @@ public class Interaction {
     }
    /*
     * Method sees if a task exists in the list
-    * If so, task information will be printed
+    * If so, task information will be printed 
     */
     private void findTask(){
 		System.out.println(">> Enter the task name e.g clean house");            	
@@ -286,7 +305,8 @@ public class Interaction {
 	}
    /*
 	* Method saves the current todo list to a .Bin
-	* file
+	* file. Filepath and filename are specified via
+    * the terminal
 	*/
 	private void saveList(){
      	System.out.println(">> Enter file path e.g. /Users/");								
@@ -295,9 +315,11 @@ public class Interaction {
 		String filename=sc.nextLine();
 		FileReader.exportFile(filepath, filename, currentList);		
 	}
-    /* USE SWITCH CASE
-    * User can delete and add notes to 
-    * a task
+   /* 
+    * Method creates a task information menu. The user 
+    * can see a list of all tasks and corresponding indices.
+    * The user is able to enter a task index in order 
+    * to view information about the task. 
     */
     private void taskInfoMenu(){
     	printTaskInfoWelcome();
@@ -323,7 +345,7 @@ public class Interaction {
     }
    /*
     * Method informs the user on which task indices
-    * can be selected
+    * can be inputed into the terminal
     */
     private void printListIndices(){
     			sc.nextLine();
@@ -336,9 +358,14 @@ public class Interaction {
 					System.out.println(">> **** Choose task number from <0 --> "+listSize+"> ****");
 				}
     }
-   /* verifies if the index is
-   	* out of bounds
-    * @param task index
+   /* Method creates a task editor menu where the user can:
+    * 999) Exit back to main menu
+   	* 1) add a note to a task
+    * 2) assign a task to completed
+    * 3) edit a tasks name
+    * 4) assign a task to a project
+    * 8) view task editor menu again
+    * 9) remove a task from the list
     */
     private void taskEditorMenu(){
     	printTaskEditorWelcome();
@@ -435,7 +462,7 @@ public class Interaction {
     		}
     	}
     }
-    /*
+   /*
     * Method adds a note to a task
     * @param task index
     */
@@ -469,7 +496,7 @@ public class Interaction {
     }
    /*
     * Method assigns a task to a project
-    *@param task index
+    * @param task index
     */
     private void assignTask2Project(int index){
 		Task t=currentList.getTask(index);
@@ -485,9 +512,8 @@ public class Interaction {
         }   	  							 
     } 
    /*
-    * prints out a response message
-    * @param String representing the repsonse to be 
-    * printed
+    * Method prints out a response message
+    * @param String representing the response to be printed    
     */ 
     public static void printMessage(String s){
     	switch (s){
@@ -507,10 +533,8 @@ public class Interaction {
         							break;				  							   							 
     	}
     }
-    /*
-	* prints out welcoming message and
-	* options for a new list or open an existing 
-	* file  
+   /*
+	* Method prints the welcome menu  
     */
 	private void printWelcomeMenu(){
 		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
@@ -524,7 +548,7 @@ public class Interaction {
 		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
 	}
    /*
-    *  Prints out the opening message alongside intial instructions
+    * Method prints the main menu
     */
     private void printMainMenu(){
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
@@ -540,12 +564,12 @@ public class Interaction {
         System.out.println(">> (5) View projects");
         System.out.println(">> (6) **** Task Info ****");
 		System.out.println(">> (7) **** Task Editor ****");
-		System.out.println(">> (68) Save To-do list");    
+		System.out.println(">> (9) Save To-do list");    
         System.out.println(">> (999) To Exit");		    
        	System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
     }
-    /*
-    *	prints the opening message to the task information
+   /*
+    * Method prints the task information menu
     */
     private void printTaskInfoWelcome(){
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");    	
@@ -554,7 +578,7 @@ public class Interaction {
     	System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");    	
     }
    /*
-    * prints informations about a specified task
+    * Method prints information about a specified task
     * @param index of the task
     */
     private void printTaskInfo(int index){
@@ -585,8 +609,8 @@ public class Interaction {
     	System.out.println(">> Or");
     	printMessage("enterTaskNumber");
     }
-    /*
-    *	prints the opening message to the task editor
+   /*
+    * Method prints the task editor menu
     */
     private void printTaskEditorWelcome(){
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");    	

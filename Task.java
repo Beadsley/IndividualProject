@@ -6,15 +6,18 @@ import java.time.Period;
 import java.io.Serializable;
 
 /*
- * Class creates a task object
- * @param the name of the task 
- * a task can have a number of attributes.
+ * This class creates a task object
+ *
+ * @param the name of the task
+ * 
+ * a task has a number of attributes.
  * a completion date must be assigned when
- * a task object is created. A task object is 
- * automatically assigned to uncompleted. A task 
- * can have notes assigned to it and the creation 
- * time, alngside timeto completion date may be 
- * calculated  
+ * a task object is created. A task can have notes 
+ * assigned and be assigned to a project. The creation date 
+ * and time is assigned automatically when a task is 
+ * created, alongside its status.
+ *
+ * @author Daniel Beadleson   
  */
 
 public class Task implements Serializable{ 
@@ -36,13 +39,12 @@ public class Task implements Serializable{
         timeCreated=LocalTime.now();
         completionDate="";
         done=false;
-        projectName="Not Assigned";
-        
+        projectName="Not Assigned";       
 
     }
    /*
     * Method sets the name of the task
-    * @param task's name
+    * @param tasks name
     */
     public void setTaskName(String name){
     	taskName=name;
@@ -56,7 +58,7 @@ public class Task implements Serializable{
     }
    /*
     * Method assigns a completion date
-    * @param date in the format 12/12/2018
+    * @param date in the format dd/mm/yyyy
     */
     public void setDueDate(String date){
     	completionDate=date;
@@ -78,8 +80,8 @@ public class Task implements Serializable{
         Project.addProject2Set(name);
     }
    /*
-    * Method reyruns the project that the task is 
-    * assigned too
+    * Method returns the project that the task is 
+    * assigned to
     * @return name of the project
     */
     public String getprojectName(){
@@ -130,7 +132,7 @@ public class Task implements Serializable{
     }
    /*
     * Method adds notes corresponding to the task
-    * @oaram notes content
+    * @param notes content
     */
     public void addNote(String text){
         notes.add(text);

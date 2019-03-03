@@ -1,13 +1,15 @@
 import java.util.Comparator;
 
 /*
- * Class allows the todo list to be sorted
+ * This Class allows the todo list to be sorted
  * by the date of completion  
+ *
+ * @author Daniel Beadleson 
  */
 
 public class SortByDueDate implements Comparator<Task>{
    /*
-	* Method compares the copletion date of
+	* Method compares the completion date of
 	* 2 task objects
 	*/
     public int compare(Task t, Task t2) {
