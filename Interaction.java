@@ -135,7 +135,6 @@ public class Interaction {
                 	case 3:		if (!listEmpty){
                 					System.out.println(">> Enter project name ");
                 					currentList.printList(sortByDate, sc.nextLine().trim());
-                					Project.viewProjects();
                 					break;
                 				}
                 				skippingPrompt=true;                			           			
@@ -148,14 +147,18 @@ public class Interaction {
                 				skippingPrompt=true;                			           			
                 				break;
 
-                	case 5: 	if (!listEmpty){
+                    case 5:     Project.viewProjects();
+                                break;
+
+
+                	case 6: 	if (!listEmpty){
                 					taskInfoMenu();
                 					break;
                 				}           		
                 				skippingPrompt=true;                				
                 				break;  
 
-                	case 6: 	if (!listEmpty){
+                	case 7: 	if (!listEmpty){
                 					taskEditorMenu();
                 					break;
                 				}           
@@ -444,8 +447,9 @@ public class Interaction {
 		Task t=currentList.getTask(index);
     	System.out.println(">> Enter project name");
     	sc.nextLine();
-    	t.getProject().setProjectName(sc.nextLine());
-    	System.out.println("----> Name changed :)");    							 
+        t.setTask2project(sc.nextLine());
+    	//t.getProject().setProjectName(sc.nextLine());
+    	System.out.println("----> Assigned to project :)");    							 
     } 
    /*
     * prints out a response message
@@ -498,8 +502,9 @@ public class Interaction {
         System.out.println(">> (2) View uncompleted tasks");
         System.out.println(">> (3) View tasks by project");
         System.out.println(">> (4) Find a task");
-        System.out.println(">> (5) **** Task Info ****");
-		System.out.println(">> (6) **** Task Editor ****");
+        System.out.println(">> (5) View projects");
+        System.out.println(">> (6) **** Task Info ****");
+		System.out.println(">> (7) **** Task Editor ****");
 		System.out.println(">> (68) Save To-do list");    
         System.out.println(">> (999) To Exit");		    
        	System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
@@ -526,7 +531,7 @@ public class Interaction {
     	System.out.println(t.getStatus());
     	System.out.println();
     	System.out.println("Project:");
-    	System.out.println(t.getProject().getName());
+    	System.out.println(t.getprojectName());
     	System.out.println();
     	System.out.println("Created:");
     	System.out.println(t.getDateCreated());

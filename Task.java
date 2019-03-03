@@ -25,7 +25,8 @@ public class Task implements Serializable{
     private LocalTime timeCreated;
     private String completionDate;
     private boolean done;   
-	private Project project;    
+	private Project project;
+    private String projectName;    
 
     public Task(String taskName){
 
@@ -35,7 +36,7 @@ public class Task implements Serializable{
         timeCreated=LocalTime.now();
         completionDate="";
         done=false;
-        project= new Project("Not Assigned");
+        projectName="Not Assigned";
         
 
     }
@@ -47,22 +48,21 @@ public class Task implements Serializable{
     	taskName=name;
     }
    /*
-    * returns the name of the task
+    * Method returns the name of the task
     * @return tasks name
 	*/
     public String getTaskName(){
     	return taskName;
     }
    /*
-    * set due date
+    * Method assigns a completion date
     * @param date in the format 12/12/2018
     */
     public void setDueDate(String date){
     	completionDate=date;
-
     }
    /*
-    * Returns the date in which the task
+    * Method returns the date in which the task
     * must be completed
     * @return completion date
     */
@@ -70,14 +70,23 @@ public class Task implements Serializable{
     		return completionDate;    
     }
    /*
-    * Returns the project object
-    * @return project
+    * Method assigns a task to a project
+    * @param name of the project
     */
-    public Project getProject(){
-   		return project;
-   }
+    public void setTask2project(String name){
+        this.projectName=name;
+        Project.addProject2Set(name);
+    }
+   /*
+    * Method reyruns the project that the task is 
+    * assigned too
+    * @return name of the project
+    */
+    public String getprojectName(){
+        return projectName;
+    }
    /* 
-    * Returns the status of the task
+    * Method returns the status of the task
     * @return task status
     */
     public String getStatus(){
@@ -87,7 +96,7 @@ public class Task implements Serializable{
     	return "Not Completed";
     }
    /*
-    * sets the task to completed
+    * Method assigns the task to completed
     * or not completed
     * @param tasks status
     */
@@ -100,7 +109,7 @@ public class Task implements Serializable{
     	}    	
     }
    /*
-    * Returns the amount of time left 
+    * Method returns the amount of time left 
     * to complete the task or if 
     * the task is over due
     * @return time till completion
@@ -120,14 +129,14 @@ public class Task implements Serializable{
     		}
     }
    /*
-    * adds notes about the task
+    * Method adds notes corresponding to the task
     * @oaram notes content
     */
     public void addNote(String text){
         notes.add(text);
     }
    /*
-    * returns the size of the notes arraylist
+    * Method returns the size of the notes arraylist
     * @return amount of a tasks notes 
     */
     public int notesAvailable(){
@@ -140,7 +149,7 @@ public class Task implements Serializable{
     	notes.stream().forEach(System.out::println);
     }
    /*
-    * method returns the time of creation
+    * Method returns the time of creation
     * @return time created
     */
     public String getTimeCreated()
@@ -148,14 +157,14 @@ public class Task implements Serializable{
         return Formatter.timeFormatter(timeCreated);
     }
    /*
-    * returns the date of creation
+    * Method returns the date of creation
     * @return date created
     */
     public String getDateCreated(){
     		return Formatter.dateFormatter(dateCreated);
     }
    /*
-	* Returns the amount of time  
+	* Method returns the amount of time  
 	* since the task was created
     * @return tasks age
 	*/
@@ -180,8 +189,8 @@ public class Task implements Serializable{
     		}
     }
    /*
-    * Returns the difference between the date created and
-    * a date
+    * Method Returns the difference between the date 
+    * created and a specified date
     * @param date to be compared too
     * @return difference between 2 dates
     */

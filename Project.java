@@ -14,42 +14,32 @@ import java.util.HashSet;
 
 public class Project implements Serializable{
 
-	private String projectName;
-    private static HashSet<String> projectNames;	
+    private static HashSet<String> projectNames= new HashSet<>(); 	
 
-	public Project(String projectName){
-		this.projectName=projectName;
-		projectNames= new HashSet<>();  
-	}
-   /*
-	* Method sets the name of the project
-	*/
-	public void setProjectName(String name){
-		projectName=name;
-		addProject2Set(name);
-	}
-   /*
-    * Method retrieves the name of a project
-    * @return tasks name
-    */
-	public String getName(){
-		return projectName;
-	}
    /*
 	* Method adds the project name to a set
 	* @param name of the project
 	*/
-	public void addProject2Set(String name){
+	public static void addProject2Set(String name){
     	projectNames.add(name);
     } 
    /*
     * Method prints all projectNames
     */
     public static void viewProjects(){
-    	for (String s:projectNames){
-    		System.out.println(s);
-    		
+    	
+    	if (projectNames.size()!=0){
+    		Interaction.printMessage("---");
+    		System.out.println("Projects:");
+    		Interaction.printMessage("---");
+    		for (String s:projectNames){
+    			System.out.println(s);    		
+    		}
+    		Interaction.printMessage("---");
     	}
+    	else{
+    		System.out.println(">> **** No projects assigned ****");
+    	}  		
     }
    /*
 	* Method sees if a project name exists
@@ -61,8 +51,4 @@ public class Project implements Serializable{
     	}
     	return false;
     }
-    
-
-
-
 }
