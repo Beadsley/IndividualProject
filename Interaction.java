@@ -447,9 +447,14 @@ public class Interaction {
 		Task t=currentList.getTask(index);
     	System.out.println(">> Enter project name");
     	sc.nextLine();
-        t.setTask2project(sc.nextLine());
-    	//t.getProject().setProjectName(sc.nextLine());
-    	System.out.println("----> Assigned to project :)");    							 
+        String projectName=sc.nextLine();
+        if (projectName.equals("allProjects")){
+            System.out.println(">> **** 'allProjects' can't be used as a project name ****");
+        }
+        else{
+            t.setTask2project(projectName); 
+            System.out.println("----> Assigned to project :)");  
+        }   	  							 
     } 
    /*
     * prints out a response message

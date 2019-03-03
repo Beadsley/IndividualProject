@@ -14,8 +14,7 @@ public class ToDoList implements Serializable{
 
     public ToDoList(){
 
-        toDoList= new ArrayList<>();
-              
+        toDoList= new ArrayList<>();              
 
     }
    /*

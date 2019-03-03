@@ -17,16 +17,16 @@ public class FileReader{
     * @param filepath 
     */
     public static Object importFile(String filepath){
-	  try{
-   	  FileInputStream fis = new FileInputStream(filepath);
-      ObjectInputStream ois = new ObjectInputStream(fis);
-      Object importedList= ois.readObject(); 
-	  ois.close();
-	  return importedList;	  	
-	  }
-	  catch(IOException | ClassNotFoundException e){
-      		return e.getMessage(); 
-	  }
+	      try{
+   	        FileInputStream fis = new FileInputStream(filepath);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            Object importedList= ois.readObject(); 
+	          ois.close();
+	          return importedList;	  	
+	      }
+	      catch(IOException | ClassNotFoundException e){
+      		  return e.getMessage(); 
+	      }
 
     }
     /*
@@ -35,18 +35,16 @@ public class FileReader{
     *@pram filename of the file to save
     */
     public static void exportFile(String filepath, String filename, ToDoList list2save){
-   	try{
-		FileOutputStream fos = new FileOutputStream(filepath+filename+".BIN"); //maybe don't export as a text file
-      	ObjectOutputStream oos = new ObjectOutputStream(fos);
-      	oos.writeObject(list2save);
-      	oos.close();
-      	System.out.println("----> File saved :)"); 	
+   	    try{
+		        FileOutputStream fos = new FileOutputStream(filepath+filename+".BIN"); //maybe don't export as a text file
+      	    ObjectOutputStream oos = new ObjectOutputStream(fos);
+      	    oos.writeObject(list2save);
+      	    oos.close();
+      	    System.out.println("----> File saved :)"); 	
       	}
       	catch(IOException e){
-      		Interaction.printMessage("error");
-      		System.out.println(e.getMessage());
+      		  Interaction.printMessage("error");
+      		  System.out.println(e.getMessage());
       	}
-
-
 	}
 }
