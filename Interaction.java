@@ -58,9 +58,7 @@ public class Interaction {
         							skippingPrompt=true;        					
         							break;
 
-        			case 999: 	printMessage("goodbuy"); 
-        					  		open=false;
-        					  		skippingPrompt=true;
+        			case 999: 	exit();
         					  		break;
         		} 
         		if(!skippingPrompt){
@@ -77,6 +75,14 @@ public class Interaction {
     	if (open){
     		mainMenu();
     	}  
+    }
+   /*
+    * Method to exit the application
+    */
+    private void exit(){
+        printMessage("goodbuy"); 
+        open=false;
+        skippingPrompt=true;
     }
     /*
     * Method creates a new todo list
@@ -182,9 +188,7 @@ public class Interaction {
                 				break;
 
         			case 999: 	if (listEmpty || saved){
-                                    printMessage("goodbuy"); 
-                                    open=false;
-                                    skippingPrompt=true;
+                                    exit();
                                     break;
                                 }
                                 else{
@@ -193,14 +197,13 @@ public class Interaction {
                                     System.out.println(">> (2) No");
                                     int choice=sc.nextInt();
                                     if (choice==2) {
-                                        printMessage("goodbuy"); 
-                                        open=false;
-                                        skippingPrompt=true;
+                                        exit();
                                         break;                                     
                                     }
                                     else if(choice==1) {
                                         sc.nextLine();
                                         saveList();
+                                        exit();                                       
                                         break;                                    
                                     }
                                     
@@ -527,6 +530,8 @@ public class Interaction {
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
     	System.out.println(">> **** Main Menu ****");
     	System.out.println(">> " + currentDate.format(dateFormat));
+        System.out.println(">> You have "+ currentList.numberOfTasksNotCompleted() +
+                           " task(s) todo and "+currentList.numberOfTasksCompleted()+" task(s) are done!");
 		System.out.println(">> Choose an option:");    	
         System.out.println(">> (1) Add a task");
         System.out.println(">> (2) View uncompleted tasks");
