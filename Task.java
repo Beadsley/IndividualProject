@@ -175,13 +175,13 @@ public class Task implements Serializable{
     	long elapsedSeconds=Duration.between(timeCreated,currentTime).toSeconds();
     	long elapsedMinutes=Duration.between(timeCreated, currentTime).toMinutes();
     	long elapsedHours=Duration.between(timeCreated, currentTime).toHours();
-    		if (elapsedSeconds<60){
+    		if (elapsedSeconds<60 && elapsedSeconds>0){
     			return elapsedSeconds+ " seconds ago";
     		}
-    		else if(elapsedMinutes<60){
+    		else if(elapsedMinutes<60 && elapsedMinutes>0){
     			return elapsedMinutes+ " minute(s) ago";
     		}
-    		else if(elapsedHours<24){
+    		else if(elapsedHours<24 && elapsedHours>0){
     			return elapsedHours+ " hour(s) ago";
     		}
     		else {
