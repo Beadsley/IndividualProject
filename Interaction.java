@@ -106,7 +106,7 @@ public class Interaction {
     private void openExistingList(){
 		sc.nextLine(); 
         System.out.println(">> Enter file path e.g./Users/ToList.BIN");
-        String filepath= sc.nextLine();        					
+        String filepath= sc.nextLine().trim();        					
         Object o=FileReader.importFile(filepath);        					
         if (o instanceof ToDoList){
         	System.out.println("----> File opened :)"); 
