@@ -4,7 +4,7 @@ A completion date, project, notes and a status may be assigned to a given
 task. And the list may be re opened in the application as long as the user 
 saves the list as a .BIN file via the application. 
 
-#How to use
+# How to use
 From the welcome menu a user can choose to open an existing to-do list
 or create a new to-do list or simply exit the application. From the main
 menu the user has a number of options. Firstly add a task to the list, 
