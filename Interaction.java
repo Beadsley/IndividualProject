@@ -335,6 +335,9 @@ public class Interaction {
     			} 
     			else{
     				printTaskInfo(input);
+					printMessage("mainMenuPrompt");
+			    	System.out.println(">> Or");
+			    	printMessage("enterTaskNumber");
     			} 
     		}
         	catch (InputMismatchException | IndexOutOfBoundsException e) {    			
@@ -605,9 +608,6 @@ public class Interaction {
     		t.printNotes();
 		}
 		printMessage("---");
-    	printMessage("mainMenuPrompt");
-    	System.out.println(">> Or");
-    	printMessage("enterTaskNumber");
     }
    /*
     * Method prints the task editor menu
