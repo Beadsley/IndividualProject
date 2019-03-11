@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-/* 
+/** 
  * This Class creates the user interaction.
  *
  * The Interaction enables the user to input
@@ -42,10 +42,11 @@ public class Interaction {
         welcomeMenu();
         
     }
-   /*
+   /**
     * Method creates a welcome page where 
     * the user can decide to create a new list
     * or open an existing list
+    * @throws InputMismatchException 
     */
     private void welcomeMenu(){
     	printWelcomeMenu(); 
@@ -83,7 +84,7 @@ public class Interaction {
     		mainMenu();
     	}  
     }
-   /*
+   /**
     * Method to exit the application
     */
     private void exit(){
@@ -91,7 +92,7 @@ public class Interaction {
         open=false;
         skippingPrompt=true;
     }
-    /*
+   /**
     * Method creates a new todo list
     */
     private void createNewList(){
@@ -100,7 +101,7 @@ public class Interaction {
         System.out.println("----> List Created :)");
         skippingPrompt=true;
     }
-   /*
+   /**
     * Method opens an existing .BIN file 
     */
     private void openExistingList(){
@@ -124,7 +125,7 @@ public class Interaction {
         	System.out.println(o.getClass()); 
         }
     }
-   /*
+   /**
     * Method creates a main menu where the user can:
     * 1) create a new task
     * 2) view a list of uncompleted tasks
@@ -136,6 +137,7 @@ public class Interaction {
     * 8) view main menu again
     * 9) save the current list
     * 999) Exit application
+    * @throws InputMismatchException
     */
     private void mainMenu(){ 
     	printMainMenu();
@@ -245,10 +247,11 @@ public class Interaction {
     		}
 		}            
     }
-   /*
+   /**
     * Method creates a new task, in which a completion
     * date must be assigned to the task in a specific 
     * format.
+    * @throws DateTimeParseException
     */
     private void createTask(){
     	
@@ -288,7 +291,7 @@ public class Interaction {
 				}	
              }					
     }
-   /*
+   /**
     * Method sees if a task exists in the list
     * If so, task information will be printed 
     */
@@ -303,7 +306,7 @@ public class Interaction {
 			printTaskInfo(index);
 		}
 	}
-   /*
+   /**
 	* Method saves the current todo list to a .Bin
 	* file. Filepath and filename are specified via
     * the terminal
@@ -315,11 +318,12 @@ public class Interaction {
 		String filename=sc.nextLine();
 		FileReader.exportFile(filepath, filename, currentList);		
 	}
-   /* 
+   /** 
     * Method creates a task information menu. The user 
     * can see a list of all tasks and corresponding indices.
     * The user is able to enter a task index in order 
     * to view information about the task. 
+    * @throws InputMismatchException_IndexOutOfBoundsException
     */
     private void taskInfoMenu(){
     	printTaskInfoWelcome();
@@ -346,7 +350,7 @@ public class Interaction {
     		}   			  			
     	}
     }
-   /*
+   /**
     * Method informs the user on which task indices
     * can be inputed into the terminal
     */
@@ -361,7 +365,8 @@ public class Interaction {
 					System.out.println(">> **** Choose task number from <0 --> "+listSize+"> ****");
 				}
     }
-   /* Method creates a task editor menu where the user can:
+   /** 
+    * Method creates a task editor menu where the user can:
     * 999) Exit back to main menu
    	* 1) add a note to a task
     * 2) assign a task to completed
@@ -369,6 +374,7 @@ public class Interaction {
     * 4) assign a task to a project
     * 8) view task editor menu again
     * 9) remove a task from the list
+    * @throws InputMismatchException_IndexOutOfBoundsException
     */
     private void taskEditorMenu(){
     	printTaskEditorWelcome();
@@ -465,7 +471,7 @@ public class Interaction {
     		}
     	}
     }
-   /*
+   /**
     * Method adds a note to a task
     * @param task index
     */
@@ -476,7 +482,7 @@ public class Interaction {
     	t.addNote(sc.nextLine());
     	System.out.println("----> Note Added :)");
     }
-   /*
+   /**
     * Method sets a tasks status to completed
     * @param task index 
     */
@@ -486,7 +492,7 @@ public class Interaction {
     	System.out.println("----> Task Completed");
     	sc.nextLine();
     }
-   /*
+   /**
     * Method edits the name of a task
     * @param task index
     */
@@ -497,7 +503,7 @@ public class Interaction {
     	t.setTaskName(sc.nextLine());
     	System.out.println("----> Name changed :)");    	
     }
-   /*
+   /**
     * Method assigns a task to a project
     * @param task index
     */
@@ -514,7 +520,7 @@ public class Interaction {
             System.out.println("----> Assigned to project :)");  
         }   	  							 
     } 
-   /*
+   /**
     * Method prints out a response message
     * @param String representing the response to be printed    
     */ 
@@ -536,7 +542,7 @@ public class Interaction {
         							break;				  							   							 
     	}
     }
-   /*
+   /**
 	* Method prints the welcome menu  
     */
 	private void printWelcomeMenu(){
@@ -550,7 +556,7 @@ public class Interaction {
 		System.out.println(">> (999) To Exit");
 		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
 	}
-   /*
+   /**
     * Method prints the main menu
     */
     private void printMainMenu(){
@@ -571,7 +577,7 @@ public class Interaction {
         System.out.println(">> (999) To Exit");		    
        	System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
     }
-   /*
+   /**
     * Method prints the task information menu
     */
     private void printTaskInfoWelcome(){
@@ -580,7 +586,7 @@ public class Interaction {
     	System.out.println(">> (999) EXIT back to the main menu");
     	System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");    	
     }
-   /*
+   /**
     * Method prints information about a specified task
     * @param index of the task
     */
@@ -609,7 +615,7 @@ public class Interaction {
 		}
 		printMessage("---");
     }
-   /*
+   /**
     * Method prints the task editor menu
     */
     private void printTaskEditorWelcome(){

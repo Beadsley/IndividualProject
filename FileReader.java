@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.FileOutputStream;
 
-/*
+/**
  * This class saves and opens files of type .BIN.
  * 
  * The FileReader saves the current todo list to
@@ -18,10 +18,11 @@ import java.io.FileOutputStream;
 
 public class FileReader{
 
-   /*
+   /**
     * Method imports a .BIN file containing an 
     * existing todo list
     * @param filepath 
+    * @throws IOException_ClassNotFoundException
     */
     public static Object importFile(String filepath){
 	      try{
@@ -35,11 +36,12 @@ public class FileReader{
       		  return e.getMessage(); 
 	      }
     }
-   /*
+   /**
     * Method creates a .BIN file containing the 
     * current toDo list
     * @param filepath of the output directory
-    * @pram filename of the file to save
+    * @param filename of the file to save
+    * @throws IOException 
     */
     public static void exportFile(String filepath, String filename, ToDoList list2save){
    	    try{

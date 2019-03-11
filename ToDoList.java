@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.io.Serializable;
 
-/*
+/**
  * This class creates a todo list used to store tasks. 
  *
  * @author Daniel Beadleson 
@@ -20,26 +20,26 @@ public class ToDoList implements Serializable{
         unCompletedTasks=0;
         
     }
-   /*
+   /**
     * Method adds a task to the list
     * @param task to be added 
     */
     public void addToList(Task t){
         toDoList.add(t);
     }
-   /*
+   /**
     * Method removes a task from the list
-    * @param index of the task
+    * @param taskIndex
     */
     public void removeTask(int i){
     	toDoList.remove(i);
     }
-   /*
+   /**
     * Method prints the contents of the to-do list. The list can 
     * be printed with task indices, sorted by completion date
     * or filtered by a specified project
     * @param whether to sort this list by duedate  
-    * @param name of the project
+    * @param projectName
     */
     public void printList(Boolean sortByDate, String project){
 		Interaction.printMessage("---");
@@ -59,7 +59,7 @@ public class ToDoList implements Serializable{
     	}
     	Interaction.printMessage("---");
     }
-   /*
+   /**
     * Method prints out all tasks corresponding
     * to their index
     */
@@ -70,7 +70,7 @@ public class ToDoList implements Serializable{
     								Formatter.duedateFormatter(toDoList.get(i).getDueDate())));
     		}
     }
-   /*
+   /**
     * Method prints out all non completed tasks
     * in order of when they need to be completed
     */
@@ -83,9 +83,9 @@ public class ToDoList implements Serializable{
     			    	     t.getTaskName(),	 		
     					     Formatter.duedateFormatter(t.getDueDate()))));    	
     }
-   /*
+   /**
     * Method prints out all tasks of a corresponding project
-    * @param name of the project
+    * @param projectName
     */
     private void filterByProject(String projectName){
     			toDoList.stream()
@@ -97,27 +97,28 @@ public class ToDoList implements Serializable{
     					    	 Formatter.duedateFormatter(t.getDueDate()))));
     	
     }
-   /* Method returns a task object
+   /**
+    * Method returns a task object
     * @return Task object 
-    * @param index of the task to return
+    * @param taskIndex
     */
     public Task getTask(int i){
 
     	return toDoList.get(i);
     }
-   /*
+   /**
     * Method returns the size of a list
     * @return size of to-do list
-    * @param names of the task to find
+    * @param taskName
     */
     public int getListSize(){
 
     	return toDoList.size();
     }
-   /* 
+   /**
     * Method sees if a task exists in the list
     * @return task index 
-    * @param name of the task 
+    * @param taskName 
     */
     public int findTask(String task2find){
     	int index=-1;
@@ -129,7 +130,7 @@ public class ToDoList implements Serializable{
     	}
     	return index;
     }
-   /*
+   /**
     * Method calculates the amount of tasks
     * not completed
     * @return total tasks not completed
@@ -140,7 +141,7 @@ public class ToDoList implements Serializable{
                                         .filter(t->t.getStatus().equals("Not Completed"))
                                         .count();
     }
-   /*
+   /**
     * Method calculates the amount of tasks
     * completed
     * @return total tasks completed
