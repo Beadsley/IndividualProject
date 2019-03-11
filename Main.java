@@ -1,5 +1,4 @@
-
-/*
+/**
  * Main class
  *
  * Creates an instance of the interaction class
@@ -13,7 +12,4 @@ public class Main{
 		
 		Interaction I1= new Interaction();
 	}
-
-
-
 }

@@ -5,10 +5,10 @@ import java.time.Duration;
 import java.time.Period;
 import java.io.Serializable;
 
-/*
+/**
  * This class creates a task object
  *
- * @param the name of the task
+ * @param taskName
  * 
  * a task has a number of attributes.
  * a completion date must be assigned when
@@ -42,28 +42,28 @@ public class Task implements Serializable{
         projectName="Not Assigned";       
 
     }
-   /*
+   /**
     * Method sets the name of the task
-    * @param tasks name
+    * @param taskName
     */
     public void setTaskName(String name){
     	taskName=name;
     }
-   /*
+   /**
     * Method returns the name of the task
-    * @return tasks name
+    * @return taskName
 	*/
     public String getTaskName(){
     	return taskName;
     }
-   /*
+   /**
     * Method assigns a completion date
     * @param date in the format dd/mm/yyyy
     */
     public void setDueDate(String date){
     	completionDate=date;
     }
-   /*
+   /**
     * Method returns the date in which the task
     * must be completed
     * @return completion date
@@ -71,23 +71,23 @@ public class Task implements Serializable{
     public String getDueDate(){    	
     		return completionDate;    
     }
-   /*
+   /**
     * Method assigns a task to a project
-    * @param name of the project
+    * @param projectName
     */
     public void setTask2project(String name){
         this.projectName=name;
         Project.addProject2Set(name);
     }
-   /*
+   /**
     * Method returns the project that the task is 
     * assigned to
-    * @return name of the project
+    * @return projectName
     */
     public String getprojectName(){
         return projectName;
     }
-   /* 
+   /**
     * Method returns the status of the task
     * @return task status
     */
@@ -97,10 +97,10 @@ public class Task implements Serializable{
     	}
     	return "Not Completed";
     }
-   /*
+   /**
     * Method assigns the task to completed
     * or not completed
-    * @param tasks status
+    * @param task status
     */
     public void set2Completed(boolean completed){
     	if(completed){
@@ -110,7 +110,7 @@ public class Task implements Serializable{
     		done=false;
     	}    	
     }
-   /*
+   /**
     * Method returns the amount of time left 
     * to complete the task or if 
     * the task is over due
@@ -130,27 +130,27 @@ public class Task implements Serializable{
     			return dateDiff+ " over due";
     		}
     }
-   /*
+   /**
     * Method adds notes corresponding to the task
-    * @param notes content
+    * @param text2add
     */
     public void addNote(String text){
         notes.add(text);
     }
-   /*
+   /**
     * Method returns the size of the notes arraylist
     * @return amount of a tasks notes 
     */
     public int notesAvailable(){
     	return notes.size();
     }
-   /*
+   /**
     * Method prints the contents of the notes
     */
     public void printNotes(){
     	notes.stream().forEach(System.out::println);
     }
-   /*
+   /**
     * Method returns the time of creation
     * @return time created
     */
@@ -158,14 +158,14 @@ public class Task implements Serializable{
     {    	
         return Formatter.timeFormatter(timeCreated);
     }
-   /*
+   /**
     * Method returns the date of creation
     * @return date created
     */
     public String getDateCreated(){
     		return Formatter.dateFormatter(dateCreated);
     }
-   /*
+   /**
 	* Method returns the amount of time  
 	* since the task was created
     * @return tasks age
@@ -190,7 +190,7 @@ public class Task implements Serializable{
 
     		}
     }
-   /*
+   /**
     * Method Returns the difference between the date 
     * created and a specified date
     * @param date to be compared too
