@@ -30,3 +30,6 @@ shown.
 The application also includes a task editor, in which the user is
 able to assign a project and notes to a task. Assign a task to completed, 
 edit a tasks name and finally remove a task from the list.
+
+
+![alt text](https://github.com/Beadsley/IndividualProject/blob/diagram_png/Diagrams/ClassDiagram.png)
