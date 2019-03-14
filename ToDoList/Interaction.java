@@ -113,6 +113,7 @@ public class Interaction {
         if (o instanceof ToDoList){
         	System.out.println("----> File opened :)"); 
         	currentList=(ToDoList) o;
+            addExistingProjects();
         	listEmpty=false;
         	skippingPrompt=true;
         }
@@ -125,6 +126,16 @@ public class Interaction {
         	System.out.println(">> File is of type:");
         	System.out.println(o.getClass()); 
         }
+    }
+   /**
+    * Method adds existing projects from the .BIN file
+    * to the hashset of project names. 
+    */
+    private void addExistingProjects(){
+        for(int i=0; i<currentList.getListSize(); i++){
+            String projectName=currentList.getTask(i).getprojectName();
+            Project.addProject2Set(projectName);                
+        }        
     }
    /**
     * Method creates a main menu where the user can:
